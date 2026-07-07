@@ -17,6 +17,9 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
+    <string name="action_new_user">New user? Create new account</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="action_create_new_account">Create account</string>
 
 
 

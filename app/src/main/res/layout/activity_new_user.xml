@@ -21,37 +21,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:autofillHints="emailAddress"
             android:ems="10"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:autofillHints="emailAddress"
-            />
+            android:textColor="#050505" />
 
         <EditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:autofillHints="password"
             android:ems="10"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:autofillHints="password"/>
+            android:textColor="#050505" />
+
+        <EditText
+            android:id="@+id/confirmEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="password"
+            android:ems="10"
+            android:hint="@string/hint_confirm_password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColor="#050505" />
 
         <Button
             android:id="@+id/createAccountButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_login"/>
-
-        <Button
-            android:id="@+id/newUser"
-            android:layout_height="wrap_content"
-            android:scaleX="1"
-            android:scaleY="1"
-            android:text="@string/action_new_user"
-            android:layout_width="match_parent"/>
+            android:text="@string/action_create_new_account"/>
 
     </LinearLayout>
 
