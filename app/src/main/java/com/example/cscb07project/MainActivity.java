@@ -18,15 +18,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        DatabaseReference myRef = db.getReference("testDemo");
+        db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
+        DatabaseReference myRef = db.getReference("firebaseTest");
+
+        // a test
+        myRef.setValue("Hello, Firebase!");
 
 //        myRef.setValue("B07 Demo!");
-        myRef.child("movies").setValue("B07 Demo!");
-
-        if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
-        }
+//        myRef.child("movies").setValue("B07 Demo!");
+//
+//        if (savedInstanceState == null) {
+//            loadFragment(new HomeFragment());
+//        }
     }
 
     private void loadFragment(Fragment fragment) {
