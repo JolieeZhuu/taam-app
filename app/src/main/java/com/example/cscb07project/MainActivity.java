@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    FilterState main_filters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("testDemo");
 
-//        myRef.setValue("B07 Demo!");
+//      myRef.setValue("B07 Demo!");
         myRef.child("movies").setValue("B07 Demo!");
+
+        main_filters = new FilterState();
 
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
@@ -43,5 +46,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public FilterState getMainFilters() {
+        return main_filters;
     }
 }

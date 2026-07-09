@@ -10,6 +10,13 @@
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
 
+
+    //Filter Screen
+    <string name="filter_screen">Select Filters</string>
+
+    <string name="push_filters">Save</string>
+    <string name="discard_changes">Discard Changes</string>
+
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
