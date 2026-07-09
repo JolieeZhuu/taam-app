@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    UserRepository uRep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,9 @@ public class MainActivity extends AppCompatActivity {
         // a test
         myRef.setValue("Hello, Firebase!");
 
-//        myRef.setValue("B07 Demo!");
-//        myRef.child("movies").setValue("B07 Demo!");
-//
-//        if (savedInstanceState == null) {
-//            loadFragment(new HomeFragment());
-//        }
+        // another test
+        uRep = new UserRepository();
+        uRep.addUser("bella@gmail.com", "bellbell", "badpassword");
     }
 
     private void loadFragment(Fragment fragment) {
