@@ -26,4 +26,14 @@ public class FilterState {
     public void UpdateFilters(Map<String, String> new_filters){
         filters = new_filters;
     }
+
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof FilterState)){
+            return false;
+        }
+        FilterState other = (FilterState) obj;
+        return filters.equals(other.getFilters());
+    }
 }
