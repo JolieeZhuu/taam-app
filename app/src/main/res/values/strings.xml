@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">B07 Demo Summer 2024</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">TAAM Artifacts</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
@@ -11,11 +10,17 @@
     <string name="manage_items">Manage Items</string>
 
 
-    //Filter Screen
-    <string name="filter_screen">Select Filters</string>
+    <!-- Filter Screen -->
+    <string name="fs_title_text">Select Filters</string>
 
-    <string name="push_filters">Save</string>
+    <string name="save_filters">Save</string>
     <string name="discard_changes">Discard Changes</string>
+    <string name="exit_filter_screen">Exit</string>
+
+    <string name="type_filter">Item Type</string>
+    <string name="material_filter">Item Material</string>
+    <string name="period_filter">Time Period</string>
+    <string name="origin_filter">Origin of Item</string>
 
     <string-array name="categories_array">
         <item>Books</item>

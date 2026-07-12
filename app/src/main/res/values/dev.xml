@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // For development purposes.
+
+    <string-array name="dev_filters">
+        <item>Unspecified</item>
+        <item>Value 1</item>
+        <item>Value 2</item>
+    </string-array>
+
+
+</resources>
