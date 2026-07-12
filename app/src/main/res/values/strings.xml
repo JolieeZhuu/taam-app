@@ -14,7 +14,7 @@
     <string name="fs_title_text">Select Filters</string>
 
     <string name="save_filters">Save</string>
-    <string name="discard_changes">Discard Changes</string>
+    <string name="clear_filters">Clear Filters</string>
     <string name="exit_filter_screen">Exit</string>
 
     <string name="type_filter">Item Type</string>

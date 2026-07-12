@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="med_phone_top_margin">64dp</dimen>
+    <dimen name="med_phone_bot_margin">48dp</dimen>
+    <dimen name="med_phone_side_margin">24dp</dimen>
+
     <dimen name="small_button_height">48dp</dimen>
-    <dimen name="small_button_padding">12dp</dimen>
+    <dimen name="small_button_padding">4dp</dimen>
 
     <dimen name="medium_button_height">64dp</dimen>
 

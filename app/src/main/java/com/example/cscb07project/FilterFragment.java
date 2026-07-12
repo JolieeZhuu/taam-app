@@ -1,5 +1,9 @@
 package com.example.cscb07project;
 
+import static android.graphics.Color.rgb;
+
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,17 +23,34 @@ import java.util.Map;
 public class FilterFragment extends Fragment {
     private Map<String, String> filter_buffer;
     private FilterState main_fs;
+    private boolean saved_flag = true;
 
+    private Button buttonPushFilters;
+    private Button buttonClearFilters;
+    private Button buttonExit;
+    private Spinner type_spinner;
+    private Spinner material_spinner;
+    private Spinner period_spinner;
+    private Spinner origin_spinner;
+    private ColorStateList unsaved_button_tint;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        MainActivity main_activity = (MainActivity) requireActivity();
+        main_fs = main_activity.getMainFilters();
+        filter_buffer = new HashMap<String, String>(main_fs.getFilters());
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
-        Button buttonPushFilters = view.findViewById(R.id.save_filters);
-        Button buttonDiscardFilters = view.findViewById(R.id.discard_filters);
-        Button buttonExit = view.findViewById(R.id.exit_screen);
-
+        buttonPushFilters = view.findViewById(R.id.save_filters);
+        unsaved_button_tint = buttonPushFilters.getBackgroundTintList();
         buttonPushFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,15 +58,13 @@ public class FilterFragment extends Fragment {
             }
         });
 
-        buttonDiscardFilters.setOnClickListener(new View.OnClickListener() {
+        buttonClearFilters = view.findViewById(R.id.clear_filters);
+        buttonClearFilters.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                for (Map.Entry<String, String> entry : filter_buffer.entrySet()){
-                    filter_buffer.replace(entry.getKey(), null);
-                }
-            }
+            public void onClick(View view) { ClearFilters(); }
         });
 
+        buttonExit = view.findViewById(R.id.exit_screen);
         buttonExit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -53,10 +72,10 @@ public class FilterFragment extends Fragment {
             }
         });
 
-        Spinner type_spinner = (Spinner) view.findViewById(R.id.type_spinner);
-        Spinner material_spinner = (Spinner) view.findViewById(R.id.material_spinner);
-        Spinner period_spinner = (Spinner) view.findViewById(R.id.period_spinner);
-        Spinner origin_spinner = (Spinner) view.findViewById(R.id.origin_spinner);
+        type_spinner = (Spinner) view.findViewById(R.id.type_spinner);
+        material_spinner = (Spinner) view.findViewById(R.id.material_spinner);
+        period_spinner = (Spinner) view.findViewById(R.id.period_spinner);
+        origin_spinner = (Spinner) view.findViewById(R.id.origin_spinner);
 
         // REFACTOR BLOCK: AY1
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -74,36 +93,34 @@ public class FilterFragment extends Fragment {
         return view;
     }
 
-
-
-    /**
-     * Default constructor that loads main_filters into buffer.
-     */
-    public FilterFragment(){
-        MainActivity main_activity = (MainActivity) requireActivity();
-        main_fs = main_activity.getMainFilters();
-        filter_buffer = new HashMap<String, String>(main_fs.getFilters());
-    }
-    public FilterFragment(FilterState filterstate){
-        filter_buffer = filterstate.getFilters();
+    private void updateSaveColour(){
+        if (saved_flag){
+            buttonPushFilters.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+        }
+        else {
+            buttonPushFilters.setBackgroundTintList(unsaved_button_tint);
+        }
     }
 
     public void SaveBuffer(){
         if (main_fs.getFilters() != filter_buffer) {
             main_fs.UpdateFilters(filter_buffer);
-            System.out.println("Filters Saved!");
-            // Set text to "Saved!"
         }
-        // Button should be greyed out but in case it gets pressed do nothing;
+        saved_flag = true;
+        updateSaveColour();
     }
 
     public void ClearFilters(){
         for (Map.Entry<String, String> entry : filter_buffer.entrySet()){
-            String category = entry.getKey();
-            String value = entry.getKey();
-            value = null;
+            filter_buffer.replace(entry.getKey(), null);
         }
+        saved_flag = false;
+        updateSaveColour();
     }
 
-
+    public void loadFilters(FilterState fs){
+        filter_buffer = fs.getFilters();
+        saved_flag = false;
+        updateSaveColour();
+    }
 }

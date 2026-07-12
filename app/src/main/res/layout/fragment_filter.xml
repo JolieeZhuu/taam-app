@@ -4,14 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filter_screen_constraints"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/med_phone_side_margin"
+    android:layout_marginTop="@dimen/med_phone_top_margin"
+    android:layout_marginRight="@dimen/med_phone_side_margin"
+    android:layout_marginBottom="@dimen/med_phone_bot_margin"
+    app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/title_text"
         android:layout_width="212dp"
         android:layout_height="49dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:text="@string/fs_title_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,18 +25,20 @@
         android:id="@+id/save_filters"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/small_button_height"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/small_button_padding"
+        android:layout_marginEnd="@dimen/small_button_padding"
         android:text="@string/save_filters"
-        app:layout_constraintBaseline_toBaselineOf="@+id/discard_filters"
-        app:layout_constraintStart_toEndOf="@+id/discard_filters" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/clear_filters"
+        app:layout_constraintEnd_toStartOf="@+id/exit_screen"
+        app:layout_constraintStart_toEndOf="@+id/clear_filters" />
 
     <Button
-        android:id="@+id/discard_filters"
+        android:id="@+id/clear_filters"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/small_button_height"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/discard_changes"
+        android:text="@string/clear_filters"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,7 +53,7 @@
 
     <LinearLayout
         android:id="@+id/filter_table"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -59,7 +65,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="5dp"
         android:paddingBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/discard_filters"
+        app:layout_constraintBottom_toTopOf="@+id/clear_filters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text">
