@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.entities;
 
 public class User {
     private String userId;
