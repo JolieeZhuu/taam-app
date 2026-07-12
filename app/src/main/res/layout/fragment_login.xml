@@ -38,12 +38,12 @@
         android:autofillHints="password" />
 
     <Button
-        android:id="@+id/createAccountButton" android:layout_width="match_parent"
+        android:id="@+id/loginButton" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/action_login" />
 
     <Button
-        android:id="@+id/newUser"
+        android:id="@+id/createAccountButton"
         android:layout_height="wrap_content"
         android:scaleX="1"
         android:scaleY="1"

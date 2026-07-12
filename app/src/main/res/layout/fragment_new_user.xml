@@ -28,6 +28,18 @@
         android:textColor="#050505" />
 
     <EditText
+        android:id="@+id/usernameTextEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autofillHints="emailAddress"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:textColor="#050505" />
+
+    <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +64,7 @@
         android:textColor="#050505" />
 
     <Button
-        android:id="@+id/createAccountButton"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/action_create_new_account"/>

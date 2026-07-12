@@ -7,6 +7,11 @@ public class LoginPresenter implements MVPInterface.presenter{
         this.view = view;
         this.model = new LoginModel();
     }
+
+    public LoginPresenter(MVPInterface.view view, MVPInterface.model model){
+        this.view = view;
+        this.model = model;
+    }
     @Override
     public void handleLoginClick(String email, String password) {
         if(password.isEmpty() || email.isEmpty()){
