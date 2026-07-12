@@ -21,11 +21,22 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DeleteItemFragment extends Fragment {
     private EditText editTextTitle;
+    private EditText editTextReason;
     private Spinner spinnerCategory;
     private Button buttonDelete;
 
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
+
+    private void createAdminLog(String username, String action, String title,String reason){
+        DatabaseReference logsRef = db.getReference("adminLogs");
+
+        String logId = logsRef.push().getKey();
+        if (logId==null){return;}
+
+        AdminLogs log = new AdminLogs(username,action,title,reason,System.currentTimeMillis());
+        logsRef.child(logId).setValue(log);
+    }
 
     @Nullable
     @Override
@@ -34,6 +45,7 @@ public class DeleteItemFragment extends Fragment {
 
         editTextTitle = view.findViewById(R.id.editTextTitle);
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        editTextReason = view.findViewById(R.id.editTextReason);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
@@ -57,9 +69,15 @@ public class DeleteItemFragment extends Fragment {
     private void deleteItemByTitle() {
         String title = editTextTitle.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString().toLowerCase();
+        String reason = editTextReason.getText().toString().trim();
 
         if (title.isEmpty()) {
             Toast.makeText(getContext(), "Please enter item title", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    
+        if (reason.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter a reason", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -74,6 +92,7 @@ public class DeleteItemFragment extends Fragment {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                                createAdminLog("ADMIN NAME!!", "Deleted item", title, reason);//admin name needed from the login
                             } else {
                                 Toast.makeText(getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
                             }

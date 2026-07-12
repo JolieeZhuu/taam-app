@@ -53,6 +53,15 @@ public class AddItemFragment extends Fragment {
 
         return view;
     }
+    private void createAdminLog(String username, String action, String title){
+        DatabaseReference logsRef = db.getReference("adminLogs");
+
+        String logId = logsRef.push().getKey();
+        if (logId==null){return;}
+
+        AdminLogs log = new AdminLogs(username,action,title,System.currentTimeMillis(),"N/A");
+        logsRef.child(logId).setValue(log);
+    }
 
     private void addItem() {
         String title = editTextTitle.getText().toString().trim();
@@ -73,6 +82,8 @@ public class AddItemFragment extends Fragment {
         itemsRef.child(id).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                createAdminLog("ADMIN NAME!!", "Added item", title);
+                //admin name needed from the login
             } else {
                 Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
             }
