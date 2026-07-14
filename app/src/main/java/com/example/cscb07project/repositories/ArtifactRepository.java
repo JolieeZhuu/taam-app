@@ -32,4 +32,5 @@ public class ArtifactRepository {
     public Task<DataSnapshot> getArtifactByLotNumber(String lotNumber) {
         return dbRef.child(lotNumber).get();
     }
+
 }
