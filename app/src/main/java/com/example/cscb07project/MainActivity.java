@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         main_filters = new FilterState();
 
         if (savedInstanceState == null) {
-            loadFragment(new FilterFragment());
+            loadFragment(new HomeFragment());
         }
     }
 
@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public FilterState getMainFilters() {
+        return main_filters;
+    }
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
@@ -82,9 +86,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    public FilterState getMainFilters() {
-        return main_filters;
     }
 }
