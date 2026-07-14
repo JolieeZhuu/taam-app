@@ -22,6 +22,12 @@
     <string name="period_filter">Time Period</string>
     <string name="origin_filter">Origin of Item</string>
 
+    <!-- Database Constants -->
+    <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
+    <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
+    <string name="supabase_image_bucket">CSCB07 Project Images</string>
+
+
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
