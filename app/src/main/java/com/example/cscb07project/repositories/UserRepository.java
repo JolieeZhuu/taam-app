@@ -5,16 +5,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.cscb07project.entities.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class UserRepository {
     private final DatabaseReference dbRefUs;
@@ -33,16 +26,12 @@ public class UserRepository {
         return dbRefUs.child(userId).setValue(user);
     }
 
-    public Task<Void> addAdmin(String userId) {
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
-        map.put(userId, true);
-        return dbRefAd.setValue(map);
-    }
-
-    // check ifAdmin
+    // check if user is an admin
     public Task<Boolean> isAdmin(String userId) {
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
-            return snapshot.getResult() != null;
+            if (!snapshot.isSuccessful() || snapshot.getResult() == null)
+                return snapshot.getResult() != null;
+            return snapshot.getResult().child(userId).getValue(Boolean.class) != null;
         });
     }
 
@@ -59,18 +48,12 @@ public class UserRepository {
         });
     }
 
+    public Task<Void> updateUser(User user) {
+        return dbRefUs.child(user.getUserId()).updateChildren(user.toMap());
+    }
+
     public Task<Void> deleteUserById(String userId) {
-        return dbRefUs.child(userId).removeValue().continueWithTask(snapshot -> {
-            if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
-            return isAdmin(userId); // if successful delete, pass this state to the next async task
-        }).continueWithTask(snapshot -> { // performs task after previous is complete
-            if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
-            boolean isAdmin = snapshot.getResult();
-            if (isAdmin) {
-                return dbRefAd.child(userId).removeValue();
-            }
-            return Tasks.forResult(null); // completed chain of tasks, must return something
-        }).addOnSuccessListener(snapshot -> {
+        return dbRefUs.child(userId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted user with id: " + userId);
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting user with id: " + userId);

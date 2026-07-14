@@ -6,11 +6,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.junit.Assert.*;
+
+import android.util.Log;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserRepositoryTest {
@@ -45,7 +48,25 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test3DeleteUserById() throws Exception {
+    public void test3UpdateUser() throws Exception {
+        User user = new User(userId, "newemail@gmail.com", "newname", "badpassword");
+        Task<Void> task = userRepository.updateUser(user);
+        Tasks.await(task);
+
+        assertTrue(task.isSuccessful());
+    }
+
+    @Test
+    public void test4IsAdmin() throws Exception {
+        Task<Boolean> task = userRepository.isAdmin(userId);
+        Tasks.await(task);
+
+        Log.d("isAdmin test", String.valueOf(task.getResult()));
+        assertFalse(task.getResult());
+    }
+
+    @Test
+    public void test9DeleteUserById() throws Exception {
         Task<Void> task = userRepository.deleteUserById(userId);
         Tasks.await(task);
         assertTrue(task.isSuccessful());
