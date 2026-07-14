@@ -49,7 +49,7 @@ public class UserRepositoryTest {
 
     @Test
     public void test3UpdateUser() throws Exception {
-        User user = new User(userId, "newemail@gmail.com", "newname", "badpassword");
+        User user = new User(userId, "hihi@gmail.com", "newname", "badpassword");
         Task<Void> task = userRepository.updateUser(user);
         Tasks.await(task);
 

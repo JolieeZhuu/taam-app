@@ -39,10 +39,7 @@ public class UserRepository {
     public Task<User> getUserById(String userId) {
         return dbRefUs.child(userId).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
-                return new User(snapshot.getResult().child("userId").getValue(String.class),
-                        snapshot.getResult().child("email").getValue(String.class),
-                        snapshot.getResult().child("username").getValue(String.class),
-                        snapshot.getResult().child("password").getValue(String.class));
+                return snapshot.getResult().getValue(User.class);
             }
             return null;
         });

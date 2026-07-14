@@ -1,5 +1,7 @@
 package com.example.cscb07project.repositories;
 
+import android.util.Log;
+
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
@@ -18,18 +20,18 @@ public class ExpandedViewRepository {
         this.dbRefCo = rootRef.getReference("comments");
     }
 
-    public void addExpandedView(String lotNumber, ExpandedView expandedView) {
-        dbRefEx.child(lotNumber).setValue(expandedView);
+    public Task<Void> addExpandedView(String lotNumber, ExpandedView expandedView) {
+        return dbRefEx.child(lotNumber).setValue(expandedView);
     }
 
-    public void addComment(String lotNumber, Comment comment) {
+    public Task<Void> addComment(String lotNumber, Comment comment) {
         String commentId = dbRefCo.push().getKey();
         if (commentId == null) throw new IllegalStateException();
         comment.setCommentId(commentId);
 
         // may need to verify if lotNumber exists
 
-        dbRefCo.child(lotNumber).child(commentId).setValue(comment);
+        return dbRefCo.child(lotNumber).child(commentId).setValue(comment);
     }
 
     public Task<DataSnapshot> getExpandedViewByLotNumber(String lotNumber) {
@@ -42,5 +44,13 @@ public class ExpandedViewRepository {
 
     public Task<DataSnapshot> getCommentsByLotNumber(String lotNumber) {
         return dbRefCo.child(lotNumber).get();
+    }
+
+    public Task<Void> deleteExpandedViewByLotNumber(String lotNumber) {
+        return dbRefEx.child(lotNumber).removeValue().addOnSuccessListener(snapshot -> {
+            Log.d("delete from firebase", "successfully deleted expanded view with id: " + lotNumber);
+        }).addOnFailureListener(e -> {
+            Log.e("firebase error", "error from deleting expanded view with id: " + lotNumber);
+        });
     }
 }

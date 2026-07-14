@@ -1,6 +1,8 @@
 package com.example.cscb07project.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Artifact {
     private String lotNumber;
