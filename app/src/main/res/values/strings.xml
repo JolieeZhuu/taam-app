@@ -32,6 +32,7 @@
     <string name="username">"Username"</string>
     <string name="fake_home">"Fake home screen!"</string>
     <string name="fake_admin">"Fake admin screen!"</string>
+    <string name="action_back_to_login">"Back to log in"</string>
 
 
 </resources>
