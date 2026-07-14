@@ -64,10 +64,16 @@
         android:textColor="#050505" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/action_create_new_account"/>
+
+    <Button
+        android:id="@+id/backToLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_back_to_login" />
 
 </LinearLayout>
 
