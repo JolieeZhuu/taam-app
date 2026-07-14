@@ -46,6 +46,10 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="username">"Username"</string>
+    <string name="fake_home">"Fake home screen!"</string>
+    <string name="fake_admin">"Fake admin screen!"</string>
+    <string name="action_back_to_login">"Back to log in"</string>
 
 
 </resources>
