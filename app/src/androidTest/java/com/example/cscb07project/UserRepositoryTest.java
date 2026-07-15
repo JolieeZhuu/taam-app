@@ -68,6 +68,15 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void test5GetUserByEmail() throws Exception {
+        Task<User> task = userRepository.getUserByEmail("hihi@gmail.com");
+        Tasks.await(task);
+
+        assertEquals("hihi@gmail.com", task.getResult().getEmail());
+        assertEquals("newname", task.getResult().getUsername());
+    }
+
+    @Test
     public void test9DeleteUserById() throws Exception {
         Task<Void> task = userRepository.deleteUser();
         Tasks.await(task);

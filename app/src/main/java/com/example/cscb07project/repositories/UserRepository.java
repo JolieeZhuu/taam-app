@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -70,6 +71,35 @@ public class UserRepository implements UserInterface {
         });
     }
 
+    // get user by id
+    public Task<User> getUserById(String userId) {
+        return dbRefUs.child(userId).get().continueWith(snapshot -> {
+            if (snapshot.getResult() != null) {
+                return snapshot.getResult().getValue(User.class);
+            }
+            return null;
+        });
+    }
+
+    public Task<User> getUserByEmail(String email) {
+        return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
+            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+                return null;
+            }
+            if (snapshot.getResult().hasChildren()) { // since get() returns a list, iterate through list to find matching
+                for (DataSnapshot userSnapshot : snapshot.getResult().getChildren()) {
+                    return userSnapshot.getValue(User.class);
+                }
+            }
+            return null;
+        });
+    }
+
+    public Task<Void> updateUser(User user) {
+        return dbRefUs.child(user.getUserId()).updateChildren(user.toMap());
+    }
+
+    public Task<Void> deleteUserById(String userId) {
     private Task<Void> deleteUserById(String userId) {
         return dbRefUs.child(userId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted user with id: " + userId);
