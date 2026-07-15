@@ -43,6 +43,27 @@ public class Artifact {
         this.image = image;
     }
 
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("lotNumber", lotNumber);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("category", category);
+        result.put("material", material);
+        result.put("period", period);
+        result.put("origin", origin);
+        result.put("dimensions", dimensions);
+        result.put("conditionReport", conditionReport);
+        result.put("currentLocation", currentLocation);
+        result.put("acquiredMethod", acquiredMethod);
+        result.put("provenance", provenance);
+        result.put("accessionNumber", accessionNumber);
+        result.put("notes", notes);
+        result.put("image", image);
+
+        return result;
+    }
+
     public String getLotNumber() {
         return lotNumber;
     }
