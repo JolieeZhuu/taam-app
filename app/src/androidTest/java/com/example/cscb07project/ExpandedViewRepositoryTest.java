@@ -1,10 +1,5 @@
 package com.example.cscb07project;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import android.util.Log;
-
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
@@ -18,7 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static org.junit.Assert.*;
 
+import android.util.Log;
 import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

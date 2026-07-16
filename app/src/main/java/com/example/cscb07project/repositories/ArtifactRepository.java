@@ -43,8 +43,6 @@ public class ArtifactRepository {
         });
     }
 
-    // unsure about pagination function
-
     public Task<Void> updateArtifact(Artifact artifact) {
         return dbRef.child(artifact.getLotNumber()).updateChildren(artifact.toMap());
     }
