@@ -1,17 +1,13 @@
 package com.example.cscb07project;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.entities.Comment;
-import com.example.cscb07project.entities.User;
-import com.example.cscb07project.repositories.ArtifactRepository;
-import com.example.cscb07project.repositories.ExpandedViewRepository;
+import com.example.cscb07project.Fragments.HomeFragment;
+import com.example.cscb07project.entities.FilterState;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

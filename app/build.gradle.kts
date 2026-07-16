@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.cscb07project"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.cscb07project"
@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(platform(libs.firebase.bom))
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

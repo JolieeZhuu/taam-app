@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import static android.graphics.Color.rgb;
 
@@ -15,6 +15,10 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.cscb07project.entities.FilterState;
+import com.example.cscb07project.MainActivity;
+import com.example.cscb07project.R;
 
 import java.util.HashMap;
 import java.util.Map;

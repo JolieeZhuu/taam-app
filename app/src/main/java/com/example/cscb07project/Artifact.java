@@ -1,6 +1,6 @@
 package com.example.cscb07project;
 
-public class Item {
+public class Artifact {
 
     private String id;
     private String title;
@@ -8,9 +8,9 @@ public class Item {
     private String genre;
     private String description;
 
-    public Item() {}
+    public Artifact() {}
 
-    public Item(String id, String title, String author, String genre, String description) {
+    public Artifact(String id, String title, String author, String genre, String description) {
         this.id = id;
         this.title = title;
         this.author = author;

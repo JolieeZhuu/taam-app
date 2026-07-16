@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,26 +10,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class HomeFragment extends Fragment {
+import com.example.cscb07project.R;
+
+public class ManageItemsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_items, container, false);
 
-        Button buttonSpinner = view.findViewById(R.id.buttonFilters);
-        Button buttonManageItems = view.findViewById(R.id.buttonManageItems);
+        Button buttonAddItem = view.findViewById(R.id.buttonAddItem);
+        Button buttonDeleteItem = view.findViewById(R.id.buttonDeleteItem);
+        Button buttonBack = view.findViewById(R.id.buttonBack);
 
-        buttonSpinner.setOnClickListener(new View.OnClickListener() {
+        buttonAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new FilterFragment());
+                loadFragment(new AddItemFragment());
             }
         });
 
-        buttonManageItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new LoginFragment());}
-        });
+        buttonDeleteItem.setOnClickListener(v -> loadFragment(new DeleteItemFragment()));
+
+        buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         return view;
     }

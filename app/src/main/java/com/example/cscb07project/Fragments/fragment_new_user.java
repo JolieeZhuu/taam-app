@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cscb07project.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_fake_home#newInstance} factory method to
+ * Use the {@link fragment_new_user#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_fake_home extends Fragment {
+public class fragment_new_user extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class fragment_fake_home extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fragment_fake_home() {
+    public fragment_new_user() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class fragment_fake_home extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_fake_home.
+     * @return A new instance of fragment fragment_new_user.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_fake_home newInstance(String param1, String param2) {
-        fragment_fake_home fragment = new fragment_fake_home();
+    public static fragment_new_user newInstance(String param1, String param2) {
+        fragment_new_user fragment = new fragment_new_user();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class fragment_fake_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fake_home, container, false);
+        return inflater.inflate(R.layout.fragment_new_user, container, false);
     }
 }

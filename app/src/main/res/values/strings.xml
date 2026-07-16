@@ -10,6 +10,36 @@
     <string name="filters">Filter Selection</string>
     <string name="login_page">Login Page</string>
 
+    <!-- Database Constants -->
+    <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
+    <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
+    <string name="supabase_image_bucket">CSCB07 Project Images</string>
+
+
+    <string-array name="categories_array">
+        <artifact>Books</artifact>
+        <artifact>Movies</artifact>
+    </string-array>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="action_new_user">New user? Create a new account</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="action_create_new_account">Create account</string>
+
+    <!-- Login Screen -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="username">"Username"</string>
+    <string name="fake_home">"Fake home screen!"</string>
+    <string name="fake_admin">"Fake admin screen!"</string>
+
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
 
@@ -22,34 +52,8 @@
     <string name="period_filter">Time Period</string>
     <string name="origin_filter">Origin of Item</string>
 
-    <!-- Database Constants -->
-    <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
-    <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
-    <string name="supabase_image_bucket">CSCB07 Project Images</string>
-
-
-    <string-array name="categories_array">
-        <item>Books</item>
-        <item>Movies</item>
-    </string-array>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="action_login">Login</string>
-    <string name="action_new_user">New user? Create a new account</string>
-    <string name="hint_confirm_password">Confirm password</string>
-    <string name="action_create_new_account">Create account</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="username">"Username"</string>
-    <string name="fake_home">"Fake home screen!"</string>
-    <string name="fake_admin">"Fake admin screen!"</string>
+    <!-- Catalogue Screen -->
+    <string name="selection_count">Selected: </string>
 
 
 </resources>

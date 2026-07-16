@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cscb07project.R;
 import com.example.cscb07project.login.LoginPresenter;
 import com.example.cscb07project.login.MVPInterface;
 

@@ -16,19 +16,19 @@
             android:name=".ItemAdapater"
             android:exported="false" />
         <activity
-            android:name=".Item"
+            android:name=".Artifact"
             android:exported="false" />
         <activity
             android:name=".Item2"
             android:exported="false" />
         <activity
-            android:name=".SpinnerFragment"
+            android:name=".Fragments.SpinnerFragment"
             android:exported="false" />
         <activity
-            android:name=".RecyclerViewFragment"
+            android:name=".Fragments.CatalogueFragment"
             android:exported="false" />
         <activity
-            android:name=".HomeFragment"
+            android:name=".Fragments.HomeFragment"
             android:exported="false" />
         <activity
             android:name=".Activity2"

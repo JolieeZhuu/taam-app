@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.cscb07project.Artifact;
+import com.example.cscb07project.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,8 +71,8 @@ public class DeleteItemFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean itemFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    if (item != null && item.getTitle().equalsIgnoreCase(title)) {
+                    Artifact artifact = snapshot.getValue(Artifact.class);
+                    if (artifact != null && artifact.getTitle().equalsIgnoreCase(title)) {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();

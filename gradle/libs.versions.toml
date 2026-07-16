@@ -16,6 +16,7 @@ okhttps = "4.12.0"
 annotation = "1.6.0"
 lifecycleLivedataKtx = "2.6.1"
 lifecycleViewmodelKtx = "2.6.1"
+recyclerview = "1.4.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,6 +35,7 @@ supabase-bom = { group = "io.github.jan-tennert.supabase:bom", name = "supabase-
 supabase-postgrest = { group = "io.github.jan-tennert.supabase:postgrest-kt", name = "supabase-postgrest", version.ref = "supabase" }
 ktor-client-android = { group = "io.github.jan-tennert.supabase", name = "ktor-client-android", version.ref = "ktor" }
 squareup-okhttps3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttps" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

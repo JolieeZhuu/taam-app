@@ -1,6 +1,4 @@
-package com.example.cscb07project;
-
-import androidx.annotation.NonNull;
+package com.example.cscb07project.entities;
 
 import java.util.HashMap;
 import java.util.Map;

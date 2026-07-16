@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cscb07project.Artifact;
+import com.example.cscb07project.ArtifactAdapter;
+import com.example.cscb07project.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,10 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewFragment extends Fragment {
+public class CatalogueFragment extends Fragment {
     private RecyclerView recyclerView;
-    private ItemAdapter itemAdapter;
-    private List<Item> itemList;
+    private ArtifactAdapter artifactAdapter;
+    private List<Artifact> artifactList;
     private Spinner spinnerCategory;
 
     private FirebaseDatabase db;
@@ -32,7 +36,7 @@ public class RecyclerViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_catalogue, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -43,9 +47,9 @@ public class RecyclerViewFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapter);
 
-        itemList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(itemList);
-        recyclerView.setAdapter(itemAdapter);
+        artifactList = new ArrayList<>();
+        artifactAdapter = new ArtifactAdapter(artifactList);
+        recyclerView.setAdapter(artifactAdapter);
 
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
 
@@ -70,12 +74,12 @@ public class RecyclerViewFragment extends Fragment {
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList.clear();
+                artifactList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    itemList.add(item);
+                    Artifact artifact = snapshot.getValue(Artifact.class);
+                    artifactList.add(artifact);
                 }
-                itemAdapter.notifyDataSetChanged();
+                artifactAdapter.notifyDataSetChanged();
             }
 
             @Override
