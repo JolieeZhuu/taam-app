@@ -3,12 +3,10 @@
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
     <string name="back">Back</string>
-    <string name="recyclerview">RecyclerView</string>
-    <string name="scroller">Scroller</string>
-    <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
     <string name="filters">Filter Selection</string>
     <string name="login_page">Login Page</string>
+    <string name="catalogue">Catalogue</string>
 
     <!-- Database Constants -->
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
@@ -17,8 +15,8 @@
 
 
     <string-array name="categories_array">
-        <artifact>Books</artifact>
-        <artifact>Movies</artifact>
+        <item>Books</item>
+        <item>Movies</item>
     </string-array>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -54,6 +52,11 @@
 
     <!-- Catalogue Screen -->
     <string name="selection_count">Selected: </string>
+
+    <string name="artifact_name">Name</string>
+    <string name="artifact_material">Material</string>
+    <string name="artifact_category">Category</string>
+    <string name="artifact_period">Period</string>
 
 
 </resources>

@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.cscb07project.Artifact;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DeleteItemFragment extends Fragment {
-    private EditText editTextTitle;
+    private EditText editTextName;
     private Spinner spinnerCategory;
     private Button buttonDelete;
 
@@ -34,7 +34,7 @@ public class DeleteItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
 
-        editTextTitle = view.findViewById(R.id.editTextTitle);
+        editTextName = view.findViewById(R.id.editTextTitle);
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
@@ -49,19 +49,19 @@ public class DeleteItemFragment extends Fragment {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteItemByTitle();
+                deleteArtifactByName();
             }
         });
 
         return view;
     }
 
-    private void deleteItemByTitle() {
-        String title = editTextTitle.getText().toString().trim();
+    private void deleteArtifactByName() {
+        String name = editTextName.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString().toLowerCase();
 
-        if (title.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter item title", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter item name", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -72,7 +72,7 @@ public class DeleteItemFragment extends Fragment {
                 boolean itemFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Artifact artifact = snapshot.getValue(Artifact.class);
-                    if (artifact != null && artifact.getTitle().equalsIgnoreCase(title)) {
+                    if (artifact != null && artifact.getName().equalsIgnoreCase(name)) {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();

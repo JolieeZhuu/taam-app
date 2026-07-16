@@ -1,5 +1,7 @@
 package com.example.cscb07project;
 
+import com.example.cscb07project.entities.Artifact;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,18 @@ public class ArtifactAdapter extends RecyclerView.Adapter<ArtifactAdapter.Artifa
     @NonNull
     @Override
     public ArtifactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_artifact_adapter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_artifact, parent, false);
         return new ArtifactViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArtifactViewHolder holder, int position) {
         Artifact artifact = artifactList.get(position);
-        holder.textViewTitle.setText(artifact.getTitle());
-        holder.textViewAuthor.setText(artifact.getAuthor());
-        holder.textViewGenre.setText(artifact.getGenre());
-        holder.textViewDescription.setText(artifact.getDescription());
+        holder.textViewName.setText(artifact.getName());
+        holder.textViewCategory.setText(artifact.getCategory());
+        holder.textViewMaterial.setText(artifact.getMaterial());
+        holder.textViewPeriod.setText(artifact.getPeriod());
+//        holder.textViewOrigin.setText(artifact.getOrigin());
     }
 
     @Override
@@ -37,14 +40,15 @@ public class ArtifactAdapter extends RecyclerView.Adapter<ArtifactAdapter.Artifa
     }
 
     public static class ArtifactViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle, textViewAuthor, textViewGenre, textViewDescription;
+        TextView textViewName, textViewCategory, textViewMaterial, textViewPeriod;
 
         public ArtifactViewHolder(@NonNull View artifactView) {
             super(artifactView);
-            textViewTitle = artifactView.findViewById(R.id.textViewTitle);
-            textViewAuthor = artifactView.findViewById(R.id.textViewAuthor);
-            textViewGenre = artifactView.findViewById(R.id.textViewGenre);
-            textViewDescription = artifactView.findViewById(R.id.textViewDescription);
+            textViewName = artifactView.findViewById(R.id.textViewName);
+            textViewCategory = artifactView.findViewById(R.id.textViewCategory);
+            textViewMaterial = artifactView.findViewById(R.id.textViewMaterial);
+            textViewPeriod = artifactView.findViewById(R.id.textViewPeriod);
+//            textViewOrigin = artifactView.findViewById(R.id.textViewOrigin);
         }
     }
 }

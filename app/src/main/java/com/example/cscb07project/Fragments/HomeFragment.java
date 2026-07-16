@@ -16,21 +16,27 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button buttonSpinner = view.findViewById(R.id.buttonFilters);
-        Button buttonManageItems = view.findViewById(R.id.buttonManageItems);
+        Button buttonFilters = view.findViewById(R.id.buttonFilters);
+        Button buttonLogin = view.findViewById(R.id.buttonLogin);
+        Button buttonCatalogue = view.findViewById(R.id.buttonCatalogue);
 
-        buttonSpinner.setOnClickListener(new View.OnClickListener() {
+        buttonFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new FilterFragment());
             }
         });
 
-        buttonManageItems.setOnClickListener(new View.OnClickListener() {
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { loadFragment(new LoginFragment());}
+        });
+
+        buttonCatalogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {loadFragment(new CatalogueFragment());}
         });
 
         return view;

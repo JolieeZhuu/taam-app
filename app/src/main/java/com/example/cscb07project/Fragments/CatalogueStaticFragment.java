@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cscb07project.Artifact;
 import com.example.cscb07project.ArtifactAdapter;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class CatalogueStaticFragment extends Fragment {
 
     private void loadStaticItems() {
         // Load static items from strings.xml or hardcoded values
-        artifactList.add(new Artifact("Item1", "Static Book 1", "Static Author 1", "Static Genre 1", "Static Description 1"));
-        artifactList.add(new Artifact("Item2", "Static Book 2", "Static Author 2", "Static Genre 2", "Static Description 2"));
+        artifactList.add(new Artifact());
+        artifactList.add(new Artifact());
     }
 }

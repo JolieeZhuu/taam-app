@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public FirebaseDatabase getMainDB() { return db; }
     public FilterState getMainFilters() {
         return main_filters;
     }

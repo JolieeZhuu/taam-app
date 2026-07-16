@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.cscb07project.Artifact;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -70,7 +70,7 @@ public class AddItemFragment extends Fragment {
 
         itemsRef = db.getReference("categories/" + category);
         String id = itemsRef.push().getKey();
-        Artifact artifact = new Artifact(id, title, author, genre, description);
+        Artifact artifact = new Artifact();
 
         itemsRef.child(id).setValue(artifact).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

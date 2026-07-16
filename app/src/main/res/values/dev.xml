@@ -3,9 +3,9 @@
     // For development purposes.
 
     <string-array name="dev_filters">
-        <artifact>Unspecified</artifact>
-        <artifact>Value 1</artifact>
-        <artifact>Value 2</artifact>
+        <item>Unspecified</item>
+        <item>Value 1</item>
+        <item>Value 2</item>
     </string-array>
 
 

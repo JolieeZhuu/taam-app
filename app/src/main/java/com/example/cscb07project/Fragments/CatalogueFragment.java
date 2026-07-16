@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cscb07project.Artifact;
 import com.example.cscb07project.ArtifactAdapter;
+import com.example.cscb07project.MainActivity;
+import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,7 @@ public class CatalogueFragment extends Fragment {
     private List<Artifact> artifactList;
     private Spinner spinnerCategory;
 
+    private MainActivity mainActivity;
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
 
@@ -51,7 +53,8 @@ public class CatalogueFragment extends Fragment {
         artifactAdapter = new ArtifactAdapter(artifactList);
         recyclerView.setAdapter(artifactAdapter);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+        mainActivity = (MainActivity) requireActivity();
+        db = mainActivity.getMainDB();
 
         spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -70,6 +73,7 @@ public class CatalogueFragment extends Fragment {
     }
 
     private void fetchItemsFromDatabase(String category) {
+//        REFACTOR A YU 2: NEEDS TO BE HOOKED UP TO DB
         itemsRef = db.getReference("categories/" + category);
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
