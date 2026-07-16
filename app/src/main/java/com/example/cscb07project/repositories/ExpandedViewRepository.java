@@ -11,6 +11,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class ExpandedViewRepository {
     // also for Comment repository
     private final DatabaseReference dbRefEx;
@@ -29,11 +33,23 @@ public class ExpandedViewRepository {
         String commentId = dbRefCo.push().getKey();
         if (commentId == null) throw new IllegalStateException();
         comment.setCommentId(commentId);
-
-        // may need to verify if lotNumber exists
-
         return dbRefCo.child(lotNumber).child(commentId).setValue(comment);
     }
+
+    public Task<Void> updateComment(Comment comment) {
+        return dbRefCo.child(comment.getLotNumber()).child(comment.getCommentId()).updateChildren(comment.toMap());
+    }
+
+//    public Task<Void> increaseLike(String lotNumber) { // this may cause a lot of issues
+//        return getExpandedViewByLotNumber(lotNumber).continueWithTask(snapshot -> {
+//            if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
+//            return snapshot;
+//        }).continueWithTask(snapshot -> {
+//            ExpandedView eV = snapshot.getResult();
+//            eV.setLikeNumber(eV.getLikeNumber() + 1);
+//            return dbRefEx.child(lotNumber).updateChildren(eV.toMap());
+//        });
+//    }
 
     public Task<ExpandedView> getExpandedViewByLotNumber(String lotNumber) {
         return dbRefEx.child(lotNumber).get().continueWith(snapshot -> {
@@ -53,9 +69,19 @@ public class ExpandedViewRepository {
         });
     }
 
-//    public Task<DataSnapshot> getCommentsByLotNumber(String lotNumber) {
-//        return dbRefCo.child(lotNumber).get();
-//    }
+    public Task<List<Comment>> getCommentsByLotNumber(String lotNumber) {
+        return dbRefCo.child(lotNumber).get().continueWith(snapshot -> {
+            if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
+            List<Comment> commentList = new ArrayList<>();
+            if (snapshot.getResult().hasChildren()) {
+                for (DataSnapshot commentSnapshot : snapshot.getResult().getChildren()) {
+                    commentList.add(commentSnapshot.getValue(Comment.class));
+                }
+                return commentList;
+            }
+            return null;
+        });
+    }
 
     public Task<Void> deleteCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).removeValue().addOnSuccessListener(snapshot -> {

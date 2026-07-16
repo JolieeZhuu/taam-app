@@ -1,6 +1,8 @@
 package com.example.cscb07project.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Activity {
     private String activityId;
@@ -16,6 +18,16 @@ public class Activity {
         this.userId = userId;
         this.actionType = actionType;
         this.description = description;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("activityId", activityId);
+        result.put("userId", userId);
+        result.put("actionType", actionType);
+        result.put("description", description);
+
+        return result;
     }
 
     public String getActivityId() {

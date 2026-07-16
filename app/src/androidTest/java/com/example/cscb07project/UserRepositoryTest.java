@@ -30,7 +30,7 @@ public class UserRepositoryTest {
 
     @Test
     public void test1AddUser() throws Exception {
-        User user = new User(null, "bob@gmail.com", "bobby", "badpassword");
+        User user = new User("bob@gmail.com", "bobby", "badpassword");
         Task<Void> task = userRepository.addUser(user);
         Tasks.await(task);
 

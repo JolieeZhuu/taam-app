@@ -1,6 +1,7 @@
 package com.example.cscb07project.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Collection {
@@ -13,11 +14,27 @@ public class Collection {
 
     public Collection() {}
 
+    public Collection(String userId, String name, Map<String, Boolean> artifacts) {
+        this.userId = userId;
+        this.collectionId = null;
+        this.name = name;
+        this.artifacts = artifacts;
+    }
     public Collection(String userId, String collectionId, String name, Map<String, Boolean> artifacts) {
         this.userId = userId;
         this.collectionId = collectionId;
         this.name = name;
         this.artifacts = artifacts;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("userId", userId);
+        result.put("collectionId", collectionId);
+        result.put("name", name);
+        result.put("artifacts", artifacts);
+
+        return result;
     }
 
     public String getUserId() {
