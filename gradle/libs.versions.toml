@@ -28,6 +28,8 @@ supabase-bom = { group = "io.github.jan-tennert.supabase:bom", name = "supabase-
 supabase-postgrest = { group = "io.github.jan-tennert.supabase:postgrest-kt", name = "supabase-postgrest", version.ref = "supabase" }
 ktor-client-android = { group = "io.github.jan-tennert.supabase", name = "ktor-client-android", version.ref = "ktor" }
 squareup-okhttps3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttps" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
