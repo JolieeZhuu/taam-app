@@ -11,6 +11,7 @@ import com.example.cscb07project.login.SignUpPresenter;
 
 public class fragment_new_user extends LoginView {
     protected EditText confirmPassword;
+    protected EditText usernameField;
     @Override protected MVPInterface.presenter createPresenter() {
         return new SignUpPresenter(this, new SignUpModel());
     }
@@ -25,18 +26,19 @@ public class fragment_new_user extends LoginView {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         this.confirmPassword = view.findViewById(R.id.confirmEditText);
-        mainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-                    showError("passwords do not match");
-                    return;
-                }
-                p.handleLoginClick(email.getText().toString(), password.getText().toString());
+        this.usernameField = view.findViewById(R.id.usernameTextEdit);
+
+        mainButton.setOnClickListener(v -> {
+            if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+                showError("passwords do not match");
+                return;
             }
+            p.handleLoginClick(
+                    email.getText().toString(),
+                    password.getText().toString(),
+                    usernameField.getText().toString()
+            );
         });
-
-
-
     }
+
 }

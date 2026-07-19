@@ -1,37 +1,52 @@
 package com.example.cscb07project.login;
 
-public class LoginPresenter implements MVPInterface.presenter{
-    private MVPInterface.view view;
-    private MVPInterface.model model;
-    public LoginPresenter(MVPInterface.view view){
-        this.view = view;
-        this.model = new LoginModel();
+import com.example.cscb07project.entities.User;
+
+public class LoginPresenter implements MVPInterface.presenter {
+    private MVPInterface.view v;
+    private MVPInterface.model m;
+
+    public LoginPresenter(MVPInterface.view v) {
+        this.v = v;
+        this.m = new LoginModel();
     }
 
-    public LoginPresenter(MVPInterface.view view, MVPInterface.model model){
-        this.view = view;
-        this.model = model;
+    public LoginPresenter(MVPInterface.view v, MVPInterface.model m) {
+        this.v = v;
+        this.m = m;
     }
+
     @Override
-    public void handleLoginClick(String email, String password) {
-        if(password.isEmpty() || email.isEmpty()){
-            view.showError(("fields cannot be empty"));
+    public void handleLoginClick(String email, String password, String username) {
+        if (password.isEmpty() || email.isEmpty()) {
+            v.showError("fields cannot be empty");
             return;
         }
-        User user = model.authenticateUser(email,password);
-        if(user == null){
-            view.showError("incorrect email or password");
-            return;
-        }
-        else if(user.getIsAdmin()){
-            view.navigateToAdmin();
-            return;
-        }
-        view.navigateToHome();
+
+        m.authenticateUser(email, password, "", new MVPInterface.model.callback() {
+
+            @Override
+            public void onSuccess(User user) {
+                if (m instanceof MVPInterface.AdminCheckable) {
+                    ((MVPInterface.AdminCheckable) m).checkAdmin(user, isAdmin -> {
+                        if (isAdmin) v.navigateToAdmin();
+                        else v.navigateToHome();
+                    });
+                } else {
+                    v.navigateToHome();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                v.showError(message);
+            }
+        });
     }
+
 
     @Override
     public void handleSignUpClick() {
-        view.navigateToSignUp();
+        v.navigateToSignUp();
     }
 }

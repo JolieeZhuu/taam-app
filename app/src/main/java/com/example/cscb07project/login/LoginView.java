@@ -11,13 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cscb07project.LoginFragment;
+import com.example.cscb07project.fragment_login;
 import com.example.cscb07project.R;
 import com.example.cscb07project.fragment_fake_admin;
 import com.example.cscb07project.fragment_fake_home;
 import com.example.cscb07project.fragment_new_user;
-import com.example.cscb07project.login.LoginPresenter;
-import com.example.cscb07project.login.MVPInterface;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -62,7 +60,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
         mainButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                p.handleLoginClick(email.getText().toString(), password.getText().toString());
+                p.handleLoginClick(email.getText().toString(), password.getText().toString(), "");
             }
         });
 
@@ -109,7 +107,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void navigateToLogin() {
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, LoginFragment.class, null)
+                .replace(R.id.fragment_container, fragment_login.class, null)
                 .commit();
     }
 }
