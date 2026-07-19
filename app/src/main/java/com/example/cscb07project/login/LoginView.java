@@ -1,111 +1,51 @@
 package com.example.cscb07project.login;
 
-public class LoginView implements MVPInterface.view{
-import android.os.Bundle;
+import com.example.cscb07project.entities.User;
 
-import androidx.fragment.app.Fragment;
+public class LoginPresenter implements MVPInterface.presenter {
+    private MVPInterface.view v;
+    private MVPInterface.model m;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+    public LoginPresenter(MVPInterface.view v) {
+        this.v = v;
+        this.m = new LoginModel();
+    }
 
-import com.example.cscb07project.LoginFragment;
-import com.example.cscb07project.R;
-import com.example.cscb07project.fragment_fake_admin;
-import com.example.cscb07project.fragment_fake_home;
-import com.example.cscb07project.fragment_new_user;
-import com.example.cscb07project.login.LoginPresenter;
-import com.example.cscb07project.login.MVPInterface;
-
-
-public abstract class LoginView extends Fragment implements MVPInterface.view{
-    protected MVPInterface.presenter p;
-    protected EditText email;
-    protected EditText password;
-    protected Button mainButton;
-    protected Button secondaryButton;
-    protected abstract MVPInterface.presenter createPresenter();
-    protected abstract int getLayoutResId();
-    protected abstract int getEmailId();
-    protected abstract int getPasswordId();
-    protected abstract int getMainButtonId();
-    protected abstract int getSecondaryButtonId();
-
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.p = createPresenter();
+    public LoginPresenter(MVPInterface.view v, MVPInterface.model m) {
+        this.v = v;
+        this.m = m;
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
-        this.p = null;
-    }
+    public void handleLoginClick(String email, String password, String username) {
+        if (password.isEmpty() || email.isEmpty()) {
+            v.showError("fields cannot be empty");
+            return;
+        }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(getLayoutResId(), container, false);
-    }
+        m.authenticateUser(email, password, "", new MVPInterface.model.callback() {
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        this.email = view.findViewById(getEmailId());
-        this.password = view.findViewById(getPasswordId());
-        this.mainButton = view.findViewById(getMainButtonId());
-        this.secondaryButton = view.findViewById(getSecondaryButtonId());
-
-        mainButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                p.handleLoginClick(email.getText().toString(), password.getText().toString());
+            public void onSuccess(User user) {
+                if (m instanceof MVPInterface.AdminCheckable) {
+                    ((MVPInterface.AdminCheckable) m).checkAdmin(user, isAdmin -> {
+                        if (isAdmin) v.navigateToAdmin();
+                        else v.navigateToHome();
+                    });
+                } else {
+                    v.navigateToHome();
+                }
             }
-        });
 
-        secondaryButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                p.handleSignUpClick();
+            public void onError(String message) {
+                v.showError(message);
             }
         });
     }
 
-
     @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void navigateToHome() {
-        getParentFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_fake_home.class, null)
-                .commit();
-
-    }
-
-    @Override
-    public void navigateToAdmin() {
-        getParentFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_fake_admin.class, null)
-                .commit();
-
-    }
-
-    @Override
-    public void navigateToSignUp() {
-        getParentFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_new_user.class, null)
-                .commit();
-    }
-
+    public void handleSignUpClick() {
+        v.navigateToSignUp();
     }
 }
