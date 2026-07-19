@@ -26,6 +26,11 @@ public class User {
         this.password = password;
     }
 
+    public User(String userId, String username) {
+        this.userId = userId;
+        this.username = username;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userId", userId);
