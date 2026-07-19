@@ -14,6 +14,11 @@ annotation = "1.6.0"
 lifecycleLivedataKtx = "2.6.1"
 lifecycleViewmodelKtx = "2.6.1"
 
+firebaseBom = "34.15.0"
+supabase = "3.0.3"
+ktor = "3.0.0"
+okhttps = "4.12.0"
+firebaseAuth = "24.2.0"
 
 [libraries]
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
@@ -25,6 +30,14 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+supabase-bom = { group = "io.github.jan-tennert.supabase:bom", name = "supabase-bom", version.ref = "supabase" }
+supabase-postgrest = { group = "io.github.jan-tennert.supabase:postgrest-kt", name = "supabase-postgrest", version.ref = "supabase" }
+ktor-client-android = { group = "io.github.jan-tennert.supabase", name = "ktor-client-android", version.ref = "ktor" }
+squareup-okhttps3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttps" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
