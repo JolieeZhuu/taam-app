@@ -1,4 +1,4 @@
-package com.example.cscb07project.Fragments;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,32 +12,26 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.R;
 
-public class HomeFragment extends Fragment {
+public class ManageItemsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_items, container, false);
 
-        Button buttonFilters = view.findViewById(R.id.buttonFilters);
-        Button buttonLogin = view.findViewById(R.id.buttonLogin);
-        Button buttonCatalogue = view.findViewById(R.id.buttonCatalogue);
+        Button buttonAddItem = view.findViewById(R.id.buttonAddItem);
+        Button buttonDeleteItem = view.findViewById(R.id.buttonDeleteItem);
+        Button buttonBack = view.findViewById(R.id.buttonBack);
 
-        buttonFilters.setOnClickListener(new View.OnClickListener() {
+        buttonAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new FilterFragment());
+                loadFragment(new AddItemFragment());
             }
         });
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new LoginFragment());}
-        });
+        buttonDeleteItem.setOnClickListener(v -> loadFragment(new DeleteItemFragment()));
 
-        buttonCatalogue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {loadFragment(new CatalogueFragment());}
-        });
+        buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         return view;
     }

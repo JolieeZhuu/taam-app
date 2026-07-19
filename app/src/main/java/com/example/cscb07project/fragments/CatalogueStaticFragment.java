@@ -1,4 +1,4 @@
-package com.example.cscb07project.Fragments;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cscb07project.ArtifactAdapter;
+import com.example.cscb07project.systems.ArtifactAdapter;
 import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Artifact;
 

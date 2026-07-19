@@ -1,4 +1,4 @@
-package com.example.cscb07project.Fragments;
+package com.example.cscb07project.fragments;
 
 import static android.graphics.Color.rgb;
 
@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.cscb07project.entities.FilterState;
+import com.example.cscb07project.systems.FilterState;
 import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.R;
 
@@ -36,7 +36,6 @@ public class FilterFragment extends Fragment {
     private Spinner material_spinner;
     private Spinner period_spinner;
     private Spinner origin_spinner;
-    private ColorStateList unsaved_button_tint;
 
 
     @Override
@@ -44,7 +43,7 @@ public class FilterFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         MainActivity main_activity = (MainActivity) requireActivity();
-        main_fs = main_activity.getMainFilters();
+        main_fs = main_activity.getFilters();
         filter_buffer = new HashMap<String, String>(main_fs.getFilters());
     }
 
@@ -54,7 +53,6 @@ public class FilterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
         buttonPushFilters = view.findViewById(R.id.save_filters);
-        unsaved_button_tint = buttonPushFilters.getBackgroundTintList();
         buttonPushFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,12 +96,11 @@ public class FilterFragment extends Fragment {
     }
 
     private void updateSaveColour(){
-        if (saved_flag){
-            buttonPushFilters.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-        }
-        else {
-            buttonPushFilters.setBackgroundTintList(unsaved_button_tint);
-        }
+        buttonPushFilters.setBackgroundResource(
+                saved_flag
+                        ? R.drawable.button_default_background
+                        : R.drawable.button_alt_background
+        );
     }
 
     public void SaveBuffer(){

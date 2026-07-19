@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.Fragments.HomeFragment;
-import com.example.cscb07project.entities.FilterState;
+import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.systems.FilterState;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
     FilterState main_filters;
     UserRepository uRep;
 
+    Set<String> selectedArtifacts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("@string/database_url");
         DatabaseReference myRef = db.getReference("firebaseTest");
 
         main_filters = new FilterState();
@@ -40,9 +44,18 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public FirebaseDatabase getMainDB() { return db; }
-    public FilterState getMainFilters() {
+    public FirebaseDatabase getDB() { return db; }
+    public FilterState getFilters() {
         return main_filters;
+    }
+    public void setFilters(FilterState fs){
+        main_filters = fs;
+    }
+    public Set<String> getSelectedArtifacts(){
+        return selectedArtifacts;
+    }
+    public void setSelectedArtifacts(Set<String> selectionBuffer){
+        selectedArtifacts = selectionBuffer;
     }
 
     @Override

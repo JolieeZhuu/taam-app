@@ -5,14 +5,12 @@
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>
 
-    <!-- Medium Phone Specific Values -->
-    <dimen name="med_phone_top_margin">64dp</dimen>
-    <dimen name="med_phone_bot_margin">48dp</dimen>
-    <dimen name="med_phone_side_margin">24dp</dimen>
-
     <dimen name="small_button_height">48dp</dimen>
     <dimen name="small_button_padding">4dp</dimen>
-
     <dimen name="medium_button_height">64dp</dimen>
+    <dimen name="large_button_height">120dp</dimen>
 
+    <!-- Catalogue values, test before using elsewhere -->
+    <dimen name="item_display_width">120dp</dimen>
+    <dimen name="item_display_height">160dp</dimen>
 </resources>

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">TAAM Artifacts</string>
     <string name="delete_item">Delete Item</string>
+    <strkng name="back">Back</strkng>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="manage_items">Manage Items</string>
     <string name="filters">Filter Selection</string>
     <string name="login_page">Login Page</string>
@@ -12,7 +12,12 @@
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
     <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
     <string name="supabase_image_bucket">CSCB07 Project Images</string>
+    <string name="database_url">https://cscb07-project-e0581-default-rtdb.firebaseio.com/</string>
 
+    <!-- General Buttons -->
+    <string name="save_button">Save</string>
+    <string name="clear_button">Clear All</string>
+    <string name="exit_button">Exit</string>
 
     <string-array name="categories_array">
         <item>Books</item>
@@ -41,16 +46,12 @@
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
 
-    <string name="save_filters">Save</string>
-    <string name="clear_filters">Clear Filters</string>
-    <string name="exit_filter_screen">Exit</string>
-
     <string name="type_filter">Item Type</string>
     <string name="material_filter">Item Material</string>
     <string name="period_filter">Time Period</string>
     <string name="origin_filter">Origin of Item</string>
 
-    <!-- Catalogue Screen -->
+    <!-- Catalogue Screen + ArtifactAdapter + ArtifactViewHolder-->
     <string name="selection_count">Selected: </string>
 
     <string name="artifact_name">Name</string>

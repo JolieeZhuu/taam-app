@@ -5,10 +5,10 @@
     android:id="@+id/filter_screen_constraints"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/med_phone_side_margin"
-    android:layout_marginTop="@dimen/med_phone_top_margin"
-    android:layout_marginRight="@dimen/med_phone_side_margin"
-    android:layout_marginBottom="@dimen/med_phone_bot_margin"
+    android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+    android:layout_marginTop="@dimen/fragment_vertical_margin"
+    android:layout_marginRight="@dimen/fragment_horizontal_margin"
+    android:layout_marginBottom="@dimen/fragment_vertical_margin"
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="@dimen/small_button_height"
         android:layout_marginStart="@dimen/small_button_padding"
         android:layout_marginEnd="@dimen/small_button_padding"
-        android:text="@string/save_filters"
+        android:text="@string/save_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/clear_filters"
         app:layout_constraintEnd_toStartOf="@+id/exit_screen"
         app:layout_constraintStart_toEndOf="@+id/clear_filters" />
@@ -38,7 +38,7 @@
         android:layout_height="@dimen/small_button_height"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/clear_filters"
+        android:text="@string/clear_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/small_button_height"
         android:layout_marginEnd="12dp"
-        android:text="@string/exit_filter_screen"
+        android:text="@string/exit_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/save_filters"
         app:layout_constraintEnd_toEndOf="parent" />
 

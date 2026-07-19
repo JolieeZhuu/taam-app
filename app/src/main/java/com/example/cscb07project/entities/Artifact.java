@@ -23,7 +23,10 @@ public class Artifact {
 
     public Artifact() {}
 
-    public Artifact(String lotNumber, String name, String description, String category, String material, String period, String origin, String dimensions, String conditionReport, String currentLocation, String acquiredMethod, String provenance, String accessionNumber, String notes, String image) {
+    public Artifact(String lotNumber, String name, String description, String category,
+                    String material, String period, String origin, String dimensions,
+                    String conditionReport, String currentLocation, String acquiredMethod,
+                    String provenance, String accessionNumber, String notes, String image) {
         this.lotNumber = lotNumber;
         this.name = name;
         this.description = description;

@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.systems;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
+
+import com.example.cscb07project.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

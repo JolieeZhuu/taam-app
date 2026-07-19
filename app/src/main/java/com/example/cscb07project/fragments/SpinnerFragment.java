@@ -1,4 +1,4 @@
-package com.example.cscb07project.Fragments;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
