@@ -18,7 +18,7 @@ public class AdminRepository {
         this.dbRefAd = rootRef.getReference("admins");
     }
 
-    public Task<Void> addAdmin(String userId) {
+    public Task<Void> createAdmin(String userId) {
         Map<String, Boolean> map = new HashMap<String, Boolean>();
         map.put(userId, true);
         return dbRefAd.setValue(map);
@@ -26,6 +26,7 @@ public class AdminRepository {
 
     // may want to include a getALlAdmins if we choose to display that in the admin interface
 
+    // only deletes the userId in the admin table
     public Task<Void> deleteAdminById(String userId) {
         return dbRefAd.child(userId).removeValue().continueWithTask(snapshot -> {
             if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
