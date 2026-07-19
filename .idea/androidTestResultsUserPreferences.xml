@@ -3,47 +3,12 @@
   <component name="AndroidTestResultsUserPreferences">
     <option name="androidTestResultsTableState">
       <map>
-<<<<<<< Updated upstream
-        <entry key="-420298185">
-=======
-        <entry key="-1191155957">
->>>>>>> Stashed changes
-          <value>
-            <AndroidTestResultsTableState>
-              <option name="preferredColumnWidths">
-                <map>
-                  <entry key="Duration" value="90" />
-<<<<<<< Updated upstream
-                  <entry key="Small_Phone" value="120" />
-=======
-                  <entry key="Medium_Phone" value="120" />
-                  <entry key="Tests" value="360" />
-                </map>
-              </option>
-            </AndroidTestResultsTableState>
-          </value>
-        </entry>
-        <entry key="-420298185">
-          <value>
-            <AndroidTestResultsTableState>
-              <option name="preferredColumnWidths">
-                <map>
-                  <entry key="Duration" value="90" />
-                  <entry key="Medium_Phone" value="120" />
->>>>>>> Stashed changes
-                  <entry key="Tests" value="360" />
-                </map>
-              </option>
-            </AndroidTestResultsTableState>
-          </value>
-        </entry>
         <entry key="1129076996">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
-                  <entry key="Medium_Phone" value="120" />
                   <entry key="Small_Phone" value="120" />
                   <entry key="Tests" value="360" />
                 </map>

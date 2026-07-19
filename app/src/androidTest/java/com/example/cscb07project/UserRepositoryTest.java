@@ -4,6 +4,7 @@ import com.example.cscb07project.entities.User;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.After;
@@ -20,40 +21,40 @@ public class UserRepositoryTest {
 
     private UserRepository userRepository;
     private FirebaseDatabase dbRef;
+    private FirebaseAuth dbAuth;
     private static String userId;
 
     @Before
     public void setup() {
         dbRef = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
-        userRepository = new UserRepository(dbRef);
+        dbAuth = FirebaseAuth.getInstance();
+        userRepository = new UserRepository(dbRef, dbAuth);
     }
 
     @Test
-    public void test1AddUser() throws Exception {
-        User user = new User("bob@gmail.com", "bobby", "badpassword");
-        Task<Void> task = userRepository.addUser(user);
+    public void test1CreateUser() throws Exception {
+        Task<User> task = userRepository.createUser("meow", "meow@gmail.com", "password");
         Tasks.await(task);
 
-        assertTrue(task.isSuccessful());
-        userId = user.getUserId();
+        assertEquals("meow", task.getResult().getUsername());
+        assertEquals("meow@gmail.com", task.getResult().getEmail());
+
+        userId = task.getResult().getUserId();
     }
 
     @Test
-    public void test2GetUserById() throws Exception {
-        Task<User> task = userRepository.getUserById(userId);
+    public void test2SignIn() throws Exception {
+        Task<User> task = userRepository.signIn("meow@gmail.com", "password");
         Tasks.await(task);
 
-        assertEquals("bob@gmail.com", task.getResult().getEmail());
-        assertEquals("bobby", task.getResult().getUsername());
+        assertEquals("meow", task.getResult().getUsername());
+        assertEquals("meow@gmail.com", task.getResult().getEmail());
     }
 
     @Test
-    public void test3UpdateUser() throws Exception {
-        User user = new User(userId, "hihi@gmail.com", "newname", "badpassword");
-        Task<Void> task = userRepository.updateUser(user);
-        Tasks.await(task);
-
-        assertTrue(task.isSuccessful());
+    public void test3UpdateUsername() throws Exception {
+        User user = new User(userId, "meow", "meow@gmail.com");
+        Task<Void> task = userRepository.updateUsername(user, "woof");
     }
 
     @Test
@@ -66,17 +67,8 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test5GetUserByEmail() throws Exception {
-        Task<User> task = userRepository.getUserByEmail("hihi@gmail.com");
-        Tasks.await(task);
-
-        assertEquals("hihi@gmail.com", task.getResult().getEmail());
-        assertEquals("newname", task.getResult().getUsername());
-    }
-
-    @Test
     public void test9DeleteUserById() throws Exception {
-        Task<Void> task = userRepository.deleteUserById(userId);
+        Task<Void> task = userRepository.deleteUser();
         Tasks.await(task);
         assertTrue(task.isSuccessful());
     }
