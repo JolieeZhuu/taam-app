@@ -3,7 +3,7 @@ package com.example.cscb07project.repositories;
 import android.util.Log;
 
 import com.example.cscb07project.entities.Activity;
-import com.example.cscb07project.entities.Comment;
+import com.example.cscb07project.interfaces.ActivityInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;

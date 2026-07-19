@@ -2,10 +2,9 @@ package com.example.cscb07project.repositories;
 
 import android.util.Log;
 
-import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
-import com.example.cscb07project.entities.User;
+import com.example.cscb07project.interfaces.ExpandedViewInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -13,9 +12,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class ExpandedViewRepository {
+public class ExpandedViewRepository implements ExpandedViewInterface {
     // also for Comment repository
     private final DatabaseReference dbRefEx;
     private final DatabaseReference dbRefCo;
@@ -25,10 +23,12 @@ public class ExpandedViewRepository {
         this.dbRefCo = rootRef.getReference("comments");
     }
 
+    @Override
     public Task<Void> addExpandedView(String lotNumber, ExpandedView expandedView) {
         return dbRefEx.child(lotNumber).setValue(expandedView);
     }
 
+    @Override
     public Task<Void> addComment(String lotNumber, Comment comment) {
         String commentId = dbRefCo.push().getKey();
         if (commentId == null) throw new IllegalStateException();
@@ -36,6 +36,7 @@ public class ExpandedViewRepository {
         return dbRefCo.child(lotNumber).child(commentId).setValue(comment);
     }
 
+    @Override
     public Task<Void> updateComment(Comment comment) {
         return dbRefCo.child(comment.getLotNumber()).child(comment.getCommentId()).updateChildren(comment.toMap());
     }
@@ -51,6 +52,7 @@ public class ExpandedViewRepository {
 //        });
 //    }
 
+    @Override
     public Task<ExpandedView> getExpandedViewByLotNumber(String lotNumber) {
         return dbRefEx.child(lotNumber).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
@@ -60,6 +62,7 @@ public class ExpandedViewRepository {
         });
     }
 
+    @Override
     public Task<Comment> getCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
@@ -69,6 +72,7 @@ public class ExpandedViewRepository {
         });
     }
 
+    @Override
     public Task<List<Comment>> getCommentsByLotNumber(String lotNumber) {
         return dbRefCo.child(lotNumber).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
@@ -83,6 +87,7 @@ public class ExpandedViewRepository {
         });
     }
 
+    @Override
     public Task<Void> deleteCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted comment with id: " + commentId);
@@ -91,6 +96,7 @@ public class ExpandedViewRepository {
         });
     }
 
+    @Override
     public Task<Void> deleteExpandedViewByLotNumber(String lotNumber) {
         return dbRefEx.child(lotNumber).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted expanded view with id: " + lotNumber);

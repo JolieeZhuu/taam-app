@@ -3,6 +3,7 @@ package com.example.cscb07project;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
+import com.example.cscb07project.interfaces.ExpandedViewInterface;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ExpandedViewRepositoryTest {
-    private ExpandedViewRepository expandedViewRepository;
+    private ExpandedViewInterface expandedViewRepository;
     private FirebaseDatabase dbRef;
     private static String lotNumber;
     private static String commentId;
