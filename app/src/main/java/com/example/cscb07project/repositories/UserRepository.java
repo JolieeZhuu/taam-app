@@ -63,6 +63,11 @@ public class UserRepository implements UserInterface {
     }
 
     @Override
+    public Task<Void> addUserWithId(User user, String userId) {
+        return dbRefUs.child(userId).setValue(user);
+    }
+
+    // check if user is an admin
     public Task<Boolean> isAdmin(String userId) {
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null)
