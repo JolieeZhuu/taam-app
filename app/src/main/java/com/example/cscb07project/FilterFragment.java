@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.cscb07project.interfaces.FieldScraper;
 import com.example.cscb07project.repositories.ArtifactRepository;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +27,10 @@ public class FilterFragment extends Fragment {
     private Map<String, String> filter_buffer;
     private FilterState main_fs;
     private boolean saved_flag = true;
-
+    private ArtifactRepository repo;
     private Button buttonPushFilters;
     private Button buttonClearFilters;
     private Button buttonExit;
-    private Spinner categorySpinner;
-    private Spinner materialSpinner;
-    private Spinner periodSpinner;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +39,7 @@ public class FilterFragment extends Fragment {
         MainActivity main_activity = (MainActivity) requireActivity();
         main_fs = main_activity.getMainFilters();
         filter_buffer = new HashMap<>(main_fs.getFilters());
+        repo = main_activity.getArtifactRepository();
     }
 
     @Nullable
@@ -57,40 +56,46 @@ public class FilterFragment extends Fragment {
         buttonExit = view.findViewById(R.id.exit_screen);
         buttonExit.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        categorySpinner = view.findViewById(R.id.type_spinner);
-        materialSpinner = view.findViewById(R.id.material_spinner);
-        periodSpinner = view.findViewById(R.id.period_spinner);
+        Spinner categorySpinner = view.findViewById(R.id.type_spinner); // Hardcode each filter.
+        Spinner materialSpinner = view.findViewById(R.id.material_spinner);
+        Spinner periodSpinner = view.findViewById(R.id.period_spinner);
 
+        fetchDbFieldValues(categorySpinner, "category");
+        fetchDbFieldValues(materialSpinner, "material");
+        fetchDbFieldValues(periodSpinner, "period");
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.dev_filters,
-                android.R.layout.simple_spinner_item
-        );
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(adapter);
-        materialSpinner.setAdapter(adapter);
-        periodSpinner.setAdapter(adapter);
         setSpinnerSelectionListener(categorySpinner, "category");
         setSpinnerSelectionListener(materialSpinner, "material");
         setSpinnerSelectionListener(periodSpinner, "period");
 
-
-
         return view;
     }
 
-    private void fetchDbFieldValues(){
-    }
-    private void populateSpinner(List<String> values){
-    }
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        String value = parent.getItemAtPosition(pos).toString();
-    }
-    public void onNothingSelected(AdapterView<?> parent, View view, int pos, long id){
+    private void fetchDbFieldValues(Spinner spinner, String key){
+        repo.scrapeFieldValues(key, new FieldScraper() {
+            @Override
+            public void onResult(List<String> values) {
+                populateSpinner(spinner, values);
+            }
 
+            @Override
+            public void onError(DatabaseError err) {
+                // TODO: What are we supposed to do if we can't access the database? Crash the app?
+            }
+        });
     }
+    private void populateSpinner(Spinner spinner, List<String> values){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                values
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+    }
+
     private void setSpinnerSelectionListener (Spinner spinner, String key){
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase db;
     FilterState main_filters;
     UserRepository uRep;
+    ArtifactRepository aRep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("firebaseTest");
+        aRep = new ArtifactRepository(db);
+
+
     }
 
     private void loadFragment(Fragment fragment) {
@@ -50,4 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public FilterState getMainFilters() {
         return main_filters;
     }
+    public FirebaseDatabase getDbRef() {return db; }
+
+    public ArtifactRepository getArtifactRepository() {return aRep; }
 }
