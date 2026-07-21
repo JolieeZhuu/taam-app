@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -13,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.cscb07project.repositories.ArtifactRepository;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,19 +61,53 @@ public class FilterFragment extends Fragment {
         materialSpinner = view.findViewById(R.id.material_spinner);
         periodSpinner = view.findViewById(R.id.period_spinner);
 
-        // REFACTOR BLOCK: AY1
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.dev_filters,
                 android.R.layout.simple_spinner_item
         );
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
         materialSpinner.setAdapter(adapter);
         periodSpinner.setAdapter(adapter);
-        // END REFACTOR BLOCK
+        setSpinnerSelectionListener(categorySpinner, "category");
+        setSpinnerSelectionListener(materialSpinner, "material");
+        setSpinnerSelectionListener(periodSpinner, "period");
+
+
 
         return view;
+    }
+
+    private void fetchDbFieldValues(){
+    }
+    private void populateSpinner(List<String> values){
+    }
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        String value = parent.getItemAtPosition(pos).toString();
+    }
+    public void onNothingSelected(AdapterView<?> parent, View view, int pos, long id){
+
+    }
+    private void setSpinnerSelectionListener (Spinner spinner, String key){
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String value = adapterView.getItemAtPosition(i).toString();
+                filter_buffer.replace(key, value);
+                saved_flag = false;
+                updateSaveColour();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                filter_buffer.replace(key, null);
+                saved_flag = false;
+                updateSaveColour();
+            }
+        });
     }
 
     private void updateSaveColour(){
