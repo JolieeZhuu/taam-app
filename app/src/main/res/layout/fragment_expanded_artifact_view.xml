@@ -25,14 +25,12 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="4dp"
-                android:minWidth="0dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:text="←Back"
-                android:textAllCaps="false"
+                android:text="@string/back"
                 android:textSize="14sp" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,6 +46,7 @@
             android:id="@+id/artifactImage"
             android:layout_width="match_parent"
             android:layout_height="249dp"
+            android:contentDescription="@string/picture_of_the_artifact"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_background" />
 
@@ -64,10 +63,6 @@
                 android:id="@+id/artifactInformationScrollView"
                 android:layout_width="285dp"
                 android:layout_height="202dp"
-                android:layout_weight="1"
-                android:fadeScrollbars="false"
-                android:fillViewport="true"
-                android:paddingEnd="12dp"
                 android:scrollbars="vertical">
 
                 <LinearLayout
@@ -79,7 +74,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Artifact Information"
+                        android:text="@string/artifact_information"
                         android:textColor="#0D47A1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -89,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="NAME of THE ARTIFACT"
+                        android:text="@string/name_of_the_artifact"
                         android:textColor="#111827"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -104,7 +99,7 @@
                             android:id="@+id/num_of_likes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Likes: 23"
+                            android:text="@string/likes_23"
                             android:textColor="#0D47A1"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -114,7 +109,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="Saved: Yes"
+                            android:text="@string/saved_yes"
                             android:textColor="#0D47A1"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -126,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Category: CATEGORY"
+                        android:text="@string/category"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -135,7 +130,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Creator: rrrrrrrrrrr"
+                        android:text="@string/creator"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -144,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Dynasty/Period: dddddddddddd"
+                        android:text="@string/dynasty_period"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -153,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Culture origin: cccccccccccc"
+                        android:text="@string/culture_origin"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -162,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Lot number: 123456789"
+                        android:text="@string/lot_number"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -172,7 +167,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Material: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/material"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -181,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Dimensions: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/dimensions"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -190,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Condition report: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/condition_report"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -199,7 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Current_location: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/current_location"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -208,7 +203,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Acquisition method: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/acquisition_method"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -217,7 +212,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Provenance: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/provenance"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -226,7 +221,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Accession number: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/accession_number"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -235,7 +230,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Notes: bbbbbbbbbbbbbbbbbbb"
+                        android:text="@string/notes"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -243,9 +238,9 @@
                         android:id="@+id/artifact_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:lineSpacingExtra="2dp"
-                        android:text="Description: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+                        android:text="@string/description"
                         android:textColor="#374151"
                         android:textSize="14sp" />
 
@@ -255,8 +250,8 @@
             </ScrollView>
 
             <LinearLayout
-                android:layout_width="92dp"
-                android:layout_height="194dp"
+                android:layout_width="102dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="5dp">
@@ -264,31 +259,31 @@
                 <Button
                     android:id="@+id/like_button"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:text="Like"
+                    android:layout_height="48dp"
+                    android:text="@string/like"
                     android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/save_button"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:text="Save"
+                    android:layout_height="48dp"
+                    android:text="@string/save"
                     android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/edit_button"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
+                    android:layout_height="48dp"
                     android:enabled="false"
-                    android:text="Edit"
+                    android:text="@string/edit"
                     android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/delete_button"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
+                    android:layout_height="48dp"
                     android:enabled="false"
-                    android:text="Delete"
+                    android:text="@string/delete"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -305,7 +300,7 @@
             android:id="@+id/textCommentsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Comment Section"
+            android:text="@string/comment_section"
             android:textColor="#0D47A1"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -325,35 +320,30 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
+                android:autofillHints=""
                 android:background="@android:drawable/edit_text"
-                android:hint="Write a comment..."
+                android:hint="@string/write_a_comment"
                 android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="3"
-                android:minHeight="48dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textSize="14sp" />
 
             <Button
                 android:id="@+id/buttonPostComment"
-                android:layout_width="72dp"
+                android:layout_width="89dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
-                android:minWidth="0dp"
-                android:padding="0dp"
-                android:text="Post"
-                android:textAllCaps="false"
+                android:text="@string/post"
                 android:textSize="14sp" />
 
         </LinearLayout>
         <Button
             android:id="@+id/enter_comment_section"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
-            android:text="View Comments"
-            android:textAllCaps="false"
+            android:text="@string/view_comments"
             />
 
     </LinearLayout>
