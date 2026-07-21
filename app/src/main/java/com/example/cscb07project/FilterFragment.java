@@ -29,7 +29,10 @@ public class FilterFragment extends Fragment {
     private boolean saved_flag = true;
     private ArtifactRepository repo;
     private Button buttonPushFilters;
+
+    @SuppressWarnings("FieldCanBeLocal")
     private Button buttonClearFilters;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button buttonExit;
 
     @Override
@@ -48,7 +51,10 @@ public class FilterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
         buttonPushFilters = view.findViewById(R.id.save_filters);
-        buttonPushFilters.setOnClickListener(v -> SaveBuffer());
+        buttonPushFilters.setOnClickListener(v -> {
+            SaveBuffer();
+            updateSaveColour();
+        });
 
         buttonClearFilters = view.findViewById(R.id.clear_filters);
         buttonClearFilters.setOnClickListener(v -> ClearFilters());
@@ -139,9 +145,5 @@ public class FilterFragment extends Fragment {
         updateSaveColour();
     }
 
-//    public void loadFilters(FilterState fs){ // Implement if needed.
-//        filter_buffer = fs.getFilters();
-//        saved_flag = false;
-//        updateSaveColour();
-//    }
+//    public void loadFilters(FilterState fs){// Implement if needed.}
 }
