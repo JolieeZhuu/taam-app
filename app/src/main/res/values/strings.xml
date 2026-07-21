@@ -37,6 +37,12 @@
     <string name="post">Post</string>
     <string name="view_comments">View Comments</string>
 
+    <!-- Need this kept when merging :) -->
+    <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
+    <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
+    <string name="supabase_image_bucket">CSCB07 Project Images</string>
+
+
     <string-array name="categories_array">
         <item>Books</item>
         <item>Movies</item>
