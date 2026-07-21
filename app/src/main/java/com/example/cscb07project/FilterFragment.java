@@ -1,9 +1,6 @@
 package com.example.cscb07project;
 
-import static android.graphics.Color.rgb;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -39,7 +36,7 @@ public class FilterFragment extends Fragment {
 
         MainActivity main_activity = (MainActivity) requireActivity();
         main_fs = main_activity.getMainFilters();
-        filter_buffer = new HashMap<String, String>(main_fs.getFilters());
+        filter_buffer = new HashMap<>(main_fs.getFilters());
     }
 
     @Nullable
@@ -56,9 +53,9 @@ public class FilterFragment extends Fragment {
         buttonExit = view.findViewById(R.id.exit_screen);
         buttonExit.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        categorySpinner = (Spinner) view.findViewById(R.id.type_spinner);
-        materialSpinner = (Spinner) view.findViewById(R.id.material_spinner);
-        periodSpinner = (Spinner) view.findViewById(R.id.period_spinner);
+        categorySpinner = view.findViewById(R.id.type_spinner);
+        materialSpinner = view.findViewById(R.id.material_spinner);
+        periodSpinner = view.findViewById(R.id.period_spinner);
 
         // REFACTOR BLOCK: AY1
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -99,9 +96,9 @@ public class FilterFragment extends Fragment {
         updateSaveColour();
     }
 
-    public void loadFilters(FilterState fs){
-        filter_buffer = fs.getFilters();
-        saved_flag = false;
-        updateSaveColour();
-    }
+//    public void loadFilters(FilterState fs){ // Implement if needed.
+//        filter_buffer = fs.getFilters();
+//        saved_flag = false;
+//        updateSaveColour();
+//    }
 }
