@@ -28,11 +28,9 @@ public class FilterFragment extends Fragment {
     private Button buttonPushFilters;
     private Button buttonClearFilters;
     private Button buttonExit;
-    private Spinner type_spinner;
-    private Spinner material_spinner;
-    private Spinner period_spinner;
-    private Spinner origin_spinner;
-    private ColorStateList unsaved_button_tint;
+    private Spinner categorySpinner;
+    private Spinner materialSpinner;
+    private Spinner periodSpinner;
 
 
     @Override
@@ -50,32 +48,17 @@ public class FilterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
         buttonPushFilters = view.findViewById(R.id.save_filters);
-        unsaved_button_tint = buttonPushFilters.getBackgroundTintList();
-        buttonPushFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SaveBuffer();
-            }
-        });
+        buttonPushFilters.setOnClickListener(v -> SaveBuffer());
 
         buttonClearFilters = view.findViewById(R.id.clear_filters);
-        buttonClearFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { ClearFilters(); }
-        });
+        buttonClearFilters.setOnClickListener(v -> ClearFilters());
 
         buttonExit = view.findViewById(R.id.exit_screen);
-        buttonExit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager().popBackStack();
-            }
-        });
+        buttonExit.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        type_spinner = (Spinner) view.findViewById(R.id.type_spinner);
-        material_spinner = (Spinner) view.findViewById(R.id.material_spinner);
-        period_spinner = (Spinner) view.findViewById(R.id.period_spinner);
-        origin_spinner = (Spinner) view.findViewById(R.id.origin_spinner);
+        categorySpinner = (Spinner) view.findViewById(R.id.type_spinner);
+        materialSpinner = (Spinner) view.findViewById(R.id.material_spinner);
+        periodSpinner = (Spinner) view.findViewById(R.id.period_spinner);
 
         // REFACTOR BLOCK: AY1
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -84,22 +67,20 @@ public class FilterFragment extends Fragment {
                 android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        type_spinner.setAdapter(adapter);
-        material_spinner.setAdapter(adapter);
-        period_spinner.setAdapter(adapter);
-        origin_spinner.setAdapter(adapter);
+        categorySpinner.setAdapter(adapter);
+        materialSpinner.setAdapter(adapter);
+        periodSpinner.setAdapter(adapter);
         // END REFACTOR BLOCK
 
         return view;
     }
 
     private void updateSaveColour(){
-        if (saved_flag){
-            buttonPushFilters.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-        }
-        else {
-            buttonPushFilters.setBackgroundTintList(unsaved_button_tint);
-        }
+        buttonPushFilters.setBackgroundResource(
+                saved_flag
+                    ? R.drawable.button_alt_background
+                    : R.drawable.button_default_background
+        );
     }
 
     public void SaveBuffer(){
