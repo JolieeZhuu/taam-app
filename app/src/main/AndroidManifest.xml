@@ -16,19 +16,19 @@
             android:name=".ItemAdapater"
             android:exported="false" />
         <activity
-            android:name=".Item"
+            android:name=".Artifact"
             android:exported="false" />
         <activity
             android:name=".Item2"
             android:exported="false" />
         <activity
-            android:name=".SpinnerFragment"
+            android:name=".fragments.SpinnerFragment"
             android:exported="false" />
         <activity
-            android:name=".RecyclerViewFragment"
+            android:name=".fragments.CatalogueFragment"
             android:exported="false" />
         <activity
-            android:name=".HomeFragment"
+            android:name=".fragments.HomeFragment"
             android:exported="false" />
         <activity
             android:name=".Activity2"
@@ -43,5 +43,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fragment_horizontal_margin">16dp</dimen>
+    <dimen name="fragment_vertical_margin">16dp</dimen>
+
+    <dimen name="small_button_height">48dp</dimen>
+    <dimen name="small_button_padding">4dp</dimen>
+    <dimen name="medium_button_height">64dp</dimen>
+    <dimen name="large_button_height">120dp</dimen>
+
+    <!-- Catalogue values, test before using elsewhere -->
+    <dimen name="item_display_width">120dp</dimen>
+    <dimen name="item_display_height">160dp</dimen>
+</resources>
