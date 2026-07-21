@@ -44,7 +44,6 @@ public class FilterFragment extends Fragment {
         filter_buffer = new HashMap<>(main_fs.getFilters());
         repo = main_activity.getArtifactRepository();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -101,7 +100,6 @@ public class FilterFragment extends Fragment {
 
         spinner.setAdapter(adapter);
     }
-
     private void setSpinnerSelectionListener (Spinner spinner, String key){
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -128,15 +126,13 @@ public class FilterFragment extends Fragment {
                     : R.drawable.button_default_background
         );
     }
-
     public void SaveBuffer(){
-        if (main_fs.getFilters() != filter_buffer) {
+        if (main_fs.getFilters().equals(filter_buffer)) {
             main_fs.UpdateFilters(filter_buffer);
         }
         saved_flag = true;
         updateSaveColour();
     }
-
     public void ClearFilters(){
         for (Map.Entry<String, String> entry : filter_buffer.entrySet()){
             filter_buffer.replace(entry.getKey(), null);

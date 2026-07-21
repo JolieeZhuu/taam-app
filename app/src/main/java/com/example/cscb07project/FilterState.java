@@ -17,7 +17,6 @@ public class FilterState {
         filters.put("object_type", null);
         filters.put("material", null);
         filters.put("time_period", null);
-        filters.put("origin", null);
     }
 
     public Map<String, String> getFilters(){
@@ -26,7 +25,6 @@ public class FilterState {
     public void UpdateFilters(Map<String, String> new_filters){
         filters = new_filters;
     }
-
 
     @Override
     public boolean equals(Object obj){
