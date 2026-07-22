@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.example.cscb07project.artifact_creation_page.AddArtifactFragment;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         myRef.child("movies").setValue("B07 Demo!");
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            loadFragment(new AddArtifactFragment());
         }
     }
 

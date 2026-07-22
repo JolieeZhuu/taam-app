@@ -1,5 +1,4 @@
 package com.example.cscb07project;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +27,6 @@ public class DeleteItemFragment extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
 
-    private void createAdminLog(String username, String action, String title,String reason){
-        DatabaseReference logsRef = db.getReference("adminLogs");
-
-        String logId = logsRef.push().getKey();
-        if (logId==null){return;}
-
-        AdminLogs log = new AdminLogs(username,action,title,reason,System.currentTimeMillis());
-        logsRef.child(logId).setValue(log);
-    }
 
     @Nullable
     @Override
@@ -92,7 +82,6 @@ public class DeleteItemFragment extends Fragment {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
-                                createAdminLog("ADMIN NAME!!", "Deleted item", title, reason);//admin name needed from the login
                             } else {
                                 Toast.makeText(getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
                             }

@@ -10,10 +10,25 @@
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
 
-    <string-array name="categories_array">
-        <item>Books</item>
-        <item>Movies</item>
-    </string-array>
+
+
+
+    <string name="lot_number">Lot Number</string>
+    <string name="artifact_name">Artifact Name</string>
+    <string name="description">Description</string>
+    <string name="origin">Origin</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="condition_report">Condition Report</string>
+    <string name="current_location">Current Location</string>
+    <string name="acquired_method">Acquired Method</string>
+    <string name="provenance">Provenance</string>
+    <string name="accession_number">Accession Number</string>
+    <string name="notes">Notes</string>
+    <string name="upload_image">Upload image</string>
+    <string name="add_artifact">Add artifact</string>
+
+
+
 
 
 </resources>
