@@ -20,6 +20,7 @@ import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class CatalogueFragment extends Fragment {
 
     private FilterState filters;
     private int selectCount;
-    private List<Artifact> artifactList;
+    private List<Artifact> artifactList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private ArtifactAdapter artifactAdapter;

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.systems.FilterState;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.database.DatabaseReference;
@@ -27,20 +27,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("@string/database_url");
+        db = FirebaseDatabase.getInstance(getString(R.string.database_url));
         DatabaseReference myRef = db.getReference("firebaseTest");
 
         main_filters = new FilterState();
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            loadFragment(new HomepageFragment());
         }
     }
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack("home_fragment");
+        transaction.addToBackStack("homepage_fragment");
         transaction.commit();
     }
 

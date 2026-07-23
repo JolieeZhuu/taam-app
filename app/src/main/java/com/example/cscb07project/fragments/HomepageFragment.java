@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 
@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+
+import com.example.cscb07project.R;
 
 public class HomepageFragment extends Fragment {
 
@@ -21,7 +24,8 @@ public class HomepageFragment extends Fragment {
     }
 
     private ImageView savedArtifactsBtn, profileBtn;
-    private boolean isAdmin = true;
+    private Button filterBtn;
+    private boolean isAdmin = true; // user admin status
 
     @Nullable
     @Override
@@ -30,6 +34,7 @@ public class HomepageFragment extends Fragment {
 
         savedArtifactsBtn = view.findViewById(R.id.savedArtifactsBtn);
         profileBtn = view.findViewById(R.id.profileBtn);
+        filterBtn = view.findViewById(R.id.filterBtn);
 
         savedArtifactsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +50,25 @@ public class HomepageFragment extends Fragment {
             }
         });
 
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FilterFragment());
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Fragment catalogueFragment = CatalogueFragment.newInstance(0);
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.homepage_catalogue_container, catalogueFragment)
+                .commit();
     }
 
     private void showProfileDropdown() {
