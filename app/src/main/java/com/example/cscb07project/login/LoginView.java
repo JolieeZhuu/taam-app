@@ -1,10 +1,41 @@
 package com.example.cscb07project.login;
 
 import com.example.cscb07project.entities.User;
+import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.cscb07project.R;
 public class LoginPresenter implements MVPInterface.presenter {
     private MVPInterface.view v;
     private MVPInterface.model m;
+
+
+
+public abstract class LoginView extends Fragment implements MVPInterface.view{
+    protected MVPInterface.presenter p;
+    protected EditText email;
+    protected EditText password;
+    protected Button mainButton;
+    protected Button secondaryButton;
+    protected abstract MVPInterface.presenter createPresenter();
+    protected abstract int getLayoutResId();
+    protected abstract int getEmailId();
+    protected abstract int getPasswordId();
+    protected abstract int getMainButtonId();
+    protected abstract int getSecondaryButtonId();
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.p = createPresenter();
+    }
 
     public LoginPresenter(MVPInterface.view v) {
         this.v = v;
@@ -47,5 +78,13 @@ public class LoginPresenter implements MVPInterface.presenter {
     @Override
     public void handleSignUpClick() {
         v.navigateToSignUp();
+    }
+
+    @Override
+    public void navigateToLogin() {
+        getParentFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container, fragment_login.class, null)
+                .commit();
     }
 }

@@ -1,13 +1,10 @@
-package com.example.cscb07project;
+package com.example.cscb07project.login;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.cscb07project.login.LoginView;
-import com.example.cscb07project.login.MVPInterface;
-import com.example.cscb07project.login.SignUpModel;
-import com.example.cscb07project.login.SignUpPresenter;
+import com.example.cscb07project.R;
 
 public class fragment_new_user extends LoginView {
     protected EditText confirmPassword;
