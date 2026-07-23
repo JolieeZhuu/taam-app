@@ -24,7 +24,7 @@
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_serif_sc_semi_bold"
+            android:fontFamily="?attr/fontFamily"
             android:text="@string/TAAM"
             android:textColor="?attr/colorOnSurface"
             android:textSize="26sp"
