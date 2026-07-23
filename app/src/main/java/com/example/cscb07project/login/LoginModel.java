@@ -1,10 +1,11 @@
 package com.example.cscb07project.login;
+import com.example.cscb07project.entities.User;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.mindrot.jbcrypt.BCrypt;
-public class LoginModel implements MVPInterface.model {
+public class LoginModel implements MVPInterface.model, MVPInterface.AdminCheckable {
     private final UserRepository userRepo;
 
     public LoginModel(UserRepository userRepo) {
@@ -21,5 +22,14 @@ public class LoginModel implements MVPInterface.model {
         userRepo.signIn(email, password)
                 .addOnSuccessListener(callback::onSuccess)
                 .addOnFailureListener(e -> callback.onError("Incorrect username or password"));
+    }
+
+    @Override
+    public void checkAdmin(User user, AdminCallback callback) {
+        userRepo.isAdmin(user.getUserId())
+                .addOnSuccessListener(callback::onResult)
+                .addOnFailureListener(e->callback.onResult(false));
+
+
     }
 }
