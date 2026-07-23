@@ -52,19 +52,9 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
         this.mainButton = view.findViewById(getMainButtonId());
         this.secondaryButton = view.findViewById(getSecondaryButtonId());
 
-        mainButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                p.handleLoginClick(email.getText().toString(), password.getText().toString(), "");
-            }
-        });
+        mainButton.setOnClickListener(view1 -> p.handleLoginClick(email.getText().toString(), password.getText().toString(), ""));
 
-        secondaryButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                p.handleSignUpClick();
-            }
-        });
+        secondaryButton.setOnClickListener(view2 -> p.handleSignUpClick());
     }
 
 

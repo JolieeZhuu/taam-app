@@ -102,4 +102,6 @@ public class LoginModelTest {
         loginModel.checkAdmin(user, callback);
         verify(callback).onResult(false);
     }
+
+
 }
