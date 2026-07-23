@@ -24,7 +24,6 @@ public class LoginPresenter implements MVPInterface.presenter {
         }
 
         m.authenticateUser(email, password, "", new MVPInterface.model.callback() {
-
             @Override
             public void onSuccess(User user) {
                 if (m instanceof MVPInterface.AdminCheckable) {
@@ -43,7 +42,6 @@ public class LoginPresenter implements MVPInterface.presenter {
             }
         });
     }
-
 
     @Override
     public void handleSignUpClick() {

@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+
     implementation(libs.annotation)
     implementation(libs.appcompat)
     implementation(libs.google.firebase.auth)
@@ -49,6 +50,9 @@ dependencies {
 //    implementation("com.google.firebase:firebase-firestore")
 //    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     testImplementation(libs.junit)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+    testImplementation("org.mockito:mockito-core:5.12.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.jbcrypt)

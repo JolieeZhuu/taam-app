@@ -11,11 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cscb07project.fragment_login;
 import com.example.cscb07project.R;
-import com.example.cscb07project.fragment_fake_admin;
-import com.example.cscb07project.fragment_fake_home;
-import com.example.cscb07project.fragment_new_user;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -30,7 +26,6 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     protected abstract int getPasswordId();
     protected abstract int getMainButtonId();
     protected abstract int getSecondaryButtonId();
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

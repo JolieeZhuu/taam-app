@@ -1,9 +1,6 @@
-package com.example.cscb07project;
+package com.example.cscb07project.login;
 
-import com.example.cscb07project.login.LoginModel;
-import com.example.cscb07project.login.LoginPresenter;
-import com.example.cscb07project.login.LoginView;
-import com.example.cscb07project.login.MVPInterface;
+import com.example.cscb07project.R;
 
 
 public class fragment_login extends LoginView {
