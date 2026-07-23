@@ -1,4 +1,4 @@
-package com.example.cscb07project.repositories;
+package com.example.cscb07project.interfaces;
 
 import com.example.cscb07project.entities.Activity;
 import com.google.android.gms.tasks.Task;

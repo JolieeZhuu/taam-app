@@ -11,4 +11,10 @@
         android:layout_height="wrap_content"
         android:text="@string/fake_home" />
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Out" />
+
 </FrameLayout>

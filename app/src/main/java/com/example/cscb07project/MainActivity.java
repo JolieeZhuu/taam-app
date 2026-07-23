@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(new fragment_login());
         }
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
-        DatabaseReference myRef = db.getReference("firebaseTest");
+        DatabaseReference myRef = db.getReference();
         loadFragment(new fragment_login());
     }
 
