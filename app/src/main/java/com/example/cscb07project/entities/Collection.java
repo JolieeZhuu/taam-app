@@ -14,6 +14,13 @@ public class Collection {
 
     public Collection() {}
 
+    public Collection(String userId, String name) {
+        this.userId = userId;
+        this.collectionId = null;
+        this.name = name;
+        this.artifacts = null;
+    }
+
     public Collection(String userId, String name, Map<String, Boolean> artifacts) {
         this.userId = userId;
         this.collectionId = null;

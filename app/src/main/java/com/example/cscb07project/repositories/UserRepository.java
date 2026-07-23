@@ -91,6 +91,12 @@ public class UserRepository implements UserInterface {
         });
     }
 
+    @Override
+    public void signOut() {
+        dbAuth.signOut();
+    }
+    // should still do a .addOnSuccessListener();
+
 
     // -- extra functions that we may want -- //
     private Task<User> getUserById(String userId) {
@@ -102,8 +108,8 @@ public class UserRepository implements UserInterface {
         });
     }
 
-    @Override
-    public Task<User> getUserByEmail(String email) {
+    //@Override
+    private Task<User> getUserByEmail(String email) {
         return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
                 return null;
@@ -117,8 +123,8 @@ public class UserRepository implements UserInterface {
         });
     }
 
-    @Override
-    public Task<User> getUserByUsername(String username) {
+    //@Override
+    private Task<User> getUserByUsername(String username) {
         return dbRefUs.orderByChild("username").equalTo(username).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
                 return null;
