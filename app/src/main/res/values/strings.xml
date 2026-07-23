@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">B07 Demo Summer 2024</string>
+    <string name="app_name">Toronto Asian Art Museum</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete Item</string>
@@ -40,6 +40,8 @@
     <string name="fake_admin">"Fake admin screen!"</string>
     <string name="action_back_to_login">"Back to log in"</string>
     <string name="action_log_out">"Log out :("</string>
+    <string name="TAAM">"TAAM"</string>
+    <string name="new_account">"New Account"</string>
 
 
 </resources>
