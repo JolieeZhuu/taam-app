@@ -99,7 +99,7 @@ public class AddArtifactFragment extends Fragment{
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         artifactsRef = db.getReference("artifacts");
         storage = FirebaseStorage.getInstance("gs://cscb07-project-e0581.firebasestorage.app");
-        storageRef = storage.getReference();
+        storageRef = storage.getReference();//hi
 
         ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.categories_array, android.R.layout.simple_spinner_item);
