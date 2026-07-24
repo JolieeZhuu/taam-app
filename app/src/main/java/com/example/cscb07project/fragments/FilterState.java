@@ -1,6 +1,4 @@
-package com.example.cscb07project;
-
-import androidx.annotation.NonNull;
+package com.example.cscb07project.fragments;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,14 +9,17 @@ import java.util.Map;
 public class FilterState {
 
     private Map<String, String> filters = new HashMap<>();
+    public static final String NO_FILTER = "All";
+    public static final String CATEGORY_FILTER_KEY = "category";
+    public static final String MATERIAL_FILTER_KEY = "material";
+    public static final String PERIOD_FILTER_KEY = "period";
 
     public FilterState(){
-        filters.put("name", null);
-        filters.put("object_type", null);
-        filters.put("material", null);
-        filters.put("time_period", null);
+        filters.put("name", NO_FILTER);
+        filters.put(CATEGORY_FILTER_KEY, NO_FILTER);
+        filters.put(MATERIAL_FILTER_KEY, NO_FILTER);
+        filters.put(PERIOD_FILTER_KEY, NO_FILTER);
     }
-
     public Map<String, String> getFilters(){
         return filters;
     }
@@ -34,4 +35,6 @@ public class FilterState {
         FilterState other = (FilterState) obj;
         return filters.equals(other.getFilters());
     }
+
+
 }

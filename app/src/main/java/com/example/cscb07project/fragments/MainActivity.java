@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.cscb07project.R;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public FilterState getMainFilters() {
+    public FilterState getMainFS() {
         return main_filters;
     }
-    public ArtifactRepository getArtifactRepository() {return aRep; }
+    public ArtifactRepository getMainARep() {return aRep; }
 }

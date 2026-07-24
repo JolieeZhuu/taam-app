@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filter_screen_constraints"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,7 +26,7 @@
         android:layout_height="@dimen/small_button_height"
         android:layout_marginStart="@dimen/small_button_padding"
         android:layout_marginEnd="@dimen/small_button_padding"
-        android:text="@string/save_filters"
+        android:text="@string/save_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/clear_filters"
         app:layout_constraintEnd_toStartOf="@+id/exit_screen"
         app:layout_constraintStart_toEndOf="@+id/clear_filters" />
@@ -38,7 +37,7 @@
         android:layout_height="@dimen/small_button_height"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/clear_filters"
+        android:text="@string/clear_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/small_button_height"
         android:layout_marginEnd="12dp"
-        android:text="@string/exit_filter_screen"
+        android:text="@string/exit_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/save_filters"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -82,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/type_filter"
+                android:text="@string/category_filter"
                 android:textAlignment="center" />
 
             <Spinner
@@ -134,26 +133,26 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/origin_filter"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/origin_filter"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/origin_f_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/origin_filter"
-                android:textAlignment="center" />
+<!--            <TextView-->
+<!--                android:id="@+id/origin_f_text"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/origin_filter"-->
+<!--                android:textAlignment="center" />-->
 
-            <Spinner
-                android:id="@+id/origin_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
+<!--            <Spinner-->
+<!--                android:id="@+id/origin_spinner"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1" />-->
+<!--        </LinearLayout>-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
