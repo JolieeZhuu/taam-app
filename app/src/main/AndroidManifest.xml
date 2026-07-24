@@ -10,29 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.B07DemoSummer2024"
+        android:theme="@style/Theme.AsianArtMuseum"
         tools:targetApi="31">
-        <activity
-            android:name=".ItemAdapater"
-            android:exported="false" />
-        <activity
-            android:name=".Item"
-            android:exported="false" />
-        <activity
-            android:name=".Item2"
-            android:exported="false" />
-        <activity
-            android:name=".SpinnerFragment"
-            android:exported="false" />
-        <activity
-            android:name=".RecyclerViewFragment"
-            android:exported="false" />
-        <activity
-            android:name=".HomeFragment"
-            android:exported="false" />
-        <activity
-            android:name=".Activity2"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
