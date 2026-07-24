@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0"
+agp = "9.0.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -9,6 +9,11 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
+firebaseBom = "34.15.0"
+supabase = "3.0.3"
+ktor = "3.0.0"
+okhttps = "4.12.0"
+firebaseAuth = "24.2.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -19,6 +24,14 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+supabase-bom = { group = "io.github.jan-tennert.supabase:bom", name = "supabase-bom", version.ref = "supabase" }
+supabase-postgrest = { group = "io.github.jan-tennert.supabase:postgrest-kt", name = "supabase-postgrest", version.ref = "supabase" }
+ktor-client-android = { group = "io.github.jan-tennert.supabase", name = "ktor-client-android", version.ref = "ktor" }
+squareup-okhttps3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttps" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

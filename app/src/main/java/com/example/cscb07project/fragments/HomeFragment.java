@@ -10,9 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.ManageItemsFragment;
 import com.example.cscb07project.R;
-import com.example.cscb07project.RecyclerViewFragment;
 
 public class HomeFragment extends Fragment {
     @Nullable
