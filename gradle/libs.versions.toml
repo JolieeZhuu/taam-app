@@ -7,7 +7,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
-googleGmsGoogleServices = "4.4.2"
+googleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseBom = "34.15.0"
 supabase = "3.0.3"
@@ -41,5 +41,4 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

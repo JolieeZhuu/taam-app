@@ -37,4 +37,5 @@ public class fragment_new_user extends LoginView {
             );
         });
     }
+
 }

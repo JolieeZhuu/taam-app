@@ -1,6 +1,5 @@
 package com.example.cscb07project.login;
 
-import com.example.cscb07project.entities.User;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cscb07project.R;
-public class LoginPresenter implements MVPInterface.presenter {
-    private MVPInterface.view v;
-    private MVPInterface.model m;
-
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -37,47 +32,60 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
         this.p = createPresenter();
     }
 
-    public LoginPresenter(MVPInterface.view v) {
-        this.v = v;
-        this.m = new LoginModel();
-    }
-
-    public LoginPresenter(MVPInterface.view v, MVPInterface.model m) {
-        this.v = v;
-        this.m = m;
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        this.p = null;
     }
 
     @Override
-    public void handleLoginClick(String email, String password, String username) {
-        if (password.isEmpty() || email.isEmpty()) {
-            v.showError("fields cannot be empty");
-            return;
-        }
-
-        m.authenticateUser(email, password, "", new MVPInterface.model.callback() {
-
-            @Override
-            public void onSuccess(User user) {
-                if (m instanceof MVPInterface.AdminCheckable) {
-                    ((MVPInterface.AdminCheckable) m).checkAdmin(user, isAdmin -> {
-                        if (isAdmin) v.navigateToAdmin();
-                        else v.navigateToHome();
-                    });
-                } else {
-                    v.navigateToHome();
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                v.showError(message);
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(getLayoutResId(), container, false);
     }
 
     @Override
-    public void handleSignUpClick() {
-        v.navigateToSignUp();
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        this.email = view.findViewById(getEmailId());
+        this.password = view.findViewById(getPasswordId());
+        this.mainButton = view.findViewById(getMainButtonId());
+        this.secondaryButton = view.findViewById(getSecondaryButtonId());
+
+        mainButton.setOnClickListener(view1 -> p.handleLoginClick(email.getText().toString(), password.getText().toString(), ""));
+
+        secondaryButton.setOnClickListener(view2 -> p.handleSignUpClick());
+    }
+
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void navigateToHome() {
+        getParentFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container, fragment_fake_home.class, null)
+                .commit();
+    }
+
+    @Override
+    public void navigateToAdmin() {
+        getParentFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container, fragment_fake_admin.class, null)
+                .commit();
+
+    }
+
+    @Override
+    public void navigateToSignUp() {
+        getParentFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container, fragment_new_user.class, null)
+                .commit();
     }
 
     @Override

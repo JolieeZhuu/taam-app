@@ -37,7 +37,7 @@ dependencies {
 
     implementation(libs.annotation)
     implementation(libs.appcompat)
-    implementation(libs.google.firebase.auth)
+    implementation(libs.firebase.auth)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.material)
@@ -55,5 +55,4 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.12.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.jbcrypt)
 }

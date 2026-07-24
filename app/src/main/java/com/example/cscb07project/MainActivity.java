@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.cscb07project.fragments.FilterState;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.login.fragment_login;
 import com.example.cscb07project.repositories.UserRepository;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         aRep = new ArtifactRepository(db);
-        uRep = new UserRepository(db);
-
+        uRep = new UserRepository(db, FirebaseAuth.getInstance());
         main_filters = new FilterState();
         if (savedInstanceState == null){
             loadFragment(new fragment_login());

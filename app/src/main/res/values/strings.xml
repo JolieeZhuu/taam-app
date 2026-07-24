@@ -40,6 +40,17 @@
     <string name="action_log_out">"Log out :("</string>
     <string name="TAAM">"TAAM"</string>
     <string name="new_account">"New Account"</string>
+    <!-- Strings related to filters -->
+    <string name="select_filters">Choose Filters</string>
+    <string name="fs_title_text">Select Filters</string>
+    <string name="save_button">Save</string>
+    <string name="clear_button">Clear</string>
+    <string name="exit_button">Exit</string>
+    <string name="category_filter">Category</string>
+    <string name="material_filter">Material</string>
+    <string name="period_filter">Period</string>
+
+
 
 
 </resources>
