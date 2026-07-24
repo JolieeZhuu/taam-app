@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         main_filters = new FilterState();
         if (savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new HomepageFragment());
         }
     }
 
