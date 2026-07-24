@@ -1,9 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.B07DemoSummer2024" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.AsianArtMuseum" parent="Theme.Material3.Light.NoActionBar">
+        <!-- primary -->
+        <item name="colorPrimary">@color/crimson_red</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/dark_crimson</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+
+        <!-- secondary -->
+        <item name="colorSecondary">@color/golden_yellow</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/dark_gold</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+
+        <!-- tertiary -->
+        <item name="colorTertiary">@color/sage_green</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorOutline">@color/sage_green</item>
+
+        <!-- background/surface -->
+        <item name="android:windowBackground">@color/warm_beige</item>
+        <item name="colorSurface">@color/cream</item>
+        <item name="colorOnSurface">@color/charcoal_brown</item>
+        <item name="colorOnSurfaceVariant">@color/taupe_gray</item>
+
+        <!-- system -->
+        <item name="android:statusBarColor">@color/warm_beige</item>
+        <item name="android:navigationBarColor">@color/cream</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- fonts -->
+        <item name="fontFamily">@font/noto_sans_sc_regular</item>
     </style>
 
-    <style name="Theme.B07DemoSummer2024" parent="Base.Theme.B07DemoSummer2024" />
+    <style name="Theme.AsianArtMuseum" parent="Base.Theme.AsianArtMuseum" />
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TAAM Artifacts</string>
+    <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
     <string name="back">Back</string>
