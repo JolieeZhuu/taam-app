@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.R;
 import com.example.cscb07project.repositories.ArtifactRepository;
+import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {

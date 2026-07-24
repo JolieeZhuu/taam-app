@@ -1,4 +1,4 @@
-package com.example.cscb07project.fragments;
+package com.example.cscb07project;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.cscb07project.AddItemFragment;
-import com.example.cscb07project.DeleteItemFragment;
-import com.example.cscb07project.R;
 
 public class ManageItemsFragment extends Fragment {
     @Nullable
