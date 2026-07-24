@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.cscb07project.R;
 
 public class SpinnerFragment extends Fragment {
     @Nullable
