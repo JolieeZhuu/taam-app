@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.R;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
-import com.example.cscb07project.artifact_creation_page.AddArtifactFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //             loadFragment(new AddArtifactFragment());
         main_filters = new FilterState();
         if (savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new HomepageFragment());
         }
     }
 
