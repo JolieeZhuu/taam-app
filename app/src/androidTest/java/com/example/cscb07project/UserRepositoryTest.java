@@ -1,7 +1,9 @@
 package com.example.cscb07project;
 
 import com.example.cscb07project.entities.User;
+import com.example.cscb07project.interfaces.AdminInterface;
 import com.example.cscb07project.interfaces.UserInterface;
+import com.example.cscb07project.repositories.AdminRepository;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -21,6 +23,7 @@ import android.util.Log;
 public class UserRepositoryTest {
 
     private UserInterface userRepository;
+    private AdminInterface adminRepository;
     private FirebaseDatabase dbRef;
     private FirebaseAuth dbAuth;
     private static String userId;
@@ -30,6 +33,7 @@ public class UserRepositoryTest {
         dbRef = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         dbAuth = FirebaseAuth.getInstance();
         userRepository = new UserRepository(dbRef, dbAuth);
+        adminRepository = new AdminRepository(dbRef);
     }
 
     @Test
@@ -56,24 +60,27 @@ public class UserRepositoryTest {
     public void test3UpdateUsername() throws Exception {
         User user = new User(userId, "meow", "meow@gmail.com");
         Task<Void> task = userRepository.updateUsername(user, "woof");
+        Tasks.await(task);
+
+        assertEquals("woof", user.getUsername());
     }
 
     @Test
     public void test4IsAdmin() throws Exception {
+        String userId = "H8jfDo0xjmScP8IVCJD2bX9EPKq1";
         Task<Boolean> task = userRepository.isAdmin(userId);
         Tasks.await(task);
 
         Log.d("isAdmin test", String.valueOf(task.getResult()));
-        assertFalse(task.getResult());
+        assertTrue(task.getResult());
     }
 
     @Test
-    public void test5GetUserByEmail() throws Exception {
-        Task<User> task = userRepository.getUserByEmail("hihi@gmail.com");
+    public void test5AddAdmin() throws Exception {
+        Task<Void> task = adminRepository.createAdmin("FKOIIqC6RzP8wjScFi2y0rwej063");
         Tasks.await(task);
 
-        assertEquals("hihi@gmail.com", task.getResult().getEmail());
-        assertEquals("newname", task.getResult().getUsername());
+        assertTrue(task.isSuccessful());
     }
 
     @Test
