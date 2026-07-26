@@ -1,4 +1,4 @@
-package com.example.cscb07project.fragments;
+package com.example.cscb07project;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.R;
+import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
