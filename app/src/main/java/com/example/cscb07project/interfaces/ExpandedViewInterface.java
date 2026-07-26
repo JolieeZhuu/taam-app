@@ -13,6 +13,10 @@ public interface ExpandedViewInterface {
 
     Task<Void> updateComment(Comment comment);
 
+    Task<Void> like(String userId, ExpandedView expandedView);
+    Task<Void> unlike(String userId, ExpandedView expandedView);
+    boolean isArtifactLikedByUser(String userId, ExpandedView expandedView);
+
     Task<ExpandedView> getExpandedViewByLotNumber(String lotNumber);
 
     Task<Comment> getCommentById(String lotNumber, String commentId);

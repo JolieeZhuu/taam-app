@@ -6,19 +6,33 @@ import java.util.Map;
 public class ExpandedView {
     private String lotNumber; // note to self: might be very redundant
     private Integer likeNumber;
+    private Map<String, Boolean> likes;
 
     public ExpandedView() {}
-    public ExpandedView(String lotNumber, Integer likeNumber) {
+//    public ExpandedView(String lotNumber, Integer likeNumber) {
+//        this.lotNumber = lotNumber;
+//        this.likeNumber = likeNumber;
+//        this.usersThatLiked = null;
+//    }
+
+    public ExpandedView(String lotNumber) {
         this.lotNumber = lotNumber;
-        this.likeNumber = likeNumber;
+        this.likeNumber = 0;
+        this.likes = null;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("lotNumber", lotNumber);
         result.put("likeNumber", likeNumber);
+        result.put("likes", likes);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "{ " + lotNumber + ", " + likeNumber + ", " + likes.toString() + " }";
     }
 
     public String getLotNumber() {
@@ -35,5 +49,13 @@ public class ExpandedView {
 
     public void setLikeNumber(Integer likeNumber) {
         this.likeNumber = likeNumber;
+    }
+
+    public Map<String, Boolean> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Map<String, Boolean> likes) {
+        this.likes = likes;
     }
 }

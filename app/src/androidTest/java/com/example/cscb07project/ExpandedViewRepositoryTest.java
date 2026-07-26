@@ -21,7 +21,7 @@ import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ExpandedViewRepositoryTest {
-    private ExpandedViewInterface expandedViewRepository;
+    private ExpandedViewRepository expandedViewRepository;
     private FirebaseDatabase dbRef;
     private static String lotNumber;
     private static String commentId;
@@ -35,7 +35,7 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test1AddExpandedView() throws Exception {
-        ExpandedView expandedView = new ExpandedView(lotNumber, 0);
+        ExpandedView expandedView = new ExpandedView(lotNumber);
         Task<Void> task = expandedViewRepository.addExpandedView(lotNumber, expandedView);
         Tasks.await(task);
 
@@ -61,22 +61,42 @@ public class ExpandedViewRepositoryTest {
         assertTrue(task.isSuccessful());
     }
 
-//    @Test
-//    public void test4IncreaseLike() throws Exception {
-//        Task<Void> task = expandedViewRepository.increaseLike(lotNumber);
-//        Tasks.await(task);
-//
-//        assertTrue(task.isSuccessful());
-//
-//    }
-
     @Test
-    public void test5GetExpandedViewByLotNumber() throws Exception {
+    public void test4GetExpandedViewByLotNumber() throws Exception {
         Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
         Tasks.await(task);
 
         assertEquals(lotNumber, task.getResult().getLotNumber());
         assertEquals(Integer.valueOf(0), task.getResult().getLikeNumber());
+    }
+
+    @Test
+    public void test51IncreaseLike() throws Exception {
+        String lotNumber = "myLotNumberTest2";
+        Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
+        Tasks.await(task1);
+        assertEquals(lotNumber, task1.getResult().getLotNumber());
+
+        ExpandedView expandedView = task1.getResult();
+//        Log.d("firebase likes", expandedView.toString());
+        Task<Void> task2 = expandedViewRepository.like("hardcodeuserId223", expandedView);
+        Tasks.await(task2);
+
+        assertTrue(task2.isSuccessful());
+    }
+
+    @Test
+    public void test52DecreaseLike() throws Exception {
+        String lotNumber = "myLotNumberTest2";
+        Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
+        Tasks.await(task1);
+        assertEquals(lotNumber, task1.getResult().getLotNumber());
+
+        ExpandedView expandedView = task1.getResult();
+        Task<Void> task2 = expandedViewRepository.unlike("hardcodeuserId223", expandedView);
+        Tasks.await(task2);
+
+        assertTrue(task2.isSuccessful());
     }
 
     @Test
