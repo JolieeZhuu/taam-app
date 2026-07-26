@@ -10,9 +10,6 @@ constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseBom = "34.15.0"
-supabase = "3.0.3"
-ktor = "3.0.0"
-okhttps = "4.12.0"
 firebaseAuth = "24.2.0"
 
 [libraries]
@@ -25,15 +22,10 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-supabase-bom = { group = "io.github.jan-tennert.supabase:bom", name = "supabase-bom", version.ref = "supabase" }
-supabase-postgrest = { group = "io.github.jan-tennert.supabase:postgrest-kt", name = "supabase-postgrest", version.ref = "supabase" }
-ktor-client-android = { group = "io.github.jan-tennert.supabase", name = "ktor-client-android", version.ref = "ktor" }
-squareup-okhttps3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttps" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-

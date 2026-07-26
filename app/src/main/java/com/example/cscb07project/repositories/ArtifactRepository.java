@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.interfaces.ArtifactInterface;
-import com.example.cscb07project.interfaces.FieldScraper;
+import com.example.cscb07project.systems.FieldScraper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
