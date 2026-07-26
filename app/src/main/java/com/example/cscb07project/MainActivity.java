@@ -10,7 +10,7 @@ import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.example.cscb07project.artifact_creation_page.AddArtifactFragment;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
@@ -25,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         aRep = new ArtifactRepository(db);
 
+//        myRef.setValue("B07 Demo!");
+//         myRef.child("movies").setValue("B07 Demo!");
+
+      // this was from artifact form creation
+//         if (savedInstanceState == null) {
+//             loadFragment(new AddArtifactFragment());
         main_filters = new FilterState();
         if (savedInstanceState == null){
             loadFragment(new HomeFragment());
