@@ -32,7 +32,7 @@ public class SignUpModel implements MVPInterface.model {
 
     private String getError(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
-            return "Your password is too weak.";
+            return "Password must contain upper/lower case, special, and numeric characters.";
         } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
             return "The email address entered is invalid.";
         } else if (e instanceof FirebaseAuthUserCollisionException) {
