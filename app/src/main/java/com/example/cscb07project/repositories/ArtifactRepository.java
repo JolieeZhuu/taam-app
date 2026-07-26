@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.interfaces.ArtifactInterface;
-//import com.example.cscb07project.systems.FieldScraper;
+import com.example.cscb07project.systems.FieldScraper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,32 +46,30 @@ public class ArtifactRepository implements ArtifactInterface {
         });
     }
 
-//    public void scrapeFieldValues(String key, FieldScraper callback){
-//        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Set<String> values = new HashSet<>(); // Use hashset to get O(1) Membership checks.
-//
-//                for (DataSnapshot artifact : snapshot.getChildren()){ // Assuming we pull artifacts
-//                    String value = artifact.child(key).getValue(String.class);
-//
-//                    if (value != null){
-//                        values.add(value);
-//                    }
-//                }
-//
-//                callback.onResult(new ArrayList<>(values)); //CONVERT Hashset to be parseable by adapter.
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                callback.onError(error);
-//            }
-//        });
-//
-//    }
-    // will uncomment when we merge, but is not required for this branch
-    // this will need to belong in the interface...
+    public void scrapeFieldValues(String key, FieldScraper callback){
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Set<String> values = new HashSet<>(); // Use hashset to get O(1) Membership checks.
+
+                for (DataSnapshot artifact : snapshot.getChildren()){ // Assuming we pull artifacts
+                    String value = artifact.child(key).getValue(String.class);
+
+                    if (value != null){
+                        values.add(value);
+                    }
+                }
+
+                callback.onResult(new ArrayList<>(values)); //CONVERT Hashset to be parseable by adapter.
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onError(error);
+            }
+        });
+
+    }
 
     @Override
     public Task<Artifact> getArtifactByLotNumber(String lotNumber) {

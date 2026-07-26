@@ -6,26 +6,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.database.DatabaseReference;
+import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.repositories.ArtifactRepository;
+import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.cscb07project.artifact_creation_page.AddArtifactFragment;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    FilterState main_filters;
+    ArtifactRepository aRep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-        DatabaseReference myRef = db.getReference("testDemo");
+        db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
+        aRep = new ArtifactRepository(db);
 
 //        myRef.setValue("B07 Demo!");
-        myRef.child("movies").setValue("B07 Demo!");
+//         myRef.child("movies").setValue("B07 Demo!");
 
-        if (savedInstanceState == null) {
-            loadFragment(new AddArtifactFragment());
+      // this was from artifact form creation
+//         if (savedInstanceState == null) {
+//             loadFragment(new AddArtifactFragment());
+        main_filters = new FilterState();
+        if (savedInstanceState == null){
+            loadFragment(new HomeFragment());
         }
     }
 
@@ -36,12 +44,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
+
+    public FilterState getMainFS() {
+        return main_filters;
     }
+    public ArtifactRepository getMainARep() {return aRep; }
 }

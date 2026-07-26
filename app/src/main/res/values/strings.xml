@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">B07 Demo Summer 2024</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
     <string name="back">Back</string>
@@ -9,6 +7,25 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="select_filters">Choose Filters</string>
+
+
+    <!-- Filter Screen -->
+    <string name="fs_title_text">Select Filters</string>
+
+    <string name="save_button">Save</string>
+    <string name="clear_button">Clear</string>
+    <string name="exit_button">Exit</string>
+
+    <string name="category_filter">Category</string>
+    <string name="material_filter">Material</string>
+    <string name="period_filter">Period</string>
+
+    <!-- Need this kept when merging :) -->
+    <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
+    <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
+    <string name="supabase_image_bucket">CSCB07 Project Images</string>
+
 
 
 

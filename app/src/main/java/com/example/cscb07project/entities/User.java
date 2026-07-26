@@ -7,23 +7,14 @@ public class User {
     private String userId;
     private String email;
     private String username;
-    private String password;
-
     // will add createdAt and updatedAt later
 
     public User() {}
 
-    public User(String email, String username, String password) {
-        this.userId = null;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-    public User(String userId, String email, String username, String password) {
+    public User(String userId, String username, String email) {
         this.userId = userId;
-        this.email = email;
         this.username = username;
-        this.password = password;
+        this.email = email;
     }
 
     public Map<String, Object> toMap() {
@@ -31,14 +22,13 @@ public class User {
         result.put("userId", userId);
         result.put("email", email);
         result.put("username", username);
-        result.put("password", password);
 
         return result;
     }
 
     @Override
     public String toString() {
-        return "{ " + userId + ", " + email + ", " + username + ", " + password + " }";
+        return "{ " + userId + ", " + email + ", " + username + " }";
     }
 
     public String getUserId() {
@@ -63,13 +53,5 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
