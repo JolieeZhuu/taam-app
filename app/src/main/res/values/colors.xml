@@ -17,9 +17,10 @@
     <color name="warm_beige">#F4ECDE</color>
     <color name="cream">#FBF6EC</color>
     <color name="ink_black">#120F0E</color>
-  
-    <color name="button_default_1">#FF764BBC</color> // TODO: UI UNIVERSALIZE OUT THESE CONSTANTS / ALIAS THEM. 
-    <color name="button_default_2">#FF1D3E66</color>
-    <color name="state_button_1_default">#FF764BBC</color>
-    <color name="state_button_1_alt">#FFB0ADB2</color>
+    <color name="gray">#808080</color>
+
+    <color name="button_default_1">@color/crimson_red</color>
+    <color name="button_default_2">@color/dark_crimson</color>
+    <color name="state_button_1_default">@color/crimson_red</color>
+    <color name="state_button_1_alt">@color/gray</color>
 </resources>

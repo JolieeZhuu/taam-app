@@ -36,7 +36,7 @@
         android:text="@string/save_button"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnPrimary"
-        app:backgroundTint="?attr/colorPrimaryDark"
+        app:backgroundTint="?attr/colorPrimary"
         app:cornerRadius="8dp"
         app:elevation="0dp"
         app:layout_constraintTop_toTopOf="@+id/clear_filters"
@@ -122,7 +122,7 @@
 
             <Spinner
                 android:id="@+id/type_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
@@ -145,7 +145,7 @@
 
             <Spinner
                 android:id="@+id/material_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -167,7 +167,7 @@
 
             <Spinner
                 android:id="@+id/period_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
         </LinearLayout>
