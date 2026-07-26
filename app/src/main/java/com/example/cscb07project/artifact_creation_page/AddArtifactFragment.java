@@ -15,6 +15,8 @@ import android.net.Uri;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
+
+import com.example.cscb07project.repositories.ArtifactRepository;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.cscb07project.entities.Artifact;
@@ -35,7 +37,8 @@ public class AddArtifactFragment extends Fragment{
     private Button buttonUploadArtifactImage, buttonAddArtifact;
 
     private FirebaseDatabase db;
-    private DatabaseReference artifactsRef;
+    private ArtifactRepository artifactRepository;
+    //private DatabaseReference artifactsRef;
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private UploadTask uploadTask;
@@ -97,7 +100,8 @@ public class AddArtifactFragment extends Fragment{
         buttonAddArtifact = view.findViewById(R.id.buttonAddArtifact);
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
-        artifactsRef = db.getReference("artifacts");
+        artifactRepository = new ArtifactRepository(db);
+        //artifactsRef = db.getReference("artifacts");
         storage = FirebaseStorage.getInstance("gs://cscb07-project-e0581.firebasestorage.app");
         storageRef = storage.getReference();//hi
 
@@ -175,23 +179,32 @@ public class AddArtifactFragment extends Fragment{
             return;
         }
 
-        artifactsRef = db.getReference("artifacts");
-        String artifactId = artifactsRef.push().getKey();
-        if(artifactId==null){
-            Toast.makeText(getContext(), "Artifact creation failed", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        artifactsRef = db.getReference("artifacts");
+//        String artifactId = artifactsRef.push().getKey();
+//        if(artifactId==null){
+//            Toast.makeText(getContext(), "Artifact creation failed", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         Artifact artifact = new Artifact(lotNumber, name, description, category, material, dynasty,
                 origin, dimensions, conditionReport, currentLocation, acquiredMethod, provenance,
                 accessionNumber, notes, artifactImageURL);
 
-        artifactsRef.child(artifactId).setValue(artifact).addOnCompleteListener(task -> {
+        artifactRepository.addArtifact(artifact).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Artifact added", Toast.LENGTH_SHORT).show();
                 clearFields();
-            }else {
+            } else {
                 Toast.makeText(getContext(), "Failed to add artifact", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        artifactsRef.child(artifactId).setValue(artifact).addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                Toast.makeText(getContext(), "Artifact added", Toast.LENGTH_SHORT).show();
+//                clearFields();
+//            }else {
+//                Toast.makeText(getContext(), "Failed to add artifact", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
