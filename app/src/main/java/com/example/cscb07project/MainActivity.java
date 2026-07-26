@@ -45,4 +45,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+    public FirebaseDatabase getDatabase() {
+        return db;
+    }
 }

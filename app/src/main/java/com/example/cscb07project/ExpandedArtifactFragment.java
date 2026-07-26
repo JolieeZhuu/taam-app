@@ -1,5 +1,6 @@
 package com.example.cscb07project;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,12 @@ import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class ExpandedArtifactFragment extends Fragment {
 
     private static final String LOT_NUMBER = "lot_number";
+    private MainActivity mainActivity;
+    private FirebaseDatabase db;
     private TextView artifactName;
     private TextView artifactCategory;
     private TextView artifactPeriod;
@@ -49,8 +53,8 @@ public class ExpandedArtifactFragment extends Fragment {
     private Button deleteButton;
     private Button postCommentButton;
 
-    private ArtifactRepository artifactRepository;
-    private ExpandedViewRepository expandedViewRepository;
+    private ArtifactRepository artifactRepo;
+    private ExpandedViewRepository expandedViewRepo;
 
     private String current_lotNumber;
 
@@ -60,9 +64,9 @@ public class ExpandedArtifactFragment extends Fragment {
     public static ExpandedArtifactFragment newInstance(String lotNumber) {
         ExpandedArtifactFragment fragment = new ExpandedArtifactFragment();
 
-        Bundle args = new Bundle();
-        args.putString(LOT_NUMBER, lotNumber);
-        fragment.setArguments(args);
+        Bundle bun = new Bundle();
+        bun.putString(LOT_NUMBER, lotNumber);
+        fragment.setArguments(bun);
 
         return fragment;
     }
@@ -101,11 +105,39 @@ public class ExpandedArtifactFragment extends Fragment {
         postCommentButton = view.findViewById(R.id.buttonPostComment);
 
 
-
+        setupRepo();
+        Artifact artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
+        displayArtifactDataModelInformation(artifact);
 
         return view;
     }
 
+    public void setupRepo(){
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        db = mainActivity.getDatabase();
+        expandedViewRepo = new ExpandedViewRepository(db);
+        artifactRepo = new ArtifactRepository(db,expandedViewRepo);
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void displayArtifactDataModelInformation(Artifact artifact) {
+        artifactName.setText(artifact.getName());
+        artifactCategory.setText("Category: " + artifact.getCategory());
+        artifactPeriod.setText("Dynasty/Period: " + artifact.getPeriod());
+        artifactOrigin.setText("Culture origin: " + artifact.getOrigin());
+        artifactLotNumber.setText("Lot number: " + artifact.getLotNumber());
+        artifactMaterial.setText("Material: " + artifact.getMaterial());
+        artifactDimensions.setText("Dimensions: " + artifact.getDimensions());
+        artifactCondition.setText("Condition report: " + artifact.getConditionReport());
+        artifactLocation.setText("Current location: " + artifact.getCurrentLocation());
+        artifactAcquisition.setText("Acquisition method: " + artifact.getAcquiredMethod());
+        artifactProvenance.setText("Provenance: " + artifact.getProvenance());
+        artifactAccession.setText("Accession number: " + artifact.getAccessionNumber());
+        artifactNotes.setText("Notes: " + artifact.getNotes());
+        artifactDescription.setText("Description: " + artifact.getDescription());
+    }
+    
 
 
 }
