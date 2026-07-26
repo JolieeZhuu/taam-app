@@ -65,8 +65,8 @@ public class UserRepository implements UserInterface {
     public Task<Boolean> isAdmin(String userId) {
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null)
-                return snapshot.getResult() != null;
-            return snapshot.getResult().child(userId).getValue(Boolean.class) != null;
+                return false;
+            return snapshot.getResult().exists();
         });
     }
 
@@ -109,19 +109,19 @@ public class UserRepository implements UserInterface {
     }
 
     //@Override
-    private Task<User> getUserByEmail(String email) {
-        return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
-            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
-                return null;
-            }
-            if (snapshot.getResult().hasChildren()) { // since get() returns a list, iterate through list to find matching
-                for (DataSnapshot userSnapshot : snapshot.getResult().getChildren()) {
-                    return userSnapshot.getValue(User.class);
-                }
-            }
-            return null;
-        });
-    }
+//    private Task<User> getUserByEmail(String email) {
+//        return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
+//            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+//                return null;
+//            }
+//            if (snapshot.getResult().hasChildren()) { // since get() returns a list, iterate through list to find matching
+//                for (DataSnapshot userSnapshot : snapshot.getResult().getChildren()) {
+//                    return userSnapshot.getValue(User.class);
+//                }
+//            }
+//            return null;
+//        });
+//    }
 
     //@Override
     private Task<User> getUserByUsername(String username) {

@@ -23,7 +23,6 @@ public class ManageItemsFragment extends Fragment {
         buttonAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new AddItemFragment());
             }
         });
 

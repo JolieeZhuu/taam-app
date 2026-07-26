@@ -1,5 +1,4 @@
 package com.example.cscb07project;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +20,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DeleteItemFragment extends Fragment {
     private EditText editTextTitle;
+    private EditText editTextReason;
     private Spinner spinnerCategory;
     private Button buttonDelete;
 
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
+
 
     @Nullable
     @Override
@@ -34,6 +35,7 @@ public class DeleteItemFragment extends Fragment {
 
         editTextTitle = view.findViewById(R.id.editTextTitle);
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        editTextReason = view.findViewById(R.id.editTextReason);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
@@ -57,9 +59,15 @@ public class DeleteItemFragment extends Fragment {
     private void deleteItemByTitle() {
         String title = editTextTitle.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString().toLowerCase();
+        String reason = editTextReason.getText().toString().trim();
 
         if (title.isEmpty()) {
             Toast.makeText(getContext(), "Please enter item title", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    
+        if (reason.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter a reason", Toast.LENGTH_SHORT).show();
             return;
         }
 
