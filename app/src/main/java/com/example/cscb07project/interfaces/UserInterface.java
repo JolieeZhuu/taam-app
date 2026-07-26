@@ -14,8 +14,5 @@ public interface UserInterface {
 
     // only deletes user (could be an admin)
     Task<Void> deleteUser();
-
-    Task<User> getUserByEmail(String email);
-
-    Task<User> getUserByUsername(String username);
+    void signOut();
 }

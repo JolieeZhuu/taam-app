@@ -6,13 +6,16 @@ import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.interfaces.ExpandedViewInterface;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 public class ExpandedViewRepository implements ExpandedViewInterface {
     // also for Comment repository
@@ -23,8 +26,6 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         this.dbRefEx = rootRef.getReference("expandedViews");
         this.dbRefCo = rootRef.getReference("comments");
     }
-
-
 
     @Override
     public Task<Void> addExpandedView(String lotNumber, ExpandedView expandedView) {
@@ -43,17 +44,45 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
     public Task<Void> updateComment(Comment comment) {
         return dbRefCo.child(comment.getLotNumber()).child(comment.getCommentId()).updateChildren(comment.toMap());
     }
+    @Override
+    public Task<Void> like(String userId, ExpandedView expandedView) {
+        if (!isArtifactLikedByUser(userId, expandedView)) {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("likeNumber", ServerValue.increment(1));
+            updates.put("likes/" + userId, true); // make a new path in lotNumber/likes/userId
 
-//    public Task<Void> increaseLike(String lotNumber) { // this may cause a lot of issues
-//        return getExpandedViewByLotNumber(lotNumber).continueWithTask(snapshot -> {
-//            if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
-//            return snapshot;
-//        }).continueWithTask(snapshot -> {
-//            ExpandedView eV = snapshot.getResult();
-//            eV.setLikeNumber(eV.getLikeNumber() + 1);
-//            return dbRefEx.child(lotNumber).updateChildren(eV.toMap());
-//        });
-//    }
+            return dbRefEx.child(expandedView.getLotNumber()).updateChildren(updates).onSuccessTask(task -> {
+                expandedView.setLikeNumber(expandedView.getLikeNumber() + 1);
+                if (expandedView.getLikes() == null) {
+                    expandedView.setLikes(new HashMap<>());
+                }
+                expandedView.getLikes().put(userId, true);
+                return Tasks.forResult(null);
+            });
+        }
+        return Tasks.forResult(null);
+    }
+    @Override
+    public Task<Void> unlike(String userId, ExpandedView expandedView) {
+        if (isArtifactLikedByUser(userId, expandedView)) {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("likeNumber", ServerValue.increment(-1));
+            updates.put("likes/" + userId, null); // remove path lotNumber/likes/userId
+
+            return dbRefEx.child(expandedView.getLotNumber()).updateChildren(updates).onSuccessTask(task -> {
+                expandedView.setLikeNumber(expandedView.getLikeNumber() - 1);
+                if (expandedView.getLikes() != null) {
+                    expandedView.getLikes().remove(userId);
+                }
+                return Tasks.forResult(null);
+            });
+        }
+        return Tasks.forResult(null);
+    }
+    @Override
+    public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
+        return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
+    }
 
     @Override
     public Task<ExpandedView> getExpandedViewByLotNumber(String lotNumber) {

@@ -2,4 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="crimson_red">#A6272B</color>
+    <color name="light_crimson_red">#d3454a</color>
+    <color name="dark_crimson">#7A1B1E</color>
+
+    <color name="golden_yellow">#C9A227</color>
+    <color name="dark_gold">#8E7018</color>
+
+    <color name="sage_green">#8FA88A</color>
+
+    <color name="charcoal_brown">#2A2420</color>
+    <color name="taupe_gray">#6B6055</color>
+
+    <color name="warm_beige">#F4ECDE</color>
+    <color name="cream">#FBF6EC</color>
+    <color name="ink_black">#120F0E</color>
+
+
+    <color name="button_default_1">#FF764BBC</color> // TODO: UI UNIVERSALIZE OUT THESE CONSTANTS / ALIAS THEM.
+    <color name="button_default_2">#FF1D3E66</color>
+    <color name="state_button_1_default">#FF764BBC</color>
+    <color name="state_button_1_alt">#FFB0ADB2</color>
 </resources>

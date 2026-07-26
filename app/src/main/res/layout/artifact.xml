@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <EditText
+            android:id="@+id/editLotNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lot_number"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editArtifactName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/artifact_name"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/description"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spinners are mandatory"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerMaterial"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerDynasty"
+            android:textColorHint="@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editOrigin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/origin"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editDimensions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dimensions"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editConditionReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/condition_report"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/current_location"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editAcquiredMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/acquired_method"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editProvenance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/provenance"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editAccessionNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/accession_number"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <EditText
+            android:id="@+id/editNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/notes"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/buttonUploadArtifactImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_image"
+            android:importantForAutofill="no"/>
+
+        <Button
+            android:id="@+id/buttonAddArtifact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_artifact"
+            android:importantForAutofill="no"
+            android:minHeight="48dp"/>
+    </LinearLayout>
+</ScrollView>
+

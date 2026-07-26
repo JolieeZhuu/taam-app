@@ -2,19 +2,32 @@ package com.example.cscb07project.repositories;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.interfaces.ArtifactInterface;
+import com.example.cscb07project.systems.FieldScraper;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class ArtifactRepository implements ArtifactInterface {
     private final DatabaseReference dbRef;
     private final ExpandedViewRepository expandedViewRepository;
 
+    public ArtifactRepository(FirebaseDatabase rootRef) {
+        this.dbRef = rootRef.getReference("artifacts");
+        this.expandedViewRepository = new ExpandedViewRepository(rootRef);
+    }
     public ArtifactRepository(FirebaseDatabase rootRef, ExpandedViewRepository expandedViewRepository) { // expected to use rootRef for expandedView
         this.dbRef = rootRef.getReference("artifacts");
         this.expandedViewRepository = expandedViewRepository;
@@ -29,8 +42,33 @@ public class ArtifactRepository implements ArtifactInterface {
 //        artifact.setLotNumber(lotNumber);
         return dbRef.child(artifact.getLotNumber()).setValue(artifact).continueWithTask(snapshot -> {
             if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
-            return expandedViewRepository.addExpandedView(artifact.getLotNumber(), new ExpandedView(artifact.getLotNumber(), 0));
+            return expandedViewRepository.addExpandedView(artifact.getLotNumber(), new ExpandedView(artifact.getLotNumber()));
         });
+    }
+
+    public void scrapeFieldValues(String key, FieldScraper callback){
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Set<String> values = new HashSet<>(); // Use hashset to get O(1) Membership checks.
+
+                for (DataSnapshot artifact : snapshot.getChildren()){ // Assuming we pull artifacts
+                    String value = artifact.child(key).getValue(String.class);
+
+                    if (value != null){
+                        values.add(value);
+                    }
+                }
+
+                callback.onResult(new ArrayList<>(values)); //CONVERT Hashset to be parseable by adapter.
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onError(error);
+            }
+        });
+
     }
 
     @Override
