@@ -57,6 +57,9 @@ public class ExpandedArtifactFragment extends Fragment {
 
     private String current_lotNumber;
 
+    private Artifact artifact;
+    private ExpandedView ev;
+
     public ExpandedArtifactFragment() {
     }
 
@@ -111,10 +114,10 @@ public class ExpandedArtifactFragment extends Fragment {
         assert bun2 != null;
         current_lotNumber = bun2.getString("lot_number");
 
-        Artifact artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
+        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
         displayArtifactDataModelInformation(artifact);
 
-        ExpandedView ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
+        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
         likeCount.setText("Like: " + ev.getLikeNumber());
 
 
@@ -159,8 +162,11 @@ public class ExpandedArtifactFragment extends Fragment {
 
     private void setOnClickListenersForButtons(){
         postCommentButton.setOnClickListener(v->postComment());
-        likeButton.setOnClickListener(v->{});
-        saveButton.setOnClickListener(v->{});
+        likeButton.setOnClickListener(v->likeTheArtifact());
+        saveButton.setOnClickListener(v->saveTheArtifact());
+        editButton.setOnClickListener(v->editTheArtifact());
+        deleteButton.setOnClickListener(v->deleteTheArtifact());
+
     }
 
     private void postComment(){
@@ -172,16 +178,25 @@ public class ExpandedArtifactFragment extends Fragment {
 
         String userId = "";
 
-        Comment comment = new Comment( current_lotNumber, userId, text);
+        Comment comment = new Comment(current_lotNumber,userId,text);
         expandedViewRepo.addComment(current_lotNumber, comment).addOnSuccessListener(unused -> {
             commentInput.setText("");
 
-            Toast.makeText(
-                    requireContext(),
-                    "Comment posted",
-                    Toast.LENGTH_SHORT
-            ).show();
+            Toast.makeText(requireContext(), "Comment posted", Toast.LENGTH_SHORT).show();
         });
+
+    }
+
+    private void likeTheArtifact(){
+
+    }
+    private void saveTheArtifact(){
+
+    }
+    private void editTheArtifact(){
+
+    }
+    private void deleteTheArtifact(){
 
     }
 

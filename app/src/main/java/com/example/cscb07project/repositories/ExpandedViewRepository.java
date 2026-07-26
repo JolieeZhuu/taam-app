@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ExpandedViewRepository implements ExpandedViewInterface {
     // also for Comment repository
@@ -22,6 +23,8 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         this.dbRefEx = rootRef.getReference("expandedViews");
         this.dbRefCo = rootRef.getReference("comments");
     }
+
+
 
     @Override
     public Task<Void> addExpandedView(String lotNumber, ExpandedView expandedView) {
