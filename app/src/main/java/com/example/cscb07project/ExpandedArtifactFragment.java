@@ -26,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ExpandedArtifactFragment extends Fragment {
 
-    private static final String LOT_NUMBER = "lot_number";
     private MainActivity mainActivity;
     private FirebaseDatabase db;
     private TextView artifactName;
@@ -65,7 +64,7 @@ public class ExpandedArtifactFragment extends Fragment {
         ExpandedArtifactFragment fragment = new ExpandedArtifactFragment();
 
         Bundle bun = new Bundle();
-        bun.putString(LOT_NUMBER, lotNumber);
+        bun.putString("lot_number", lotNumber);
         fragment.setArguments(bun);
 
         return fragment;
@@ -106,7 +105,12 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
         setupRepo();
+        Bundle bun2 = getArguments();
+        assert bun2 != null;
+        current_lotNumber = bun2.getString("lot_number");
+
         Artifact artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
+
         displayArtifactDataModelInformation(artifact);
 
         return view;
