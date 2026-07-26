@@ -117,6 +117,9 @@ public class ExpandedArtifactFragment extends Fragment {
         ExpandedView ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
         likeCount.setText("Like: " + ev.getLikeNumber());
 
+
+        setOnClickListenersForButtons();
+
         return view;
     }
 
@@ -154,18 +157,32 @@ public class ExpandedArtifactFragment extends Fragment {
         return input;
     }
 
-    private void setButtonListeners(){
+    private void setOnClickListenersForButtons(){
         postCommentButton.setOnClickListener(v->postComment());
+        likeButton.setOnClickListener(v->{});
+        saveButton.setOnClickListener(v->{});
     }
 
     private void postComment(){
-        String info = commentInput.getText().toString().trim();
-        if(info.isEmpty()){
+        String text = commentInput.getText().toString().trim();
+        if(text.isEmpty()){
             commentInput.setError("An empty comment cannot be posted, please enter a comment");
             return;
         }
-        
-        Comment comment = new Comment( lotNumber, commentId, userId, info);
+
+        String userId = "";
+
+        Comment comment = new Comment( current_lotNumber, userId, text);
+        expandedViewRepo.addComment(current_lotNumber, comment).addOnSuccessListener(unused -> {
+            commentInput.setText("");
+
+            Toast.makeText(
+                    requireContext(),
+                    "Comment posted",
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
+
     }
 
 }
