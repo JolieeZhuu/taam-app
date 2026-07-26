@@ -70,6 +70,7 @@ public class ExpandedArtifactFragment extends Fragment {
         return fragment;
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState
@@ -105,13 +106,16 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
         setupRepo();
+
         Bundle bun2 = getArguments();
         assert bun2 != null;
         current_lotNumber = bun2.getString("lot_number");
 
         Artifact artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
-
         displayArtifactDataModelInformation(artifact);
+
+        ExpandedView ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
+        likeCount.setText("Like: " + ev.getLikeNumber());
 
         return view;
     }
@@ -127,21 +131,41 @@ public class ExpandedArtifactFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void displayArtifactDataModelInformation(Artifact artifact) {
         artifactName.setText(artifact.getName());
-        artifactCategory.setText("Category: " + artifact.getCategory());
-        artifactPeriod.setText("Dynasty/Period: " + artifact.getPeriod());
-        artifactOrigin.setText("Culture origin: " + artifact.getOrigin());
+        artifactCategory.setText("Category: " + checkEmptyOrNot(artifact.getCategory()));
+        artifactPeriod.setText("Dynasty/Period: " + checkEmptyOrNot(artifact.getPeriod()));
+        artifactOrigin.setText("Culture origin: " + checkEmptyOrNot(artifact.getOrigin()));
         artifactLotNumber.setText("Lot number: " + artifact.getLotNumber());
-        artifactMaterial.setText("Material: " + artifact.getMaterial());
-        artifactDimensions.setText("Dimensions: " + artifact.getDimensions());
-        artifactCondition.setText("Condition report: " + artifact.getConditionReport());
-        artifactLocation.setText("Current location: " + artifact.getCurrentLocation());
-        artifactAcquisition.setText("Acquisition method: " + artifact.getAcquiredMethod());
-        artifactProvenance.setText("Provenance: " + artifact.getProvenance());
-        artifactAccession.setText("Accession number: " + artifact.getAccessionNumber());
-        artifactNotes.setText("Notes: " + artifact.getNotes());
-        artifactDescription.setText("Description: " + artifact.getDescription());
+        artifactMaterial.setText("Material: " + checkEmptyOrNot(artifact.getMaterial()));
+        artifactDimensions.setText("Dimensions: " + checkEmptyOrNot(artifact.getDimensions()));
+        artifactCondition.setText("Condition report: " + checkEmptyOrNot(artifact.getConditionReport()));
+        artifactLocation.setText("Current location: " + checkEmptyOrNot(artifact.getCurrentLocation()));
+        artifactAcquisition.setText("Acquisition method: " + checkEmptyOrNot(artifact.getAcquiredMethod()));
+        artifactProvenance.setText("Provenance: " + checkEmptyOrNot(artifact.getProvenance()));
+        artifactAccession.setText("Accession number: " + checkEmptyOrNot(artifact.getAccessionNumber()));
+        artifactNotes.setText("Notes: " + checkEmptyOrNot(artifact.getNotes()));
+        artifactDescription.setText("Description: " + checkEmptyOrNot(artifact.getDescription()));
     }
-    
 
+    private String checkEmptyOrNot(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return "N/A";
+        }
+
+        return input;
+    }
+
+    private void setButtonListeners(){
+        postCommentButton.setOnClickListener(v->postComment());
+    }
+
+    private void postComment(){
+        String info = commentInput.getText().toString().trim();
+        if(info.isEmpty()){
+            commentInput.setError("An empty comment cannot be posted, please enter a comment");
+            return;
+        }
+        
+        Comment comment = new Comment( lotNumber, commentId, userId, info);
+    }
 
 }
