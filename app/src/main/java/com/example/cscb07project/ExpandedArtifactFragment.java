@@ -24,8 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ExpandedArtifactFragment extends Fragment {
 
-    private static final String ARG_LOT_NUMBER = "lot_number";
-
+    private static final String LOT_NUMBER = "lot_number";
     private TextView artifactName;
     private TextView artifactCategory;
     private TextView artifactPeriod;
@@ -53,17 +52,16 @@ public class ExpandedArtifactFragment extends Fragment {
     private ArtifactRepository artifactRepository;
     private ExpandedViewRepository expandedViewRepository;
 
-    private String lotNumber;
+    private String current_lotNumber;
 
     public ExpandedArtifactFragment() {
-        // Required empty constructor
     }
 
     public static ExpandedArtifactFragment newInstance(String lotNumber) {
         ExpandedArtifactFragment fragment = new ExpandedArtifactFragment();
 
         Bundle args = new Bundle();
-        args.putString(ARG_LOT_NUMBER, lotNumber);
+        args.putString(LOT_NUMBER, lotNumber);
         fragment.setArguments(args);
 
         return fragment;
@@ -71,34 +69,18 @@ public class ExpandedArtifactFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState
-    ) {
-        return inflater.inflate(
-                R.layout.fragment_expanded_artifact_view,
-                container,
-                false
-        );
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState
+    )
+    {
 
-    @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState
-    ) {
-        super.onViewCreated(view, savedInstanceState);
+        View view= inflater.inflate(R.layout.fragment_expanded_artifact_view, container, false);
 
-        connectViews(view);
-
-    }
-    private void connectViews(View view) {
         artifactName = view.findViewById(R.id.artifactName);
         artifactCategory = view.findViewById(R.id.artifact_category);
         artifactPeriod = view.findViewById(R.id.artifact_dynasty_period);
         artifactOrigin = view.findViewById(R.id.artifact_culture_origin);
         artifactLotNumber = view.findViewById(R.id.artifact_lot_number);
+
         artifactMaterial = view.findViewById(R.id.artifact_material);
         artifactDimensions = view.findViewById(R.id.Dimensions);
         artifactCondition = view.findViewById(R.id.condition_report);
@@ -117,5 +99,13 @@ public class ExpandedArtifactFragment extends Fragment {
         editButton = view.findViewById(R.id.edit_button);
         deleteButton = view.findViewById(R.id.delete_button);
         postCommentButton = view.findViewById(R.id.buttonPostComment);
+
+
+
+
+        return view;
     }
+
+
+
 }
