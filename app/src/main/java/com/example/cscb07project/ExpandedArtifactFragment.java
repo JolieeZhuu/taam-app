@@ -26,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ExpandedArtifactFragment extends Fragment {
 
-    private MainActivity mainActivity;
     private FirebaseDatabase db;
     private TextView artifactName;
     private TextView artifactCategory;
