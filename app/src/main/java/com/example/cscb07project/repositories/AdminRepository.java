@@ -20,9 +20,9 @@ public class AdminRepository implements AdminInterface {
 
     @Override
     public Task<Void> createAdmin(String userId) {
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        Map<String, Object> map = new HashMap<>();
         map.put(userId, true);
-        return dbRefAd.setValue(map);
+        return dbRefAd.updateChildren(map);
     }
 
     // may want to include a getALlAdmins if we choose to display that in the admin interface
