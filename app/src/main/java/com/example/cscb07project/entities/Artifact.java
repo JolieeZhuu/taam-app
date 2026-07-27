@@ -19,7 +19,7 @@ public class Artifact {
     private String provenance;
     private String accessionNumber;
     private String notes;
-    private String image; // URL from Supabase
+    private String image; // URL
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
