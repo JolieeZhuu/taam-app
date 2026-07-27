@@ -55,7 +55,7 @@ public class FilterFragment extends Fragment {
 
         buttonPushFilters = view.findViewById(R.id.save_filters);
         buttonClearFilters = view.findViewById(R.id.clear_filters);
-        buttonExit = view.findViewById(R.id.exit_screen);
+        buttonExit = view.findViewById(R.id.selectButton);
 
         categorySpinner = view.findViewById(R.id.type_spinner);
         materialSpinner = view.findViewById(R.id.material_spinner);
@@ -131,15 +131,6 @@ public class FilterFragment extends Fragment {
         });
     }
 
-    private void updateSaveColour(){
-        buttonPushFilters.setBackgroundColor(
-                saved_flag
-                        ? getResources().getColor(
-                                R.color.state_button_1_alt, null)
-                        : getResources().getColor(
-                                R.color.state_button_1_default, null)
-        );
-    }
     public void SaveBuffer(){
         mainActivity.getMainFS().UpdateFilters(filter_buffer);
         saved_flag = true;
@@ -156,6 +147,15 @@ public class FilterFragment extends Fragment {
         updateSaveColour();
     }
 
+    private void updateSaveColour(){
+        buttonPushFilters.setBackgroundColor(
+                saved_flag
+                        ? getResources().getColor(
+                        R.color.state_button_1_alt, null)
+                        : getResources().getColor(
+                        R.color.state_button_1_default, null)
+        );
+    }
     public void MatchSpinner(Spinner spinner, List<String> list, String key){
         spinner.setSelection(Math.max(list.indexOf(filter_buffer.get(key)), 0));
     }
