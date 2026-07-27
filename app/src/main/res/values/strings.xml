@@ -7,75 +7,38 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
-    <string name="select_filters">Choose Filters</string>
 
+    <!-- General button navigation -->
+    <string name="select_filters_button">Choose Filters</string>
+    <string name="catalogue_view_button">See Artifacts</string>
+    <string name="catalogue_select_button">Choose Artifacts</string>
+    <string name="expanded_view_button">More Details</string>
+    <string name="exit_button">Exit</string>
 
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
-
-    <string name="save_button">Save</string>
-    <string name="clear_button">Clear</string>
-    <string name="exit_button">Exit</string>
 
     <string name="category_filter">Category</string>
     <string name="material_filter">Material</string>
     <string name="period_filter">Period</string>
 
+    <string name="save_filters">Save</string>
+    <string name="clear_filters">Clear</string>
+
+    <!-- Catalogue Screen -->
+    <string name="selection_count">Selected: </string>
+    <string name="artifact_name">Name</string>
+    <string name="artifact_category">Category</string>
+    <string name="artifact_material">Material</string>
+    <string name="artifact_period">Period</string>
+
+    <string name="select_artifacts">Select</string>
+    <string name="clear_selection">Clear</string>
+
     <!-- Need this kept when merging :) -->
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
     <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
     <string name="supabase_image_bucket">CSCB07 Project Images</string>
-
-
-
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="action_login">Login</string>
-    <string name="action_new_user">New user? Create new account</string>
-    <string name="hint_confirm_password">Confirm password</string>
-    <string name="action_create_new_account">Create account</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="username">"Username"</string>
-    <string name="fake_home">"Fake home screen!"</string>
-    <string name="fake_admin">"Fake admin screen!"</string>
-    <string name="action_back_to_login">"Back to log in"</string>
-    <string name="action_log_out">"Log out :("</string>
-    <string name="TAAM">"TAAM"</string>
-    <string name="new_account">"New Account"</string>
-
-
-
-
-    <string name="lot_number">Lot Number</string>
-    <string name="artifact_name">Artifact Name</string>
-    <string name="description">Description</string>
-    <string name="origin">Origin</string>
-    <string name="dimensions">Dimensions</string>
-    <string name="condition_report">Condition Report</string>
-    <string name="current_location">Current Location</string>
-    <string name="acquired_method">Acquired Method</string>
-    <string name="provenance">Provenance</string>
-    <string name="accession_number">Accession Number</string>
-    <string name="notes">Notes</string>
-    <string name="upload_image">Upload image</string>
-    <string name="add_artifact">Add artifact</string>
-
-
-
-
-    <!-- Homepage Screen -->
-    <string name="homepage_title">TAAM</string>
-    <string name="cd_saved_artifacts_button">Saved Artifacts</string>
-    <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
-    <string name="filter_button">Filters</string>
 
 
 </resources>
