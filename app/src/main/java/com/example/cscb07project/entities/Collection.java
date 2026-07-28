@@ -44,6 +44,7 @@ public class Collection {
         return result;
     }
 
+
     public String getUserId() {
         return userId;
     }

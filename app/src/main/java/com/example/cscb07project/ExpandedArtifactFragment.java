@@ -1,5 +1,6 @@
 package com.example.cscb07project;
 
+import com.google.android.material.button.MaterialButton;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -19,14 +20,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
+import com.example.cscb07project.entities.Collection;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
 import com.example.cscb07project.repositories.ArtifactRepository;
+import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
+import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 
 public class ExpandedArtifactFragment extends Fragment {
@@ -51,14 +57,16 @@ public class ExpandedArtifactFragment extends Fragment {
 
     private EditText commentInput;
 
-    private Button likeButton;
-    private Button saveButton;
-    private Button editButton;
-    private Button deleteButton;
-    private Button postCommentButton;
+    private MaterialButton likeButton;
+    private MaterialButton saveButton;
+    private MaterialButton editButton;
+    private MaterialButton deleteButton;
+    private MaterialButton postCommentButton;
 
     private ArtifactRepository artifactRepo;
     private ExpandedViewRepository expandedViewRepo;
+    private CollectionRepository collectionRepo;
+    private UserRepository userRepo;
 
     private String current_lotNumber;
 
@@ -116,7 +124,7 @@ public class ExpandedArtifactFragment extends Fragment {
         setupRepo();
 
         Bundle bun2 = getArguments();
-        assert bun2 != null;
+
         current_lotNumber = bun2.getString("lot_number");
 
         artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
@@ -136,6 +144,7 @@ public class ExpandedArtifactFragment extends Fragment {
         db = mainActivity.getDatabase();
         expandedViewRepo = new ExpandedViewRepository(db);
         artifactRepo = new ArtifactRepository(db,expandedViewRepo);
+        collectionRepo = new CollectionRepository(db);
 
     }
 
@@ -193,7 +202,7 @@ public class ExpandedArtifactFragment extends Fragment {
     }
 
     private void likeTheArtifact(){
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = userRepo.getCurrentUser();
         if(currentUser==null){
             return;
         }
@@ -234,15 +243,90 @@ public class ExpandedArtifactFragment extends Fragment {
             likeButton.setBackgroundTintList(
                     ColorStateList.valueOf(Color.WHITE)
             );
+            likeButton.setIconTint(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
         } else {
             likeButton.setBackgroundTintList(
                     ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
+            likeButton.setIconTint(
+                    ColorStateList.valueOf(Color.WHITE)
             );
         }
 
     }
     private void saveTheArtifact(){
+        Bundle bun3 = getArguments();
+        if(bun3==null){
+            return;
+        }
+        current_lotNumber = bun3.getString("lot_number");
+        FirebaseUser currentUser = userRepo.getCurrentUser();
+        if (currentUser == null) {
+            return;
+        }
+        if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String currentUserid=currentUser.getUid();
 
+        saveButton.setEnabled(false);
+
+
+        collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
+            if(savedArtifactCollection==null){
+                Collection newCollection = new Collection(currentUserid, "Saved Artifacts");
+                collectionRepo.createNewCollection(newCollection)
+                        .addOnSuccessListener(unused -> {
+                            collectionRepo.addArtifactToCollection(current_lotNumber, newCollection);
+
+                            updateSaveButton(true);
+                        })
+                        .addOnFailureListener(error ->
+                                Toast.makeText(requireContext(), "Could not create a collection", Toast.LENGTH_SHORT).show()
+                        );
+            }
+            else{
+                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
+
+                if (alreadySaved) {
+                    updateSaveButton(false);
+                    collectionRepo.removeArtifactFromCollection(current_lotNumber,savedArtifactCollection);
+                }
+                else {
+                    updateSaveButton(true);
+                    collectionRepo.addArtifactToCollection(current_lotNumber,savedArtifactCollection);
+                }
+                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
+            }
+        });
+        saveButton.setEnabled(true);
+
+    }
+    private void updateSaveButton(boolean saved) {
+        int red = Color.rgb(183, 40, 45);
+
+        if (saved) {
+            // Saved: red background, white bookmark
+            saveButton.setBackgroundTintList(
+                    ColorStateList.valueOf(red)
+            );
+
+            saveButton.setIconTint(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
+        } else {
+            // Unsaved: white background, red bookmark
+            saveButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
+
+            saveButton.setIconTint(
+                    ColorStateList.valueOf(red)
+            );
+        }
     }
     private void editTheArtifact(){
 
