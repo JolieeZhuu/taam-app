@@ -59,6 +59,8 @@
     <string name="artifact_material">Material</string>
     <string name="artifact_period">Period</string>
 
+    <string name="next_page">Next</string>
+    <string name="previous_page">Back</string>
     <string name="select_artifacts">Select</string>
     <string name="clear_selection">Clear</string>
 

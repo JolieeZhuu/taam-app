@@ -51,6 +51,4 @@ public class MainActivity extends AppCompatActivity {
     }
     public ArtifactRepository getMainARep() { return aRep; }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
-    public int getPaginationPreference() { return paginationPreference; }
-    public void updatePaginationPreference(int newPref) { paginationPreference = newPref; }
 }
