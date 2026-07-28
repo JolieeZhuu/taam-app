@@ -57,4 +57,11 @@
         <item>Qing Dynasty (1644–1912 CE)</item>
         <item>Republic of China Period (1912–1949 CE)</item>
     </string-array>
+
+    <!-- Catalogue screen -->
+    <string-array name="pagination_options">
+        <string>All</string>
+        <string>24</string>
+        <string>12</string>
+    </string-array>
 </resources>

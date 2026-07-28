@@ -1,11 +1,16 @@
 package com.example.cscb07project.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,12 +35,11 @@ import java.util.Set;
 
 public class CatalogueFragment extends Fragment {
     private static final String ARG_SELECTION_COUNT = "selectionLimit";
-    private static final int PAGINATE_TWELVE = 12;
-    private static final int PAGINATE_TWENTY_FOUR = 24;
-    private static final int PAGINATE_ALL = -1;
-    private static final int PAGINATION_COUNT = PAGINATE_TWELVE; // TODO: UPDATE THIS DEFAULT
+    private static final String PREF_PAGINATION_COUNT = "pagination_count";
+    private static final String CATALOGUE_PREFS = "catalogue_preferences";
+    private int PAGINATION_COUNT;
     private int curPageNo = 0;
-    private int selectionLimit = 0; // View only mode is default, as "select" is context dependent.
+    private int selectionLimit = 0;
 
     private MainActivity mainActivity;
     private List<Artifact> artifactList;
@@ -55,6 +59,9 @@ public class CatalogueFragment extends Fragment {
     private Button buttonClear;
     @SuppressWarnings("FieldCanBeLocal")
     private Button buttonChangeFilters;
+    @SuppressWarnings("FieldCanBeLocal")
+    private Spinner spinnerPagination;
+
 
     /**
      * @param selectionLimit Use only if you need to enter selection mode, specifying limit.
@@ -85,6 +92,10 @@ public class CatalogueFragment extends Fragment {
         selectionBuffer = new HashSet<>();
         artifactList = new ArrayList<>();
         currentPage = new ArrayList<>();
+
+        SharedPreferences prefs = mainActivity.getSharedPreferences(
+                CATALOGUE_PREFS, Context.MODE_PRIVATE);
+        PAGINATION_COUNT = prefs.getInt(PREF_PAGINATION_COUNT, -1);
     }
 
     @Nullable
@@ -93,8 +104,25 @@ public class CatalogueFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalogue, container, false);
+
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // TODO: Optionally make this adaptive?
+
+        spinnerPagination = view.findViewById(R.id.paginationSpinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.pagination_options,
+                android.R.layout.simple_spinner_item
+        );
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPagination.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                PAGINATION_COUNT = (int) adapterView.getItemAtPosition(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
 
         buttonNextPage = view.findViewById(R.id.NextButton);
         buttonBackPage = view.findViewById(R.id.BackButton);
@@ -141,6 +169,7 @@ public class CatalogueFragment extends Fragment {
             buttonSelect.setOnClickListener(v -> {
                 if (selectionBuffer.size() <= selectionLimit) {
                     mainActivity.setMainSelection(selectionBuffer);
+                    setPaginationSharedPref(PAGINATION_COUNT);
                     getParentFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(
@@ -152,8 +181,10 @@ public class CatalogueFragment extends Fragment {
                 }
             });
             buttonClear.setOnClickListener(v -> {
-                selectionBuffer.clear();
-                artifactAdapter.notifyDataSetChanged();
+                if (!selectionBuffer.isEmpty()) {
+                    selectionBuffer.clear();
+                    artifactAdapter.notifyDataSetChanged();
+                }
             });
 
             artifactAdapter = new SelectionArtifactAdapter(
@@ -202,6 +233,12 @@ public class CatalogueFragment extends Fragment {
         artifactList.clear();
         artifactList.addAll(artifacts);
         setCurrentPage();
+    }
+
+    public void setPaginationSharedPref(int newPref){
+        SharedPreferences prefs = mainActivity.getSharedPreferences(
+                CATALOGUE_PREFS, Context.MODE_PRIVATE);
+        prefs.edit().putInt(PREF_PAGINATION_COUNT, newPref).apply();
     }
 
     public void populateFromDb() {
