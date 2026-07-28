@@ -6,16 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.fragments.EditArtifactFragment;
+import com.example.cscb07project.entities.Artifact;
+import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.HashSet;
+import java.util.Set;
 
+public class MainActivity extends AppCompatActivity {
+    public int paginationPreference;
     FirebaseDatabase db;
-    FilterState main_filters;
     ArtifactRepository aRep;
 
     @Override
@@ -26,9 +29,12 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         aRep = new ArtifactRepository(db);
 
-        main_filters = new FilterState();
+        mainFilters = new FilterState();
+        selectedArtifacts = new HashSet<>();
+
         if (savedInstanceState == null){
-           loadFragment(new HomepageFragment());
+            loadFragment(new HomeFragment());
+//           loadFragment(new HomepageFragment());
 //            loadFragment(new AddArtifactFragment());
             // loadFragment(new EditArtifactFragment());
         }
@@ -41,12 +47,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-
     public FilterState getMainFS() {
-        return main_filters;
+        return mainFilters;
     }
-    public FirebaseDatabase getDatabase() {
-        return db;
-    }
-    public ArtifactRepository getMainARep() {return aRep; }
+    public ArtifactRepository getMainARep() { return aRep; }
+    public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
+    public int getPaginationPreference() { return paginationPreference; }
+    public void updatePaginationPreference(int newPref) { paginationPreference = newPref; }
 }

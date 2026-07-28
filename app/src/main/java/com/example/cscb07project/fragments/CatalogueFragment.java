@@ -40,11 +40,15 @@ public class CatalogueFragment extends Fragment {
     @SuppressWarnings("all")
     private RecyclerView recyclerView;
     private ArtifactAdapter artifactAdapter;
-    @SuppressWarnings("all")
+    @SuppressWarnings("FieldCanBeLocal")
+    private Button buttonNextPage;
+    @SuppressWarnings("FieldCanBeLocal")
+    private Button buttonBackPage;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button buttonSelect;
-    @SuppressWarnings("all")
+    @SuppressWarnings("FieldCanBeLocal")
     private Button buttonClear;
-    @SuppressWarnings("all")
+    @SuppressWarnings("FieldCanBeLocal")
     private Button buttonChangeFilters;
 
     /**
@@ -86,9 +90,12 @@ public class CatalogueFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), PAGINATION_WIDTH)); // TODO: Pagination here.
 
+        buttonNextPage = view.findViewById(R.id.NextButton);
+        buttonBackPage = view.findViewById(R.id.BackButton);
         buttonSelect = view.findViewById(R.id.selectButton);
         buttonClear = view.findViewById(R.id.clearButton);
         buttonChangeFilters = view.findViewById(R.id.filterButton);
+
 
         buttonChangeFilters.setOnClickListener(v ->
                 getParentFragmentManager().beginTransaction()
