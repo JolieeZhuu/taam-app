@@ -12,14 +12,12 @@
         android:layout_width="0dp"
         android:layout_height="194dp"
         android:layout_marginStart="@dimen/fragment_horizontal_margin"
-        android:layout_marginTop="@dimen/fragment_vertical_margin"
         android:layout_marginEnd="@dimen/fragment_horizontal_margin"
-        android:layout_marginBottom="@dimen/fragment_vertical_margin"
-        app:layout_constraintBottom_toTopOf="@+id/clearButton"
+        android:layout_marginBottom="@dimen/fragment_section_padding"
+        app:layout_constraintBottom_toTopOf="@+id/filterButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/clearButton"
@@ -50,14 +48,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_button_padding"
-        android:layout_marginTop="@dimen/fragment_section_padding"
         android:layout_marginEnd="@dimen/small_button_padding"
-        android:layout_marginBottom="@dimen/fragment_section_padding"
+        android:layout_marginBottom="@dimen/fragment_vertical_bot_margin"
         android:text="@string/select_filters_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/selectButton"
-        app:layout_constraintStart_toEndOf="@+id/clearButton"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintStart_toEndOf="@+id/clearButton" />
+
+    <Button
+        android:id="@+id/BackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragment_horizontal_margin"
+        android:layout_marginEnd="@dimen/fragment_section_padding"
+        android:layout_marginBottom="@dimen/fragment_section_padding"
+        android:text="@string/back"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/NextButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/NextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fragment_horizontal_margin"
+        android:layout_marginBottom="@dimen/fragment_section_padding"
+        android:text="@string/next_page"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,18 +9,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.example.cscb07project.systems.FilterState;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-
+    public int paginationPreference;
     FirebaseDatabase db;
     ArtifactRepository aRep;
     FilterState mainFilters;
@@ -52,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public FilterState getMainFS() {
         return mainFilters;
     }
-    public ArtifactRepository getMainARep() {return aRep; }
+    public ArtifactRepository getMainARep() { return aRep; }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
+    public int getPaginationPreference() { return paginationPreference; }
+    public void updatePaginationPreference(int newPref) { paginationPreference = newPref; }
 }
