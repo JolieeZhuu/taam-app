@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    public int paginationPreference;
     FirebaseDatabase db;
     ArtifactRepository aRep;
 

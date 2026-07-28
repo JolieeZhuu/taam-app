@@ -30,11 +30,16 @@ import java.util.Set;
 
 public class CatalogueFragment extends Fragment {
     private static final String ARG_SELECTION_COUNT = "selectionLimit";
-    private int selectionLimit = 0; // 0 triggers view-only mode.
-    private static final int PAGINATION_WIDTH = 2;
+    private static final int PAGINATE_TWELVE = 12;
+    private static final int PAGINATE_TWENTY_FOUR = 24;
+    private static final int PAGINATE_ALL = -1;
+    private static final int PAGINATION_COUNT = PAGINATE_TWELVE; // TODO: UPDATE THIS DEFAULT
+    private int curPageNo = 0;
+    private int selectionLimit = 0; // View only mode is default, as "select" is context dependent.
 
     private MainActivity mainActivity;
     private List<Artifact> artifactList;
+    private List<Artifact> currentPage;
     private Set<Artifact> selectionBuffer;
 
     @SuppressWarnings("all")
@@ -79,6 +84,7 @@ public class CatalogueFragment extends Fragment {
         mainActivity = (MainActivity) requireActivity();
         selectionBuffer = new HashSet<>();
         artifactList = new ArrayList<>();
+        currentPage = new ArrayList<>();
     }
 
     @Nullable
@@ -88,7 +94,7 @@ public class CatalogueFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalogue, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), PAGINATION_WIDTH)); // TODO: Pagination here.
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // TODO: Optionally make this adaptive?
 
         buttonNextPage = view.findViewById(R.id.NextButton);
         buttonBackPage = view.findViewById(R.id.BackButton);
@@ -96,14 +102,39 @@ public class CatalogueFragment extends Fragment {
         buttonClear = view.findViewById(R.id.clearButton);
         buttonChangeFilters = view.findViewById(R.id.filterButton);
 
+        buttonNextPage.setOnClickListener(v -> {
+            if ( ((curPageNo + 1) * PAGINATION_COUNT - 1 > artifactList.size()) ||
+                    PAGINATION_COUNT == -1){
+                Toast.makeText(
+                        requireContext(),
+                        "Reached end of artifacts",
+                        Toast.LENGTH_SHORT
+                ).show();
+            } else {
+                curPageNo++;
+                setCurrentPage();
+            }
+        });
+
+        buttonBackPage.setOnClickListener(v -> {
+            if (curPageNo > 0) {
+                curPageNo--;
+                setCurrentPage();
+            } else {
+                Toast.makeText(
+                        requireContext(),
+                        "Reached start of artifacts",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
 
         buttonChangeFilters.setOnClickListener(v ->
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new FilterFragment())
-                        .setReorderingAllowed(true)
-                        .addToBackStack(null)
-                        .commit()
-
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new FilterFragment())
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null)
+                    .commit()
         );
 
         if (selectionLimit != 0){
@@ -122,12 +153,11 @@ public class CatalogueFragment extends Fragment {
             });
             buttonClear.setOnClickListener(v -> {
                 selectionBuffer.clear();
-                SelectionArtifactAdapter selectionAdapter = (SelectionArtifactAdapter) artifactAdapter; // TODO: Is this necessary?
                 artifactAdapter.notifyDataSetChanged();
             });
 
             artifactAdapter = new SelectionArtifactAdapter(
-                    artifactList,
+                    currentPage,
                     selectionBuffer,
                     artifact -> {
                         if (selectionBuffer.contains(artifact)){
@@ -135,14 +165,14 @@ public class CatalogueFragment extends Fragment {
                         } else {
                             selectionBuffer.add(artifact);
                         }
-                        artifactAdapter.notifyDataSetChanged(); // TODO: Replace with notifyItemChanged(artifactList.indexOf(artifact));?
+                        artifactAdapter.notifyDataSetChanged(); // TODO: Replace with notifyItemChanged(currentPage.indexOf(artifact));?
                     }
             );
         } else { // We must hide the button views, it's not enough to just disable them.
             buttonSelect.setVisibility(View.GONE);
             buttonClear.setVisibility(View.GONE);
             artifactAdapter = new ExpandedArtifactAdapter(
-                    artifactList,
+                    currentPage,
                     artifact ->{
                         // TODO: Open Expanded view here.
             });
@@ -155,10 +185,23 @@ public class CatalogueFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
+    private void setCurrentPage() { // TODO: Update for incomplete page safety.
+        if (PAGINATION_COUNT == -1){
+            currentPage = artifactList;
+        } else {
+            currentPage = artifactList.subList(
+                curPageNo * PAGINATION_COUNT,
+                Math.min((curPageNo + 1) * PAGINATION_COUNT, artifactList.size())
+            );
+        }
+        artifactAdapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     public void populateFromList(List<Artifact> artifacts){
         artifactList.clear();
         artifactList.addAll(artifacts);
-        artifactAdapter.notifyDataSetChanged();
+        setCurrentPage();
     }
 
     public void populateFromDb() {
@@ -168,12 +211,17 @@ public class CatalogueFragment extends Fragment {
             public void onResult(List<Artifact> artifactsFromDb) {
                 artifactList.clear();
                 artifactList.addAll(artifactsFromDb);
-                artifactAdapter.notifyDataSetChanged();
+                setCurrentPage();
             }
 
             @Override
             public void onError(DatabaseError error) {
-                // TODO: HANDLE DB ERRORS.
+//                getParentFragmentManager().popBackStack(); TODO: Handle this more cleanly.
+                Toast.makeText(
+                        requireContext(),
+                        "Failed to fetch artifacts from database, please try again.",
+                        Toast.LENGTH_LONG
+                ).show();
             }
         });
     }
