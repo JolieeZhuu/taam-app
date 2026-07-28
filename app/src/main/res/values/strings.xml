@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Toronto Asian Art Museum</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
     <string name="recyclerview">RecyclerView</string>

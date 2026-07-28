@@ -19,12 +19,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
+import com.example.cscb07project.entities.User;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 public class ExpandedArtifactFragment extends Fragment {
+    private User user;
 
     private FirebaseDatabase db;
     private TextView artifactName;
@@ -187,6 +191,21 @@ public class ExpandedArtifactFragment extends Fragment {
     }
 
     private void likeTheArtifact(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser==null){
+            return;
+        }
+        String userId = currentUser.getUid();
+
+        boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(userId, ev);
+
+        likeButton.setEnabled(false);
+
+        if (alreadyLiked) {
+            expandedViewRepo.unlike(userId,ev);
+        } else {
+            expandedViewRepo.like(userId,ev);
+        }
 
     }
     private void saveTheArtifact(){
