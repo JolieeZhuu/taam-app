@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Toronto Asian Art Museum</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
@@ -84,17 +83,9 @@
 
 
 
-    <string name="lot_number">Lot Number</string>
     <string name="artifact_name">Artifact Name</string>
-    <string name="description">Description</string>
     <string name="origin">Origin</string>
-    <string name="dimensions">Dimensions</string>
-    <string name="condition_report">Condition Report</string>
-    <string name="current_location">Current Location</string>
     <string name="acquired_method">Acquired Method</string>
-    <string name="provenance">Provenance</string>
-    <string name="accession_number">Accession Number</string>
-    <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
 

@@ -8,6 +8,7 @@ public class ExpandedView {
     private Integer likeNumber;
     private Map<String, Boolean> likes;
 
+
     public ExpandedView() {}
 //    public ExpandedView(String lotNumber, Integer likeNumber) {
 //        this.lotNumber = lotNumber;

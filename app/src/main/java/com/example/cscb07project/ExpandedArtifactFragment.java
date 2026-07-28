@@ -1,6 +1,8 @@
 package com.example.cscb07project;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -202,9 +204,40 @@ public class ExpandedArtifactFragment extends Fragment {
         likeButton.setEnabled(false);
 
         if (alreadyLiked) {
-            expandedViewRepo.unlike(userId,ev);
+            expandedViewRepo.unlike(userId,ev)
+                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
+                    .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
+                    .addOnCompleteListener(task -> likeButton.setEnabled(true));;
         } else {
-            expandedViewRepo.like(userId,ev);
+            expandedViewRepo.like(userId,ev)
+                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
+                    .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
+                    .addOnCompleteListener(task -> likeButton.setEnabled(true));
+        }
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void updateLikeDisplayAndButton(boolean alreadyLiked){
+        int numberOfLikes;
+        if(ev.getLikeNumber() == null){
+            numberOfLikes=0;
+        }
+        else {
+            numberOfLikes=ev.getLikeNumber();
+        }
+
+        likeCount.setText("Likes: " + numberOfLikes);
+
+
+        if (alreadyLiked) {
+            likeButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
+        } else {
+            likeButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
         }
 
     }
