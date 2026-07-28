@@ -28,13 +28,12 @@ public class SelectionArtifactAdapter extends ArtifactAdapter{
         holder.textViewPeriod.setText(artifact.getPeriod());
 
         holder.itemView.setSelected(selectionBuffer.contains(artifact));
-
-        itemSelectionChanged(holder);
+        onItemSelectionChanged(holder);
 
         holder.itemView.setOnClickListener(v -> listener.onArtifactClicked(artifact));
     }
 
-    public void itemSelectionChanged(ArtifactViewHolder holder){
+    public void onItemSelectionChanged(ArtifactViewHolder holder){
         if (holder.itemView.isSelected()) {
             holder.textViewName.setTypeface(null, Typeface.BOLD);
         } else {

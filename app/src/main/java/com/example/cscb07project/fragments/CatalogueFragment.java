@@ -84,11 +84,12 @@ public class CatalogueFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalogue, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), PAGINATION_WIDTH));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), PAGINATION_WIDTH)); // TODO: Pagination here.
 
         buttonSelect = view.findViewById(R.id.selectButton);
         buttonClear = view.findViewById(R.id.clearButton);
         buttonChangeFilters = view.findViewById(R.id.filterButton);
+
         buttonChangeFilters.setOnClickListener(v ->
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new FilterFragment())
@@ -114,8 +115,8 @@ public class CatalogueFragment extends Fragment {
             });
             buttonClear.setOnClickListener(v -> {
                 selectionBuffer.clear();
-                SelectionArtifactAdapter selectionAdapter = (SelectionArtifactAdapter) artifactAdapter;
-                selectionAdapter.notifyDataSetChanged();
+                SelectionArtifactAdapter selectionAdapter = (SelectionArtifactAdapter) artifactAdapter; // TODO: Is this necessary?
+                artifactAdapter.notifyDataSetChanged();
             });
 
             artifactAdapter = new SelectionArtifactAdapter(
@@ -127,7 +128,7 @@ public class CatalogueFragment extends Fragment {
                         } else {
                             selectionBuffer.add(artifact);
                         }
-                        artifactAdapter.notifyDataSetChanged();
+                        artifactAdapter.notifyDataSetChanged(); // TODO: Replace with notifyItemChanged(artifactList.indexOf(artifact));?
                     }
             );
         } else { // We must hide the button views, it's not enough to just disable them.
@@ -136,7 +137,7 @@ public class CatalogueFragment extends Fragment {
             artifactAdapter = new ExpandedArtifactAdapter(
                     artifactList,
                     artifact ->{
-                        // TODO: WENQING OPEN EXPANDED VIEW HERE.
+                        // TODO: Open Expanded view here.
             });
         }
 
@@ -147,15 +148,11 @@ public class CatalogueFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setRecyclerViews(List<Artifact> artifacts){
+    public void populateFromList(List<Artifact> artifacts){
         artifactList.clear();
         artifactList.addAll(artifacts);
         artifactAdapter.notifyDataSetChanged();
     }
-
-//    public void populateFromSpecified(final List<Artifact> artifactList){ // TODO: Implement? If needed for collections.
-//        setRecyclerViews(artifactList);
-//    }
 
     public void populateFromDb() {
         mainActivity.getMainARep().getFilteredArtifacts(mainActivity.getMainFS(), new BatchArtifactRetriever() {
