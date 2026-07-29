@@ -1,6 +1,5 @@
 package com.example.cscb07project.repositories;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,8 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 

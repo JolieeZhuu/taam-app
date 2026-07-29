@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_button_padding"
         android:layout_marginEnd="@dimen/small_button_padding"
-        android:layout_marginBottom="@dimen/fragment_vertical_bot_margin"
+        android:layout_marginBottom="@dimen/fragment_vertical_margin"
         android:text="@string/select_filters_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/selectButton"
