@@ -28,6 +28,30 @@
 
 
 
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="action_new_user">New user? Create new account</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="action_create_new_account">Create account</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="username">"Username"</string>
+    <string name="fake_home">"Fake home screen!"</string>
+    <string name="fake_admin">"Fake admin screen!"</string>
+    <string name="action_back_to_login">"Back to log in"</string>
+    <string name="action_log_out">"Log out :("</string>
+    <string name="TAAM">"TAAM"</string>
+    <string name="new_account">"New Account"</string>
+
+
 
 
     <string name="lot_number">Lot Number</string>
@@ -46,6 +70,12 @@
 
 
 
+
+    <!-- Homepage Screen -->
+    <string name="homepage_title">TAAM</string>
+    <string name="cd_saved_artifacts_button">Saved Artifacts</string>
+    <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
+    <string name="filter_button">Filters</string>
 
 
 </resources>
