@@ -1,6 +1,11 @@
 package com.example.cscb07project.systems;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
+import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Artifact;
 
 import java.util.List;
@@ -13,11 +18,13 @@ public class ExpandedArtifactAdapter extends ArtifactAdapter {
     @Override
     public void onBindViewHolder(@NonNull ArtifactViewHolder holder, int position) {
         Artifact artifact = artifactList.get(position);
+        Log.d("ArtifactImageCheck", "image value: " + artifact.getImage());
 
         holder.textViewName.setText(artifact.getName());
-        holder.textViewCategory.setText(artifact.getCategory());
-        holder.textViewMaterial.setText(artifact.getMaterial());
-        holder.textViewPeriod.setText(artifact.getPeriod());
+        Glide.with(holder.imageViewArtifact.getContext())
+                .load(artifact.getImage())
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(holder.imageViewArtifact);
 
         holder.itemView.setOnClickListener(v -> listener.onArtifactClicked(artifact) );
     }

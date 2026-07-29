@@ -92,6 +92,7 @@
     <string name="cd_saved_artifacts_button">Saved Artifacts</string>
     <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
     <string name="filter_button">Filters</string>
+    <string name="artifact_image_description" />
 
 
 </resources>
