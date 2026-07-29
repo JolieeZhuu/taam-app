@@ -1,5 +1,7 @@
 package com.example.cscb07project.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 
+import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
+
+import java.util.List;
 
 public class HomepageFragment extends Fragment {
 
@@ -30,6 +37,16 @@ public class HomepageFragment extends Fragment {
     private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
+    private SearchView searchBar;
+    private SearchManager searchManager; // Probably going to be main.
+    private MainActivity mainActivity;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+        mainActivity = (MainActivity) requireActivity();
+    }
 
     @Nullable
     @Override
@@ -42,6 +59,8 @@ public class HomepageFragment extends Fragment {
         addArtifactBtn = view.findViewById(R.id.addArtifactBtn);
         carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
+        searchBar = view.findViewById(R.id.searchBar);
+        searchManager = (SearchManager) mainActivity.getSystemService(Context.SEARCH_SERVICE);
 
         savedArtifactsBtn.setOnClickListener(v -> {
             // TODO: load collections fragment
@@ -57,6 +76,23 @@ public class HomepageFragment extends Fragment {
 
         // TODO: load catalogue fragment
         // Fragment catalogueFragment = new CatalogueFragment();
+        searchBar.setSearchableInfo(searchManager.getSearchableInfo(
+                mainActivity.getComponentName()));
+        searchBar.setIconifiedByDefault(false);
+
+
+        return view;
+    }
+
+    public void updateArtifactsFromSearch(List<Artifact> searchList) {
+        // catalogueFragment.populateFromList(searchList); TODO: Replace this with actual reference once added.
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Fragment catalogueFragment = CatalogueFragment.newInstance(0);
 
         /* getChildFragmentManager().beginTransaction()
                 .replace(R.id.homepageCatalogueContainer, catalogueFragment)
