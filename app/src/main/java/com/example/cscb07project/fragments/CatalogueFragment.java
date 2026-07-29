@@ -115,14 +115,32 @@ public class CatalogueFragment extends Fragment {
                 android.R.layout.simple_spinner_item
         );
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPagination.setAdapter(spinnerAdapter);
         spinnerPagination.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                PAGINATION_COUNT = (int) adapterView.getItemAtPosition(i);
+                String paginationValue = adapterView.getItemAtPosition(i).toString();
+                if (paginationValue.equals("All")){
+                    PAGINATION_COUNT = -1;
+                } else {
+                    PAGINATION_COUNT = Integer.parseInt(paginationValue);
+                }
+                setPaginationSharedPref(PAGINATION_COUNT);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
+        switch (PAGINATION_COUNT){
+            case -1:
+                spinnerPagination.setSelection(0);
+                break;
+            case 24:
+                spinnerPagination.setSelection(1);
+                break;
+            case 12:
+                spinnerPagination.setSelection(2);
+                break;
+        }
 
         buttonNextPage = view.findViewById(R.id.NextButton);
         buttonBackPage = view.findViewById(R.id.BackButton);
@@ -131,8 +149,8 @@ public class CatalogueFragment extends Fragment {
         buttonChangeFilters = view.findViewById(R.id.filterButton);
 
         buttonNextPage.setOnClickListener(v -> {
-            if ( ((curPageNo + 1) * PAGINATION_COUNT - 1 > artifactList.size()) ||
-                    PAGINATION_COUNT == -1){
+            if ( PAGINATION_COUNT == -1 ||
+                    (curPageNo + 1) * PAGINATION_COUNT >= artifactList.size()){
                 Toast.makeText(
                         requireContext(),
                         "Reached end of artifacts",
@@ -169,7 +187,6 @@ public class CatalogueFragment extends Fragment {
             buttonSelect.setOnClickListener(v -> {
                 if (selectionBuffer.size() <= selectionLimit) {
                     mainActivity.setMainSelection(selectionBuffer);
-                    setPaginationSharedPref(PAGINATION_COUNT);
                     getParentFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(
@@ -217,14 +234,18 @@ public class CatalogueFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void setCurrentPage() { // TODO: Update for incomplete page safety.
+        List<Artifact> subList;
         if (PAGINATION_COUNT == -1){
-            currentPage = artifactList;
+            subList = artifactList;
         } else {
-            currentPage = artifactList.subList(
+            subList = artifactList.subList(
                 curPageNo * PAGINATION_COUNT,
                 Math.min((curPageNo + 1) * PAGINATION_COUNT, artifactList.size())
             );
         }
+
+        currentPage.clear();
+        currentPage.addAll(subList);
         artifactAdapter.notifyDataSetChanged();
     }
 
