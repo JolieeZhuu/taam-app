@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/fragment_section_padding"
         android:layout_marginBottom="@dimen/fragment_section_padding"
-        android:text="@string/back"
+        android:text="@string/previous_page"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toStartOf="@+id/NextButton" />
 
