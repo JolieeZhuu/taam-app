@@ -1,4 +1,4 @@
-package com.example.cscb07project.artifact_creation_page;
+package com.example.cscb07project.fragments;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
