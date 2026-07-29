@@ -9,11 +9,8 @@ public class Artifact {
     private String name;
     private String description;
     private String category;
-    public static final String CATEGORY_KEY = "category";
     private String material;
-    public static final String MATERIAL_KEY = "material";
     private String period;
-    public static final String PERIOD_KEY = "period";
     private String origin;
     private String dimensions;
     private String conditionReport;
@@ -22,7 +19,7 @@ public class Artifact {
     private String provenance;
     private String accessionNumber;
     private String notes;
-    private String image; // URL from Supabase
+    private String image; // URL
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -51,9 +48,9 @@ public class Artifact {
         result.put("lotNumber", lotNumber);
         result.put("name", name);
         result.put("description", description);
-        result.put(CATEGORY_KEY, category);
-        result.put(MATERIAL_KEY, material);
-        result.put(PERIOD_KEY, period);
+        result.put("category", category);
+        result.put("material", material);
+        result.put("period", period);
         result.put("origin", origin);
         result.put("dimensions", dimensions);
         result.put("conditionReport", conditionReport);
