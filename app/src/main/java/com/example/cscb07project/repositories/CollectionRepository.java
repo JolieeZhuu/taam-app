@@ -26,27 +26,28 @@ public class CollectionRepository implements CollectionInterface {
         String collectionId = dbRef.child(collection.getUserId()).push().getKey();
         if (collectionId == null) throw new IllegalStateException();
         collection.setCollectionId(collectionId);
-        return dbRef.child(collection.getUserId()).child(collectionId).setValue(collection);
+        return dbRef.child(collection.getUserId()).setValue(collection);
     }
 
-    public Task<List<Collection>> getCollections(String userId) {
+    public Task<Collection> getCollectionByUserId(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
-            if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
-            List<Collection> collectionList = new ArrayList<>();
-            if (snapshot.getResult().hasChildren()) {
-                for (DataSnapshot collectionSnapshot : snapshot.getResult().getChildren()) {
-                    collectionList.add(collectionSnapshot.getValue(Collection.class));
-                }
-                return collectionList;
+            if (snapshot.getResult() != null) {
+                return snapshot.getResult().getValue(Collection.class);
             }
             return null;
         });
     }
 
-    public Task<Collection> getCollectionById(String userId, String collectionId) {
-        return dbRef.child(userId).child(collectionId).get().continueWith(snapshot -> {
-            if (snapshot.getResult() != null) {
-                return snapshot.getResult().getValue(Collection.class);
+    // should do it by userId
+    public Task<Collection> getCollectionById(String collectionId) {
+        return dbRef.orderByChild("collectionId").equalTo(collectionId).get().continueWith(snapshot -> {
+            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+                return null;
+            }
+            if (snapshot.getResult().hasChildren()) {
+                for (DataSnapshot collectionSnapshot : snapshot.getResult().getChildren()) {
+                    return collectionSnapshot.getValue(Collection.class);
+                }
             }
             return null;
         });
@@ -60,15 +61,19 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) == null) { // new artifact!
             artifacts.put(lotNumber, true);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
         }
         return Tasks.forResult(null);
+    }
+
+    public boolean isArtifactInCollection(String artifactId, Collection collection) {
+        return collection.getArtifacts().containsKey(artifactId);
     }
 
     // edit collection name
     public Task<Void> updateCollectionName(String name, Collection collection) {
         collection.setName(name);
-        return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+        return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
     }
 
     // remove artifact from collection
@@ -77,14 +82,14 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) != null) {
             artifacts.remove(lotNumber);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
         }
         return Tasks.forResult(null);
     }
 
     // delete collection
     public Task<Void> deleteCollection(String userId, String collectionId) {
-        return dbRef.child(userId).child(collectionId).removeValue().addOnSuccessListener(snapshot -> {
+        return dbRef.child(userId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted collection with id: " + collectionId);
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting collection with id: " + collectionId);

@@ -30,7 +30,7 @@ public class ExpandedViewRepositoryTest {
     public void setup() {
         dbRef = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         expandedViewRepository = new ExpandedViewRepository(dbRef);
-        lotNumber = "lotNumber0123";
+        lotNumber = "this is my lotN";
     }
 
     @Test
