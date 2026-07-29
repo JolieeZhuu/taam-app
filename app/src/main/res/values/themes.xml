@@ -34,4 +34,8 @@
     </style>
 
     <style name="Theme.AsianArtMuseum" parent="Base.Theme.AsianArtMuseum" />
+    <style name="roundedImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:maxHeight="@dimen/item_display_height"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/fragment_section_padding">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewArtifact"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/item_image_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/artifact_image_description"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+
+        />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/artifact_name"
+        android:textSize="@dimen/item_name_font_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewArtifact"
+        android:maxLines="3"
+        android:ellipsize="end"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

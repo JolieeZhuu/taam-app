@@ -57,8 +57,8 @@ public class CatalogueFragment extends Fragment {
     private Button buttonSelect;
     @SuppressWarnings("FieldCanBeLocal")
     private Button buttonClear;
-    @SuppressWarnings("FieldCanBeLocal")
-    private Button buttonChangeFilters;
+    //@SuppressWarnings("FieldCanBeLocal")
+    //private Button buttonChangeFilters; should already be in the home screen.
     @SuppressWarnings("FieldCanBeLocal")
     private Spinner spinnerPagination;
 
@@ -146,7 +146,7 @@ public class CatalogueFragment extends Fragment {
         buttonBackPage = view.findViewById(R.id.BackButton);
         buttonSelect = view.findViewById(R.id.selectButton);
         buttonClear = view.findViewById(R.id.clearButton);
-        buttonChangeFilters = view.findViewById(R.id.filterButton);
+        //buttonChangeFilters = null; ≈
 
         buttonNextPage.setOnClickListener(v -> {
             if ( PAGINATION_COUNT == -1 ||
@@ -175,13 +175,13 @@ public class CatalogueFragment extends Fragment {
             }
         });
 
-        buttonChangeFilters.setOnClickListener(v ->
+        /*buttonChangeFilters.setOnClickListener(v ->
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new FilterFragment())
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit()
-        );
+        );*/
 
         if (selectionLimit != 0){
             buttonSelect.setOnClickListener(v -> {
