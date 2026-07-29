@@ -66,6 +66,23 @@ public class CollectionRepository implements CollectionInterface {
         return Tasks.forResult(null);
     }
 
+    public Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId,
+                                                                     List<String> lotNumbers) {
+        Map<String,Boolean> map = new HashMap<>();
+        for(String id:lotNumbers) map.put(id, true);
+
+        return saveToCollection(userId, map).continueWithTask(task ->{
+            if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
+            return getCollectionByUserId(userId);
+        }).continueWith(task -> {
+            Collection collection = task.getResult();
+            if(collection!=null && collection.getArtifacts()!=null) {
+                return new ArrayList<>(collection.getArtifacts().keySet());
+            }
+            return new ArrayList<>();
+        });
+    }
+
     public boolean isArtifactInCollection(String artifactId, Collection collection) {
         return collection.getArtifacts().containsKey(artifactId);
     }
