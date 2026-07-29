@@ -4,10 +4,10 @@
     android:id="@+id/filter_screen_constraints"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/med_phone_side_margin"
-    android:layout_marginTop="@dimen/med_phone_top_margin"
-    android:layout_marginRight="@dimen/med_phone_side_margin"
-    android:layout_marginBottom="@dimen/med_phone_bot_margin"
+    android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+    android:layout_marginTop="@dimen/fragment_vertical_margin"
+    android:layout_marginRight="@dimen/fragment_horizontal_margin"
+    android:layout_marginBottom="@dimen/fragment_vertical_bot_margin"
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView

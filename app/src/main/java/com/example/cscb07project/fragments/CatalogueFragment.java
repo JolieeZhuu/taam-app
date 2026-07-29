@@ -108,7 +108,7 @@ public class CatalogueFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // TODO: Optionally make this adaptive?
 
-        spinnerPagination = view.findViewById(R.id.paginationSpinner);
+        spinnerPagination = view.findViewById(R.id.spinnerPagination);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.pagination_options,
