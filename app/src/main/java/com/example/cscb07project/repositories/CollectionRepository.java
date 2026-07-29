@@ -87,6 +87,20 @@ public class CollectionRepository implements CollectionInterface {
         return Tasks.forResult(null);
     }
 
+    public Task<Void> saveToCollection(String userId, Map<String, Boolean> newArtifacts) {
+        DatabaseReference userRef = dbRef.child(userId);
+        return userRef.get().continueWithTask(task -> {
+            DataSnapshot snapshot = task.getResult();
+            if (snapshot != null && snapshot.exists()) {
+                // update existing col
+                return userRef.child("artifacts").updateChildren(new HashMap<>(newArtifacts));
+            } else {
+                //shoud alreayd be made so error
+            }
+            return null;
+        });
+    }
+
     // delete collection
     public Task<Void> deleteCollection(String userId, String collectionId) {
         return dbRef.child(userId).removeValue().addOnSuccessListener(snapshot -> {
