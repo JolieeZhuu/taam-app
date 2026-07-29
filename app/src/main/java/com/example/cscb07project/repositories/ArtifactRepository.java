@@ -48,7 +48,7 @@ public class ArtifactRepository implements ArtifactInterface {
 //        artifact.setLotNumber(lotNumber);
         return dbRef.child(artifact.getLotNumber()).setValue(artifact).continueWithTask(snapshot -> {
             if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
-            return expandedViewRepository.addExpandedView(artifact.getLotNumber(), new ExpandedView(artifact.getLotNumber(), 0));
+            return expandedViewRepository.addExpandedView(artifact.getLotNumber(), new ExpandedView(artifact.getLotNumber()));
         });
     }
 
