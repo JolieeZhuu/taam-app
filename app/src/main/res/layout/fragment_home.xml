@@ -7,4 +7,31 @@
     tools:context=".fragments.HomeFragment">
 
 
+    <Button
+        android:id="@+id/buttonCatalogue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragment_horizontal_margin"
+        android:layout_marginTop="415dp"
+        android:layout_marginEnd="@dimen/fragment_horizontal_margin"
+        android:layout_marginBottom="416dp"
+        android:text="@string/catalogue_view_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSelectCatalogue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fragment_horizontal_margin"
+        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        android:layout_marginEnd="@dimen/fragment_horizontal_margin"
+        android:layout_marginBottom="@dimen/fragment_section_padding"
+        android:text="@string/catalogue_select_button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCatalogue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
