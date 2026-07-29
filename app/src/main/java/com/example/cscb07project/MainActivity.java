@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.example.cscb07project.systems.FilterState;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         selectedArtifacts = new HashSet<>();
 
         if (savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new HomepageFragment());
         }
     }
 
