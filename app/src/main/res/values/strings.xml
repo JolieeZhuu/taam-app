@@ -1,13 +1,6 @@
 <resources>
     <string name="app_name">Toronto Asian Art Museum</string>
-    <string name="delete_item">Delete Item</string>
-    <string name="add_item">Add Item</string>
     <string name="back">Back</string>
-    <string name="recyclerview">RecyclerView</string>
-    <string name="scroller">Scroller</string>
-    <string name="spinner">Spinner</string>
-    <string name="manage_items">Manage Items</string>
-
 
     <!-- General button navigation -->
     <string name="select_filters_button">Choose Filters</string>
@@ -41,14 +34,13 @@
     <string name="supabase_image_bucket">CSCB07 Project Images</string>
 
 
-
+    <!-- Strings related to login -->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
     <string name="action_new_user">New user? Create new account</string>
     <string name="hint_confirm_password">Confirm password</string>
     <string name="action_create_new_account">Create account</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -66,8 +58,7 @@
     <string name="new_account">"New Account"</string>
 
 
-
-
+    <!-- Artifact property strings -->
     <string name="lot_number">Lot Number</string>
     <string name="artifact_name">Artifact Name</string>
     <string name="description">Description</string>
@@ -81,8 +72,6 @@
     <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
-
-
 
 
     <!-- Homepage Screen -->
