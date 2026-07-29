@@ -36,7 +36,7 @@ public class ExpandedViewRepositoryTest {
     @Test
     public void test1AddExpandedView() throws Exception {
         ExpandedView expandedView = new ExpandedView(lotNumber);
-        Task<Void> task = expandedViewRepository.addExpandedView(lotNumber, expandedView);
+        Task<Void> task = expandedViewRepository.addExpandedView(expandedView);
         Tasks.await(task);
 
         assertTrue(task.isSuccessful());
@@ -45,7 +45,7 @@ public class ExpandedViewRepositoryTest {
     @Test
     public void test2AddComment() throws Exception {
         Comment comment = new Comment(lotNumber, "hardcodeuserId", "hello this is my comment");
-        Task<Void> task = expandedViewRepository.addComment(lotNumber, comment);
+        Task<Void> task = expandedViewRepository.addComment(comment);
         Tasks.await(task);
 
         assertTrue(task.isSuccessful());
@@ -67,12 +67,13 @@ public class ExpandedViewRepositoryTest {
         Tasks.await(task);
 
         assertEquals(lotNumber, task.getResult().getLotNumber());
+        Log.d("test test", task.getResult().toString());
+        assertNotNull(task.getResult());
         assertEquals(Integer.valueOf(0), task.getResult().getLikeNumber());
     }
 
     @Test
     public void test51IncreaseLike() throws Exception {
-        String lotNumber = "myLotNumberTest2";
         Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
         Tasks.await(task1);
         assertEquals(lotNumber, task1.getResult().getLotNumber());
@@ -87,7 +88,6 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test52DecreaseLike() throws Exception {
-        String lotNumber = "myLotNumberTest2";
         Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
         Tasks.await(task1);
         assertEquals(lotNumber, task1.getResult().getLotNumber());
@@ -122,7 +122,7 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test8DeleteCommentById() throws Exception {
-        Task<Void> task = expandedViewRepository.deleteCommentById(lotNumber, commentId);
+        Task<Void> task = expandedViewRepository.deleteCommentById(commentId);
         Tasks.await(task);
         assertTrue(task.isSuccessful());
     }
