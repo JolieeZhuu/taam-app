@@ -1,4 +1,4 @@
-package com.example.cscb07project.artifact_creation_page;
+package com.example.cscb07project.fragments;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.R;
