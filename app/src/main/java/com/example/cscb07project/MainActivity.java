@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.cscb07project.R;
+import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
@@ -13,12 +15,12 @@ import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class MainActivity extends AppCompatActivity {
+
     FirebaseDatabase db;
     ArtifactRepository aRep;
+    FilterState mainFilters;
+    Set<Artifact> selectedArtifacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
