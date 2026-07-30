@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:background="?attr/colorSurface"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/small_button_height"
+                android:contentDescription="@string/back"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/back_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="tmp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="?attr/colorOnSurface" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/small_button_height"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:visibility="invisible"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/back_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/artifactImage"
+            android:layout_width="match_parent"
+            android:layout_height="249dp"
+            android:contentDescription="@string/picture_of_the_artifact"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+
+        <LinearLayout
+            android:id="@+id/artifactActionsBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/like_button"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/like"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/heart_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="?attr/colorOnPrimary"
+                android:text="23"
+                android:textColor="?attr/colorOnPrimary"
+                />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_button"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/save"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/save_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="?attr/colorOnPrimary" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_button"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/edit"
+                android:enabled="false"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/edit_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_button"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/delete"
+                android:enabled="false"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:icon="@drawable/delete_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/artifactInformationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_serif_sc_semi_bold"
+                android:text="@string/artifact_information"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/artifactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/name_of_the_artifact"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"/>
+
+
+            <TextView
+                android:id="@+id/artifact_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/category"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/creator"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_dynasty_period"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/dynasty_period"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_culture_origin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/culture_origin"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_lot_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/lot_number"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_material"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/material"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/Dimensions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/dimensions"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/condition_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/condition_report"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/current_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/current_location"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/acquisition_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/acquisition_method"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/provenance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/provenance"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/accession_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/accession_number"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/Notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/notes"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/artifact_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/description"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/commentsSectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <TextView
+                android:id="@+id/textCommentsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_serif_sc_semi_bold"
+                android:text="@string/comment_section"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+
+
+            <LinearLayout
+                android:id="@+id/commentInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/editTextComment"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:autofillHints=""
+                    android:background="@drawable/underline_input"
+                    android:hint="@string/write_a_comment"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHint="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonPostComment"
+                    android:layout_width="89dp"
+                    android:layout_height="@dimen/small_button_height"
+                    android:layout_marginStart="8dp"
+                    android:includeFontPadding="false"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/post"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="14sp"
+                    app:backgroundTint="?attr/colorPrimary"
+                    app:cornerRadius="8dp"
+                    app:elevation="0dp" />
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enter_comment_section"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                android:includeFontPadding="false"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/view_comments"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="14sp"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="0dp"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>
+
