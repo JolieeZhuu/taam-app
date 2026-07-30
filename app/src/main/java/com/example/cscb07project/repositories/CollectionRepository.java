@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.cscb07project.entities.Collection;
 import com.example.cscb07project.entities.Comment;
+import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.interfaces.CollectionInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -163,5 +164,39 @@ public class CollectionRepository implements CollectionInterface {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting collection with id: " + collectionId);
         });
+    }
+
+    public boolean isArtifactSavedByUser(String currentLotNumber, Collection collection){
+        if (collection == null || collection.getArtifacts() == null) {
+            return false;
+        }
+        Boolean saved = collection.getArtifacts().get(currentLotNumber);
+        if (saved != null && saved == true) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
+        return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
+    }
+    public Task<Collection> getCollectionByName(String userId, String collectionName) {
+        Task<Collection> task = dbRef.child(userId).get().continueWith(snapshot -> {
+                    if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+                        return null;
+                    }
+                    if (snapshot.getResult().hasChildren()) {
+                        for (DataSnapshot collectionSnapshot : snapshot.getResult().getChildren()) {
+                            Collection collection = collectionSnapshot.getValue(Collection.class);
+                            if (collection != null && collectionName.equals(collection.getName())) {
+                                return collection;
+                            }
+                        }
+                    }
+                    return null;
+                });
+        return task;
+
     }
 }

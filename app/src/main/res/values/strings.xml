@@ -1,12 +1,41 @@
 <resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="recyclerview">RecyclerView</string>
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="back">Back</string>
+    <string name="picture_of_the_artifact">picture of the artifact</string>
+    <string name="artifact_information">Artifact Information</string>
+    <string name="name_of_the_artifact">NAME of THE ARTIFACT</string>
+    <string name="likes_23">Likes: 23</string>
+    <string name="saved_yes">Saved: Yes</string>
+    <string name="category">Category: CATEGORY</string>
+    <string name="creator">Creator: rrrrrrrrrrr</string>
+    <string name="dynasty_period">Dynasty/Period: dddddddddddd</string>
+    <string name="culture_origin">Culture origin: cccccccccccc</string>
+    <string name="lot_number">Lot number: 123456789</string>
+    <string name="material">Material: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="dimensions">Dimensions: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="condition_report">Condition report: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="current_location">Current_location: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="acquisition_method">Acquisition method: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="provenance">Provenance: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="accession_number">Accession number: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="notes">Notes: bbbbbbbbbbbbbbbbbbb</string>
+    <string name="description">Description: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</string>
+    <string name="like">Like</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="comment_section">Comment Section</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="post">Post</string>
+    <string name="view_comments">View Comments</string>
     <string name="select_filters">Choose Filters</string>
 
 
@@ -54,17 +83,9 @@
 
 
 
-    <string name="lot_number">Lot Number</string>
     <string name="artifact_name">Artifact Name</string>
-    <string name="description">Description</string>
     <string name="origin">Origin</string>
-    <string name="dimensions">Dimensions</string>
-    <string name="condition_report">Condition Report</string>
-    <string name="current_location">Current Location</string>
     <string name="acquired_method">Acquired Method</string>
-    <string name="provenance">Provenance</string>
-    <string name="accession_number">Accession Number</string>
-    <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
 
@@ -76,6 +97,7 @@
     <string name="cd_saved_artifacts_button">Saved Artifacts</string>
     <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
     <string name="filter_button">Filters</string>
+    <string name="delete_comments">Delete Comments</string>
 
 
 </resources>

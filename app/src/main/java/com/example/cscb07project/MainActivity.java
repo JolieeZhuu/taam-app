@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         main_filters = new FilterState();
         if (savedInstanceState == null){
 //            loadFragment(new HomepageFragment());
-            loadFragment(new AddArtifactFragment());
+//             loadFragment(new AddArtifactFragment());
+            loadFragment(ExpandedArtifactFragment.newInstance("1"));
         }
     }
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     public FilterState getMainFS() {
         return main_filters;
+    }
+    public FirebaseDatabase getDatabase() {
+        return db;
     }
     public ArtifactRepository getMainARep() {return aRep; }
 }
