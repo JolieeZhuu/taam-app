@@ -1,11 +1,15 @@
 package com.example.cscb07project;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +21,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private final List<Comment> commentList;
     private final OnDeleteClickListener deleteClickListener;
+    private boolean deleteModeEnabled;
 
     public interface OnDeleteClickListener {
         void onDeleteClick(Comment comment);
     }
 
-    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener)
+    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled)
     {
         this.commentList = commentList;
         this.deleteClickListener = deleteClickListener;
+        this.deleteModeEnabled = deleteModeEnabled;
     }
 
     @NonNull
@@ -42,9 +48,37 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentUser.setText(comment.getUserId());
         holder.commentText.setText(comment.getComment());
 
-        holder.deleteCommentButton.setOnClickListener(v ->
-                deleteClickListener.onDeleteClick(comment)
-        );
+        int red = Color.rgb(183, 40, 45);
+        int grey = Color.rgb(170, 170, 170);
+
+        if (deleteModeEnabled) {
+            holder.deleteCommentButton.setEnabled(true);
+            holder.deleteCommentButton.setClickable(true);
+            holder.deleteCommentButton.setAlpha(1.0f);
+
+            holder.deleteCommentButton.setImageTintList(
+                    ColorStateList.valueOf(red)
+            );
+
+            holder.deleteCommentButton.setOnClickListener(v ->
+                    deleteClickListener.onDeleteClick(comment)
+            );
+        } else {
+            holder.deleteCommentButton.setEnabled(false);
+            holder.deleteCommentButton.setClickable(false);
+            holder.deleteCommentButton.setAlpha(0.5f);
+
+            holder.deleteCommentButton.setImageTintList(
+                    ColorStateList.valueOf(grey)
+            );
+
+            holder.deleteCommentButton.setOnClickListener(null);
+        }
+    }
+
+    public void setDeleteModeEnabled(boolean enabled) {
+        deleteModeEnabled = enabled;
+        notifyDataSetChanged();
     }
 
     @Override

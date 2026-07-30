@@ -70,6 +70,7 @@ public class ExpandedArtifactFragment extends Fragment {
     private UserRepository userRepo;
 
     private String current_lotNumber;
+    private String currentUid;
 
     private Artifact artifact;
     private ExpandedView ev;
@@ -131,6 +132,9 @@ public class ExpandedArtifactFragment extends Fragment {
 
         current_lotNumber = bun2.getString("lot_number");
 
+        ////////////////////////////////////////////////////
+        currentUid =  "FKOIIqC6RzP8wjScFi2y0rwej063";
+///////////////////////////////////////////////////////////////////////////
 //        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
 //        displayArtifactDataModelInformation(artifact);
 //
@@ -193,11 +197,18 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactDescription.setText("Description: " + checkEmptyOrNot(artifact.getDescription()));
     }
     private void checkLikeStatus(String current_lotNumber){
-        FirebaseUser currentUser = userRepo.getCurrentUser();
-        if(currentUser==null){
-            return;
-        }
-        String currentUid = currentUser.getUid();
+//        FirebaseUser currentUser = userRepo.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
+
         boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
         if(liked){
             likeButton.setBackgroundTintList(
@@ -220,12 +231,17 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
     private void checkSaveStatus(String current_lotNumber){
-        FirebaseUser currentUser = userRepo.getCurrentUser();
-        if(currentUser==null){
-            updateSaveButton(false);
-            return;
-        }
-        String currentUid = currentUser.getUid();
+//        FirebaseUser currentUser = userRepo.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
         collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedCollection ->{
             if(savedCollection ==null){
                 updateSaveButton(false);
@@ -257,39 +273,51 @@ public class ExpandedArtifactFragment extends Fragment {
             commentInput.setError("An empty comment cannot be posted, please enter a comment");
             return;
         }
-        FirebaseUser currentUser = userRepo.getCurrentUser();
-        if(currentUser==null){
-            return;
-        }
-        String userId = currentUser.getUid();
 
-        Comment comment = new Comment(current_lotNumber,userId,text);
+//        FirebaseUser currentUser = userRepo.getCurrentUser();
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in before posting a comment",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
+
+        Comment comment = new Comment(current_lotNumber,currentUid,text);
         expandedViewRepo.addComment(current_lotNumber, comment).addOnSuccessListener(unused -> {
             commentInput.setText("");
 
             Toast.makeText(requireContext(), "Comment posted", Toast.LENGTH_SHORT).show();
-        });
+        }).addOnFailureListener( unused -> {commentInput.setText("");
+        Toast.makeText(requireContext(), "Fail to post comments", Toast.LENGTH_SHORT).show();});
 
     }
 
     private void likeTheArtifact(){
-        FirebaseUser currentUser = userRepo.getCurrentUser();
-        if(currentUser==null){
-            return;
-        }
-        String userId = currentUser.getUid();
 
-        boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(userId, ev);
+//        FirebaseUser currentUser = userRepo.getCurrentUser();
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in before like a artifact",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
+        boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(currentUid, ev);
 
         likeButton.setEnabled(false);
 
         if (alreadyLiked) {
-            expandedViewRepo.unlike(userId,ev)
+            expandedViewRepo.unlike(currentUid,ev)
                     .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));;
         } else {
-            expandedViewRepo.like(userId,ev)
+            expandedViewRepo.like(currentUid,ev)
                     .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));
@@ -336,22 +364,28 @@ public class ExpandedArtifactFragment extends Fragment {
             return;
         }
         current_lotNumber = bun3.getString("lot_number");
-        FirebaseUser currentUser = userRepo.getCurrentUser();
-        if (currentUser == null) {
-            return;
-        }
+
         if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
             Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
             return;
         }
-        String currentUserid=currentUser.getUid();
-
         saveButton.setEnabled(false);
 
+//        FirebaseUser currentUser = userRepo.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in before save the artifact",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
 
-        collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
+        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
             if(savedArtifactCollection==null){
-                Collection newCollection = new Collection(currentUserid, "Saved Artifacts");
+                Collection newCollection = new Collection(currentUid, "Saved Artifacts");
                 collectionRepo.createNewCollection(newCollection)
                         .addOnSuccessListener(unused -> {
                             collectionRepo.addArtifactToCollection(current_lotNumber, newCollection);
@@ -418,10 +452,22 @@ public class ExpandedArtifactFragment extends Fragment {
         deleteButton.setEnabled(false);
         artifactRepo.deleteArtifactByLotNumber(current_lotNumber)
                 .addOnSuccessListener(unused -> {
+                    Toast.makeText(
+                            requireContext(),
+                            "Artifact deleted",
+                            Toast.LENGTH_SHORT
+                    ).show();
                     requireActivity()
                             .getSupportFragmentManager()
                             .popBackStack();
                 })
+                .addOnFailureListener(error ->
+                        Toast.makeText(
+                                requireContext(),
+                                "Delete failed: " + error.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show()
+                )
                 .addOnCompleteListener(unused->{
                     deleteButton.setEnabled(true);
                 });
