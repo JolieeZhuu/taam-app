@@ -109,11 +109,16 @@ public class CatalogueFragment extends Fragment {
     //func below gonna be needed to share cols
     @NonNull
     public static CatalogueFragment withUserId(String userId) {
+        return withUserId(userId, 0, PURPOSE_COLLECTION);
+    }
+
+    @NonNull
+    public static CatalogueFragment withUserId(String userId, int selectionLimit, String purpose) {
         CatalogueFragment catalogueFrag = new CatalogueFragment();
         Bundle args = new Bundle();
         args.putString(ARG_COLLECTION_USER_ID, userId);
-        args.putInt(ARG_SELECTION_COUNT, 0); //view only mode with the # results from da selection
-        args.putString(ARG_SELECTION_PURPOSE, PURPOSE_COLLECTION);
+        args.putInt(ARG_SELECTION_COUNT, selectionLimit);
+        args.putString(ARG_SELECTION_PURPOSE, purpose);
         catalogueFrag.setArguments(args);
         return catalogueFrag;
     }// TODO: implement sharing feature by calling this method
@@ -127,7 +132,8 @@ public class CatalogueFragment extends Fragment {
             selectionLimit = args.getInt(ARG_SELECTION_COUNT);
             collectionUserId = args.getString(ARG_COLLECTION_USER_ID);//now can see other ppl cols
             specifiedLotNumbers = args.getStringArrayList(ARG_SPECIFIED_LOT_NUMBERS); //COLLECITON
-            selectionPurpose = args.getString(ARG_SELECTION_PURPOSE, PURPOSE_COLLECTION);//purpose
+            selectionPurpose = args.getString(ARG_SELECTION_PURPOSE);
+            if (selectionPurpose == null) selectionPurpose = PURPOSE_COLLECTION;
         }
 
         mainActivity = (MainActivity) requireActivity();
@@ -145,6 +151,12 @@ public class CatalogueFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), PAGINATION_WIDTH));
 
         buttonSelect = view.findViewById(R.id.selectButton);
+        if (PURPOSE_UNSAVE.equals(selectionPurpose)){
+            buttonSelect.setText("Unsave");
+        }else if(PURPOSE_COLLECTION.equals(selectionPurpose)){
+            buttonSelect.setText("Save");
+        }
+
         buttonClear = view.findViewById(R.id.clearButton);
         buttonChangeFilters = view.findViewById(R.id.filterButton);
         buttonChangeFilters.setOnClickListener(v ->
@@ -161,6 +173,7 @@ public class CatalogueFragment extends Fragment {
                 if (selectionBuffer.size() <= selectionLimit) {
                     mainActivity.setMainSelection(selectionBuffer);
                     if(PURPOSE_COLLECTION.equals(selectionPurpose))saveCollection();
+                    else if (PURPOSE_UNSAVE.equals(selectionPurpose))unsaveCollection();
                     else getParentFragmentManager().popBackStack(); // for multipurpose
                 } else {
                     Toast.makeText(
