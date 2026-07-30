@@ -20,34 +20,37 @@ import java.util.Objects;
 
 public class CollectionRepository implements CollectionInterface {
     private final DatabaseReference dbRef;
+    private final DatabaseReference dbRefArtColl; // for artifacts in collection
     public CollectionRepository(FirebaseDatabase rootRef) {
         this.dbRef = rootRef.getReference("collections");
+        this.dbRefArtColl = rootRef.getReference("artifactCollections");
     }
     public Task<Void> createNewCollection(Collection collection) {
         String collectionId = dbRef.child(collection.getUserId()).push().getKey();
         if (collectionId == null) throw new IllegalStateException();
         collection.setCollectionId(collectionId);
-        return dbRef.child(collection.getUserId()).child(collectionId).setValue(collection);
+        return dbRef.child(collection.getUserId()).setValue(collection);
     }
 
-    public Task<List<Collection>> getCollections(String userId) {
+    public Task<Collection> getCollectionByUserId(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
-            if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
-            List<Collection> collectionList = new ArrayList<>();
-            if (snapshot.getResult().hasChildren()) {
-                for (DataSnapshot collectionSnapshot : snapshot.getResult().getChildren()) {
-                    collectionList.add(collectionSnapshot.getValue(Collection.class));
-                }
-                return collectionList;
+            if (snapshot.getResult() != null) {
+                return snapshot.getResult().getValue(Collection.class);
             }
             return null;
         });
     }
 
-    public Task<Collection> getCollectionById(String userId, String collectionId) {
-        return dbRef.child(userId).child(collectionId).get().continueWith(snapshot -> {
-            if (snapshot.getResult() != null) {
-                return snapshot.getResult().getValue(Collection.class);
+    // should do it by userId
+    public Task<Collection> getCollectionById(String collectionId) {
+        return dbRef.orderByChild("collectionId").equalTo(collectionId).get().continueWith(snapshot -> {
+            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+                return null;
+            }
+            if (snapshot.getResult().hasChildren()) {
+                for (DataSnapshot collectionSnapshot : snapshot.getResult().getChildren()) {
+                    return collectionSnapshot.getValue(Collection.class);
+                }
             }
             return null;
         });
@@ -61,15 +64,40 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) == null) { // new artifact!
             artifacts.put(lotNumber, true);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+                Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
+                updates.put(lotNumber + "/" + collection.getCollectionId(), true);
+                return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
+            });
         }
         return Tasks.forResult(null);
+    }
+
+    public Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId,
+                                                                     List<String> lotNumbers) {
+        Map<String,Boolean> map = new HashMap<>();
+        for(String id:lotNumbers) map.put(id, true);
+
+        return saveToCollection(userId, map).continueWithTask(task ->{
+            if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
+            return getCollectionByUserId(userId);
+        }).continueWith(task -> {
+            Collection collection = task.getResult();
+            if(collection!=null && collection.getArtifacts()!=null) {
+                return new ArrayList<>(collection.getArtifacts().keySet());
+            }
+            return new ArrayList<>();
+        });
+    }
+
+    public boolean isArtifactInCollection(String artifactId, Collection collection) {
+        return collection.getArtifacts().containsKey(artifactId);
     }
 
     // edit collection name
     public Task<Void> updateCollectionName(String name, Collection collection) {
         collection.setName(name);
-        return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+        return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
     }
 
     // remove artifact from collection
@@ -78,14 +106,60 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) != null) {
             artifacts.remove(lotNumber);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+                Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
+                updates.put(lotNumber + "/" + collection.getCollectionId(), null);
+                return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
+            });
         }
         return Tasks.forResult(null);
     }
 
+    //remove artifact from ALL collections
+    public Task<Void> removeArtifactFromAllCollections(String lotNumber) {
+        return getAllCollectionsFromArtifact(lotNumber).continueWithTask(task -> {
+            Map<String, Object> updates = new HashMap<>();
+            if (!task.isSuccessful() || task.getResult() == null) throw new IllegalStateException();
+            List<String> collectionIds = task.getResult();
+            for (String id : collectionIds) {
+                updates.put("collections/" + id + "/artifacts/" + lotNumber, null);
+            }
+            dbRef.updateChildren(updates);
+            return Tasks.forResult(null);
+        });
+    } // will need to test this
+
+    private Task<List<String>> getAllCollectionsFromArtifact(String lotNumber) {
+        return dbRefArtColl.child(lotNumber).get().continueWith(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) return null;
+            List<String> collectionIds = new ArrayList<>();
+            if (task.getResult().hasChildren()) {
+                for (DataSnapshot collSnapshot : task.getResult().getChildren()) {
+                    collectionIds.add(collSnapshot.getKey());
+                }
+                return collectionIds;
+            }
+            return null;
+        });
+    }
+
+    public Task<Void> saveToCollection(String userId, Map<String, Boolean> newArtifacts) {
+        DatabaseReference userRef = dbRef.child(userId);
+        return userRef.get().continueWithTask(task -> {
+            DataSnapshot snapshot = task.getResult();
+            if (snapshot != null && snapshot.exists()) {
+                // update existing col
+                return userRef.child("artifacts").updateChildren(new HashMap<>(newArtifacts));
+            } else {
+                //shoud alreayd be made so error
+            }
+            return null;
+        });
+    }
+
     // delete collection
     public Task<Void> deleteCollection(String userId, String collectionId) {
-        return dbRef.child(userId).child(collectionId).removeValue().addOnSuccessListener(snapshot -> {
+        return dbRef.child(userId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted collection with id: " + collectionId);
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting collection with id: " + collectionId);
