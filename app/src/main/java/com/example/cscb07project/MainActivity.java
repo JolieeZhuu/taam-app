@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.fragments.AddArtifactFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
+import com.example.cscb07project.login.fragment_login;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         main_filters = new FilterState();
         if (savedInstanceState == null){
-//            loadFragment(new HomepageFragment());
-            loadFragment(new AddArtifactFragment());
+            loadFragment(new HomepageFragment());
+//            loadFragment(new AddArtifactFragment());
+//            loadFragment(new fragment_login());
         }
     }
 
