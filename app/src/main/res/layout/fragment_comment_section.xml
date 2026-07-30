@@ -2,34 +2,89 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="?attr/colorSurface"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
-    <!-- Top 4/5 of the screen -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/small_button_height"
+            android:contentDescription="@string/back"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:elevation="0dp"
+            app:icon="@drawable/back_icon"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="?attr/colorPrimary"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="tmp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/small_button_height"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:visibility="invisible"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:elevation="0dp"
+            app:icon="@drawable/back_icon"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:strokeWidth="0dp" />
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4" />
+        android:layout_weight="1" />
 
-    <!-- Bottom 1/5 of the screen -->
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonDeleteSelectedComments"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/buttonDeleteSelectedComments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Selected Comments"
-            android:textAllCaps="false"
-            android:textColor="#B00020" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/delete_comments"
+        android:textAllCaps="false"
+        android:textColor="#B7282D"
+        android:backgroundTint="#FFFFFF"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconGravity="textStart"
+        app:iconTint="#B7282D"
+        app:strokeColor="#B7282D"
+        app:strokeWidth="1dp" />
 
 </LinearLayout>

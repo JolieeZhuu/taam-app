@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
 //             loadFragment(new AddArtifactFragment());
         main_filters = new FilterState();
         if (savedInstanceState == null){
-            loadFragment(new HomepageFragment());
+            loadFragment(
+                    ExpandedArtifactFragment.newInstance("1")
+            );
         }
     }
 
