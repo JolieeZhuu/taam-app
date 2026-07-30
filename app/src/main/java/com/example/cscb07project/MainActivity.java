@@ -8,24 +8,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.fragments.HomeFragment;
+import com.example.cscb07project.R;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.example.cscb07project.systems.FilterState;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    FilterState main_filters;
     ArtifactRepository aRep;
-    FilterState mainFilters;
-    Set<Artifact> selectedArtifacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +28,13 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         aRep = new ArtifactRepository(db);
 
-        mainFilters = new FilterState();
-        selectedArtifacts = new HashSet<>();
+//        myRef.setValue("B07 Demo!");
+//         myRef.child("movies").setValue("B07 Demo!");
 
+      // this was from artifact form creation
+//         if (savedInstanceState == null) {
+//             loadFragment(new AddArtifactFragment());
+        main_filters = new FilterState();
         if (savedInstanceState == null){
             loadFragment(new HomepageFragment());
         }
@@ -50,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+
     public FilterState getMainFS() {
-        return mainFilters;
+        return main_filters;
     }
     public ArtifactRepository getMainARep() {return aRep; }
-    public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
 }

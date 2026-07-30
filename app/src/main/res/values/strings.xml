@@ -2,15 +2,12 @@
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="back">Back</string>
 
-    <!-- General button navigation -->
-    <string name="select_filters_button">Choose Filters</string>
-    <string name="catalogue_view_button">See Artifacts</string>
-    <string name="catalogue_select_button">Choose Artifacts</string>
-    <string name="expanded_view_button">More Details</string>
-    <string name="exit_button">Exit</string>
-
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
+
+    <string name="save_button">Save</string>
+    <string name="clear_button">Clear</string>
+    <string name="exit_button">Exit</string>
 
     <string name="category_filter">Category</string>
     <string name="material_filter">Material</string>
