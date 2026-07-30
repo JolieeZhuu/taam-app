@@ -28,7 +28,36 @@ public class CollectionRepository implements CollectionInterface {
         collection.setCollectionId(collectionId);
         return dbRef.child(collection.getUserId()).child(collectionId).setValue(collection);
     }
+//ADDED BY EL
+    //take the list of artrifacts and save them into db
+    public Task<Void> saveToCollection(String userId, Map<String, Boolean> newArtifacts) {
+        DatabaseReference userRef = dbRef.child(userId);
+        return userRef.get().continueWithTask(task -> {
+            DataSnapshot snapshot = task.getResult();
+            if (snapshot != null && snapshot.exists()) {
+                // update existing col
+                return userRef.child("artifacts")
+                        .updateChildren(new HashMap<>(newArtifacts));
+            } else {
+//shoud alreayd be made so error ?
+                //msut do eror chekcing
+            }
+            return null;
+        });
+    }
+    // by E
+    // for retrieving the collection pertaining to the user
+    public Task<Collection> getCollection(String userId) {
+        return dbRef.child(userId).get().continueWith(snapshot -> {
+            if (snapshot.getResult() != null && snapshot.getResult().exists()) {
+                return snapshot.getResult().getValue(Collection.class);
+            }
+            // error gettign col
+            return null;
+        });
+    }
 
+    //unneeded?
     public Task<List<Collection>> getCollections(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
@@ -83,11 +112,31 @@ public class CollectionRepository implements CollectionInterface {
     }
 
     // delete collection
+    // unneeded? unless we can have deleting users
     public Task<Void> deleteCollection(String userId, String collectionId) {
         return dbRef.child(userId).child(collectionId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted collection with id: " + collectionId);
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting collection with id: " + collectionId);
+        });
+    }
+
+    //elina
+    // add the selected artifacts to the coll and then fetches the updated from db and returns it
+    public Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId,
+                                                                     List<String> lotNumbers){
+        Map<String,Boolean> map = new HashMap<>();
+        for(String id:lotNumbers) map.put(id, true);
+
+        return saveToCollection(userId, map).continueWithTask(task ->{
+            if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
+            return getCollection(userId);
+        }).continueWith(task -> {
+            Collection collection = task.getResult();
+            if(collection!=null && collection.getArtifacts()!=null) {
+                return new ArrayList<>(collection.getArtifacts().keySet());
+            }
+            return new ArrayList<>();
         });
     }
 }
