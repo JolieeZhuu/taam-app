@@ -28,6 +28,7 @@ import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.example.cscb07project.repositories.UserRepository;
+import com.google.android.material.color.MaterialColors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -112,7 +113,7 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactAccession = view.findViewById(R.id.accession_number);
         artifactNotes = view.findViewById(R.id.Notes);
         artifactDescription = view.findViewById(R.id.artifact_description);
-        likeCount = view.findViewById(R.id.num_of_likes);
+        //likeCount = view.findViewById(R.id.num_of_likes); now accessed directly through "likeButton.setText(...)"
 
         commentInput = view.findViewById(R.id.editTextComment);
 
@@ -132,25 +133,13 @@ public class ExpandedArtifactFragment extends Fragment {
 
         current_lotNumber = bun2.getString("lot_number");
 
-        ////////////////////////////////////////////////////
-        currentUid =  "FKOIIqC6RzP8wjScFi2y0rwej063";
-///////////////////////////////////////////////////////////////////////////
-//        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
-//        displayArtifactDataModelInformation(artifact);
-//
-//        checkLikeStatus(current_lotNumber);
-//        checkSaveStatus(current_lotNumber);
-//
-//        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
-//        likeCount.setText("Like: " + ev.getLikeNumber());
+        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
+        displayArtifactDataModelInformation(artifact);
 
-        artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
-            if (loadedArtifact == null) {
-                return;
-            }
-            artifact = loadedArtifact;
-            displayArtifactDataModelInformation(artifact);
-        });
+        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
+        //likeCount.setText("Like: " + ev.getLikeNumber());
+        likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
+        //null check + refer to previously commented out "likeCount = view.findViewById" line
 
         expandedViewRepo
                 .getExpandedViewByLotNumber(current_lotNumber)
@@ -326,35 +315,13 @@ public class ExpandedArtifactFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    public void updateLikeDisplayAndButton(boolean alreadyLiked){
-        int numberOfLikes;
-        if(ev.getLikeNumber() == null){
-            numberOfLikes=0;
-        }
-        else {
-            numberOfLikes=ev.getLikeNumber();
-        }
-
-        likeCount.setText("Likes: " + numberOfLikes);
-
-
-        if (alreadyLiked) {
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-        }
-        else {
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-        }
-
+    public void updateLikeDisplayAndButton(boolean alreadyLiked) {
+        boolean isNowLiked = !alreadyLiked; //not exactly sure why, but it doesnt work otherwise...
+        int numberOfLikes = (ev.getLikeNumber() == null) ? 0 : ev.getLikeNumber();
+        likeButton.setText(String.valueOf(numberOfLikes));
+        int colorOnPrimary = MaterialColors.getColor(likeButton, com.google.android.material.R.attr.colorOnPrimary);
+        likeButton.setIconResource(isNowLiked ? R.drawable.heart_icon_filled : R.drawable.heart_icon);
+        likeButton.setIconTint(ColorStateList.valueOf(colorOnPrimary));
     }
 
 
@@ -415,26 +382,9 @@ public class ExpandedArtifactFragment extends Fragment {
         );
     }
     private void updateSaveButton(boolean saved) {
-        int red = Color.rgb(183, 40, 45);
-        if (saved) {
-            // Saved: red background, white bookmark
-            saveButton.setBackgroundTintList(
-                    ColorStateList.valueOf(red)
-            );
-
-            saveButton.setIconTint(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-        } else {
-            // Unsaved: white background, red bookmark
-            saveButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-
-            saveButton.setIconTint(
-                    ColorStateList.valueOf(red)
-            );
-        }
+        int colorOnPrimary = MaterialColors.getColor(saveButton, com.google.android.material.R.attr.colorOnPrimary);
+        saveButton.setIconResource(saved ? R.drawable.save_icon_filled : R.drawable.save_icon);
+        saveButton.setIconTint(ColorStateList.valueOf(colorOnPrimary));
     }
     private void editTheArtifact(){
         if(current_lotNumber== null || current_lotNumber.trim().isEmpty()){
