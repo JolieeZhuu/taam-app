@@ -125,19 +125,42 @@ public class ExpandedArtifactFragment extends Fragment {
         setupRepo();
 
         Bundle bun2 = getArguments();
+        if(bun2==null){
+            return view;
+        }
 
         current_lotNumber = bun2.getString("lot_number");
 
-        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
-        displayArtifactDataModelInformation(artifact);
+//        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
+//        displayArtifactDataModelInformation(artifact);
+//
+//        checkLikeStatus(current_lotNumber);
+//        checkSaveStatus(current_lotNumber);
+//
+//        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
+//        likeCount.setText("Like: " + ev.getLikeNumber());
 
-        checkLikeStatus(current_lotNumber);
+        artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
+            if (loadedArtifact == null) {
+                return;
+            }
+            artifact = loadedArtifact;
+            displayArtifactDataModelInformation(artifact);
+        });
+
+        expandedViewRepo
+                .getExpandedViewByLotNumber(current_lotNumber)
+                .addOnSuccessListener(loadedExpandedView -> {
+                    if (loadedExpandedView == null) {
+                        return;
+                    }
+                    ev = loadedExpandedView;
+                    likeCount.setText(
+                            "Likes: " + ev.getLikeNumber()
+                    );
+                    checkLikeStatus(current_lotNumber);
+                });
         checkSaveStatus(current_lotNumber);
-
-        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
-        likeCount.setText("Like: " + ev.getLikeNumber());
-
-
         setOnClickListenersForButtons();
 
         return view;
@@ -149,7 +172,7 @@ public class ExpandedArtifactFragment extends Fragment {
         expandedViewRepo = new ExpandedViewRepository(db);
         artifactRepo = new ArtifactRepository(db,expandedViewRepo);
         collectionRepo = new CollectionRepository(db);
-
+        userRepo = new UserRepository(db, FirebaseAuth.getInstance());
     }
 
     @SuppressLint("SetTextI18n")
@@ -199,38 +222,23 @@ public class ExpandedArtifactFragment extends Fragment {
     private void checkSaveStatus(String current_lotNumber){
         FirebaseUser currentUser = userRepo.getCurrentUser();
         if(currentUser==null){
-            return;
-        }
-        String currentUid = currentUser.getUid();
-        if(collectionRepo.getCollectionByName(currentUid,"Saved Artifacts")==null){
             updateSaveButton(false);
             return;
         }
-        boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").getResult());
-        if(saved){
-            saveButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-
-            saveButton.setIconTint(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-        }
-        else{
-            saveButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-
-            saveButton.setIconTint(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-        }
+        String currentUid = currentUser.getUid();
+        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedCollection ->{
+            if(savedCollection ==null){
+                updateSaveButton(false);
+                return;
+            }
+            boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedCollection);
+            updateSaveButton(saved);
+        });
     }
     private String checkEmptyOrNot(String input) {
         if (input == null || input.trim().isEmpty()) {
             return "N/A";
         }
-
         return input;
     }
 
@@ -249,8 +257,11 @@ public class ExpandedArtifactFragment extends Fragment {
             commentInput.setError("An empty comment cannot be posted, please enter a comment");
             return;
         }
-
-        String userId = "";
+        FirebaseUser currentUser = userRepo.getCurrentUser();
+        if(currentUser==null){
+            return;
+        }
+        String userId = currentUser.getUid();
 
         Comment comment = new Comment(current_lotNumber,userId,text);
         expandedViewRepo.addComment(current_lotNumber, comment).addOnSuccessListener(unused -> {
@@ -297,7 +308,6 @@ public class ExpandedArtifactFragment extends Fragment {
         }
 
         likeCount.setText("Likes: " + numberOfLikes);
-
 
 
         if (alreadyLiked) {
@@ -363,11 +373,12 @@ public class ExpandedArtifactFragment extends Fragment {
                     updateSaveButton(true);
                     collectionRepo.addArtifactToCollection(current_lotNumber,savedArtifactCollection);
                 }
-                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
+//                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
             }
-        });
-        saveButton.setEnabled(true);
-
+        })
+        .addOnCompleteListener(task ->
+                saveButton.setEnabled(true)
+        );
     }
     private void updateSaveButton(boolean saved) {
         int red = Color.rgb(183, 40, 45);
@@ -410,9 +421,10 @@ public class ExpandedArtifactFragment extends Fragment {
                     requireActivity()
                             .getSupportFragmentManager()
                             .popBackStack();
+                })
+                .addOnCompleteListener(unused->{
+                    deleteButton.setEnabled(true);
                 });
-
-        deleteButton.setEnabled(true);
     }
     private void openCommentsSection() {
         if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {

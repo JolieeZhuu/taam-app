@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cscb07project.entities.Artifact;
@@ -32,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,7 +45,7 @@ public class CommentsFragment extends Fragment{
     private List<Comment> commentList;
 
     private RecyclerView commentRecyclerView;
-    private CommentAdapter
+    private CommentAdapter commentAdapter;
 
 
     public CommentsFragment() {
@@ -65,25 +67,39 @@ public class CommentsFragment extends Fragment{
         MainActivity mainActivity = (MainActivity) requireActivity();
         db = mainActivity.getDatabase();
         expandedViewRepo = new ExpandedViewRepository(db);
-        Bundle bun2 =new Bundle();
-        currentLotNumber = bun2.getString("lot_number");
-        commentList= expandedViewRepo.getCommentsByLotNumber(currentLotNumber).getResult();
-
+        Bundle bun2 = getArguments();
+        if (bun2 != null) {
+            currentLotNumber = bun2.getString("lot_number");
+        }
+        commentList = new ArrayList<>();
         commentRecyclerView = view.findViewById(R.id.commentsRecyclerView);
-        displayALLComments(commentList);
+
+        commentAdapter = new CommentAdapter(commentList,(comment) -> this.deleteComment(comment));
+        commentRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext())
+        );
+
+        commentRecyclerView.setAdapter(commentAdapter);
+        displayALLComments();
         return view;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void displayALLComments(){
+
+        commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment));
+
+        commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        commentRecyclerView.setAdapter(commentAdapter);
+
         if(currentLotNumber==null){return;}
         expandedViewRepo.getCommentsByLotNumber(currentLotNumber).addOnSuccessListener( comments ->{
+                    commentList.clear();
                     if(commentList!=null){
                         commentList.addAll(comments);
                     }
-
-
-                }
-                );
+                    commentAdapter.notifyDataSetChanged();
+                });
 
 
     }
