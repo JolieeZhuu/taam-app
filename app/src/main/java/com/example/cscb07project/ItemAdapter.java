@@ -6,45 +6,48 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cscb07project.entities.Comment;
+
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
-    private List<Item> itemList;
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
+    private List<Comment> commentList;
 
-    public ItemAdapter(List<Item> itemList) {
-        this.itemList = itemList;
+    public CommentAdapter(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_adapter, parent, false);
-        return new ItemViewHolder(view);
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_comment_adapter, parent, false);
+        return new CommentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        Item item = itemList.get(position);
-        holder.textViewTitle.setText(item.getTitle());
-        holder.textViewAuthor.setText(item.getAuthor());
-        holder.textViewGenre.setText(item.getGenre());
-        holder.textViewDescription.setText(item.getDescription());
+    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        Comment comment = commentList.get(position);
+        holder.textViewTitle.setText(comment.getTitle());
+        holder.textViewAuthor.setText(comment.getAuthor());
+        holder.textViewGenre.setText(comment.getGenre());
+        holder.textViewDescription.setText(comment.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return commentList.size();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle, textViewAuthor, textViewGenre, textViewDescription;
 
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
-            textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
-            textViewGenre = itemView.findViewById(R.id.textViewGenre);
-            textViewDescription = itemView.findViewById(R.id.textViewDescription);
+        public CommentViewHolder(@NonNull View commentView) {
+            super(commentView);
+            textViewTitle = commentView.findViewById(R.id.textViewTitle);
+            textViewAuthor = commentView.findViewById(R.id.textViewAuthor);
+            textViewGenre = commentView.findViewById(R.id.textViewGenre);
+            textViewDescription = commentView.findViewById(R.id.textViewDescription);
         }
     }
 }
