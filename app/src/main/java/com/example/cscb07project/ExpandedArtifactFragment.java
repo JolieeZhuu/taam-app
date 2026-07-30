@@ -122,7 +122,6 @@ public class ExpandedArtifactFragment extends Fragment {
         postCommentButton = view.findViewById(R.id.buttonPostComment);
         viewCommentsButton  = view.findViewById(R.id.enter_comment_section);
 
-        checkSaveStatus();
         setupRepo();
 
         Bundle bun2 = getArguments();
@@ -131,6 +130,9 @@ public class ExpandedArtifactFragment extends Fragment {
 
         artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
         displayArtifactDataModelInformation(artifact);
+
+        checkLikeStatus(current_lotNumber);
+        checkSaveStatus(current_lotNumber);
 
         ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
         likeCount.setText("Like: " + ev.getLikeNumber());
@@ -174,14 +176,26 @@ public class ExpandedArtifactFragment extends Fragment {
         }
         String currentUid = currentUser.getUid();
         boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
-        if(likedOrNot){
-
+        if(liked){
+            likeButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
+            likeButton.setIconTint(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
         }
         else{
-            updateLikeDisplayAndButton();
+            likeButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
+            likeButton.setIconTint(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
         }
 
     }
+
+
     private void checkSaveStatus(String current_lotNumber){
         FirebaseUser currentUser = userRepo.getCurrentUser();
         if(currentUser==null){
@@ -192,9 +206,25 @@ public class ExpandedArtifactFragment extends Fragment {
             updateSaveButton(false);
             return;
         }
+        boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").getResult());
+        if(saved){
+            saveButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
 
-        updateSaveButton();
+            saveButton.setIconTint(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
+        }
+        else{
+            saveButton.setBackgroundTintList(
+                    ColorStateList.valueOf(Color.WHITE)
+            );
 
+            saveButton.setIconTint(
+                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+            );
+        }
     }
     private String checkEmptyOrNot(String input) {
         if (input == null || input.trim().isEmpty()) {
@@ -269,6 +299,7 @@ public class ExpandedArtifactFragment extends Fragment {
         likeCount.setText("Likes: " + numberOfLikes);
 
 
+
         if (alreadyLiked) {
             likeButton.setBackgroundTintList(
                     ColorStateList.valueOf(Color.WHITE)
@@ -287,6 +318,8 @@ public class ExpandedArtifactFragment extends Fragment {
         }
 
     }
+
+
     private void saveTheArtifact(){
         Bundle bun3 = getArguments();
         if(bun3==null){
