@@ -19,8 +19,10 @@ import java.util.Objects;
 
 public class CollectionRepository implements CollectionInterface {
     private final DatabaseReference dbRef;
+    private final DatabaseReference dbRefArtColl; // for artifacts in collection
     public CollectionRepository(FirebaseDatabase rootRef) {
         this.dbRef = rootRef.getReference("collections");
+        this.dbRefArtColl = rootRef.getReference("artifactCollections");
     }
     public Task<Void> createNewCollection(Collection collection) {
         String collectionId = dbRef.child(collection.getUserId()).push().getKey();
@@ -61,7 +63,11 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) == null) { // new artifact!
             artifacts.put(lotNumber, true);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+                Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
+                updates.put(lotNumber + "/" + collection.getCollectionId(), true);
+                return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
+            });
         }
         return Tasks.forResult(null);
     }
@@ -99,9 +105,41 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts.get(lotNumber) != null) {
             artifacts.remove(lotNumber);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
+            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+                Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
+                updates.put(lotNumber + "/" + collection.getCollectionId(), null);
+                return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
+            });
         }
         return Tasks.forResult(null);
+    }
+
+    //remove artifact from ALL collections
+    public Task<Void> removeArtifactFromAllCollections(String lotNumber) {
+        return getAllCollectionsFromArtifact(lotNumber).continueWithTask(task -> {
+            Map<String, Object> updates = new HashMap<>();
+            if (!task.isSuccessful() || task.getResult() == null) throw new IllegalStateException();
+            List<String> collectionIds = task.getResult();
+            for (String id : collectionIds) {
+                updates.put("collections/" + id + "/artifacts/" + lotNumber, null);
+            }
+            dbRef.updateChildren(updates);
+            return Tasks.forResult(null);
+        });
+    } // will need to test this
+
+    private Task<List<String>> getAllCollectionsFromArtifact(String lotNumber) {
+        return dbRefArtColl.child(lotNumber).get().continueWith(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) return null;
+            List<String> collectionIds = new ArrayList<>();
+            if (task.getResult().hasChildren()) {
+                for (DataSnapshot collSnapshot : task.getResult().getChildren()) {
+                    collectionIds.add(collSnapshot.getKey());
+                }
+                return collectionIds;
+            }
+            return null;
+        });
     }
 
     public Task<Void> saveToCollection(String userId, Map<String, Boolean> newArtifacts) {
