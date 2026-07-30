@@ -1,6 +1,4 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
@@ -18,16 +16,16 @@
     <string name="creator">Creator: rrrrrrrrrrr</string>
     <string name="dynasty_period">Dynasty/Period: dddddddddddd</string>
     <string name="culture_origin">Culture origin: cccccccccccc</string>
-    <string name="lot_number">Lot number: 123456789</string>
+<!--    <string name="lot_number">Lot number: 123456789</string>-->
     <string name="material">Material: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="dimensions">Dimensions: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="condition_report">Condition report: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="current_location">Current_location: bbbbbbbbbbbbbbbbbbb</string>
+<!--    <string name="dimensions">Dimensions: bbbbbbbbbbbbbbbbbbb</string>-->
+<!--    <string name="condition_report">Condition report: bbbbbbbbbbbbbbbbbbb</string>-->
+<!--    <string name="current_location">Current_location: bbbbbbbbbbbbbbbbbbb</string>-->
     <string name="acquisition_method">Acquisition method: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="provenance">Provenance: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="accession_number">Accession number: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="notes">Notes: bbbbbbbbbbbbbbbbbbb</string>
-    <string name="description">Description: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</string>
+<!--    <string name="provenance">Provenance: bbbbbbbbbbbbbbbbbbb</string>-->
+<!--    <string name="accession_number">Accession number: bbbbbbbbbbbbbbbbbbb</string>-->
+<!--    <string name="notes">Notes: bbbbbbbbbbbbbbbbbbb</string>-->
+<!--    <string name="description">Description: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</string>-->
     <string name="like">Like</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
@@ -50,20 +48,31 @@
     <string name="material_filter">Material</string>
     <string name="period_filter">Period</string>
 
+    <string name="save_filters">Save</string>
+    <string name="clear_filters">Clear</string>
+
+    <!-- Catalogue Screen -->
+    <string name="selection_count">Selected: </string>
+    <string name="artifact_category">Category</string>
+    <string name="artifact_material">Material</string>
+    <string name="artifact_period">Period</string>
+
+    <string name="select_artifacts">Select</string>
+    <string name="clear_selection">Clear</string>
+
     <!-- Need this kept when merging :) -->
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
     <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
     <string name="supabase_image_bucket">CSCB07 Project Images</string>
 
 
-
+    <!-- Strings related to login -->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
     <string name="action_new_user">New user? Create new account</string>
     <string name="hint_confirm_password">Confirm password</string>
     <string name="action_create_new_account">Create account</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -81,15 +90,20 @@
     <string name="new_account">"New Account"</string>
 
 
-
-
+    <!-- Artifact property strings -->
+    <string name="lot_number">Lot Number</string>
     <string name="artifact_name">Artifact Name</string>
+    <string name="description">Description</string>
     <string name="origin">Origin</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="condition_report">Condition Report</string>
+    <string name="current_location">Current Location</string>
     <string name="acquired_method">Acquired Method</string>
+    <string name="provenance">Provenance</string>
+    <string name="accession_number">Accession Number</string>
+    <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
-
-
 
 
     <!-- Homepage Screen -->
