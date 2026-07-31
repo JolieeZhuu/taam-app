@@ -39,8 +39,12 @@ public class CollectionRepository implements CollectionInterface {
                 return userRef.child("artifacts")
                         .updateChildren(new HashMap<>(newArtifacts));
             } else {
-//shoud alreayd be made so error ?
-                //msut do eror chekcing
+                //make new  collection with keys if DNE
+                Map<String, Object> data = new HashMap<>();
+                data.put("collectionId", userId);
+                data.put("collectionName", "default_collection");
+                data.put("artifacts", newArtifacts);
+                return userRef.setValue(data);
             }
             return null;
         });
