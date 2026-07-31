@@ -29,7 +29,8 @@ public class CollectionRepository implements CollectionInterface {
         String collectionId = dbRef.child(collection.getUserId()).push().getKey();
         if (collectionId == null) throw new IllegalStateException();
         collection.setCollectionId(collectionId);
-        return dbRef.child(collection.getUserId()).setValue(collection);
+        ///////
+        return dbRef.child(collection.getUserId()).child(collectionId).setValue(collection);
     }
 
     public Task<Collection> getCollectionByUserId(String userId) {
@@ -61,12 +62,12 @@ public class CollectionRepository implements CollectionInterface {
         if (artifacts == null) {
             artifacts = new HashMap<>();
         }
-        if (artifacts.get(lotNumber) == null) { // new artifact!
-            artifacts.put(lotNumber, true);
+        if (artifacts.get("lot_" + lotNumber) == null) { // new artifact!
+            artifacts.put("lot_" + lotNumber, true);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+            return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap()).continueWithTask(task -> {
                 Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
-                updates.put(lotNumber + "/" + collection.getCollectionId(), true);
+                updates.put(collection.getCollectionId(), true);
                 return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
             });
         }
@@ -76,39 +77,53 @@ public class CollectionRepository implements CollectionInterface {
     public Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId,
                                                                      List<String> lotNumbers) {
         Map<String,Boolean> map = new HashMap<>();
-        for(String id:lotNumbers) map.put(id, true);
+        for(String id:lotNumbers) map.put("lot_"+id, true);
 
         return saveToCollection(userId, map).continueWithTask(task ->{
             if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
             return getCollectionByUserId(userId);
         }).continueWith(task -> {
             Collection collection = task.getResult();
-            if(collection!=null && collection.getArtifacts()!=null) {
-                return new ArrayList<>(collection.getArtifacts().keySet());
+            if (collection != null
+                    && collection.getArtifacts() != null) {
+
+                List<String> result = new ArrayList<>();
+
+                for (String artifactKey
+                        : collection.getArtifacts().keySet()) {
+
+                    if (artifactKey.startsWith("lot_")) {
+                        result.add(artifactKey.substring(4));
+                    } else {
+                        result.add(artifactKey);
+                    }
+                }
+
+                return result;
             }
             return new ArrayList<>();
         });
     }
 
     public boolean isArtifactInCollection(String artifactId, Collection collection) {
-        return collection.getArtifacts().containsKey(artifactId);
+        return collection.getArtifacts().containsKey("lot_"+artifactId);
     }
 
     // edit collection name
     public Task<Void> updateCollectionName(String name, Collection collection) {
         collection.setName(name);
-        return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
+        return dbRef.child(collection.getUserId()).child(collection.getCollectionId()).updateChildren(collection.toMap());
     }
 
     // remove artifact from collection
     public Task<Void> removeArtifactFromCollection(String lotNumber, Collection collection) {
         Map<String, Boolean> artifacts = collection.getArtifacts();
-        if (artifacts.get(lotNumber) != null) {
-            artifacts.remove(lotNumber);
+        if (artifacts.get("lot_" +lotNumber) != null) {
+            artifacts.remove("lot_" +lotNumber);
             collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+            return dbRef.child(collection.getUserId()) .child(collection.getCollectionId()).updateChildren(collection.toMap()).continueWithTask(task -> {
                 Map<String, Object> updates = new HashMap<>(); // will add a separate structure for easier deletion
-                updates.put(lotNumber + "/" + collection.getCollectionId(), null);
+                updates.put(collection.getCollectionId(), null);
                 return dbRefArtColl.child(lotNumber).updateChildren(updates); // should i be throwing stuff lmao?
             });
         }
@@ -170,7 +185,7 @@ public class CollectionRepository implements CollectionInterface {
         if (collection == null || collection.getArtifacts() == null) {
             return false;
         }
-        Boolean saved = collection.getArtifacts().get(currentLotNumber);
+        Boolean saved = collection.getArtifacts().get("lot_"+currentLotNumber);
         if (saved != null && saved == true) {
             return true;
         }
