@@ -1,9 +1,12 @@
 package com.example.cscb07project;
 
+import static android.graphics.Color.RED;
+
 import com.google.android.material.button.MaterialButton;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -54,7 +58,6 @@ public class ExpandedArtifactFragment extends Fragment {
     private TextView artifactAccession;
     private TextView artifactNotes;
     private TextView artifactDescription;
-    private TextView likeCount;
 
     private EditText commentInput;
 
@@ -113,7 +116,6 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactAccession = view.findViewById(R.id.accession_number);
         artifactNotes = view.findViewById(R.id.Notes);
         artifactDescription = view.findViewById(R.id.artifact_description);
-        //likeCount = view.findViewById(R.id.num_of_likes); now accessed directly through "likeButton.setText(...)"
 
         commentInput = view.findViewById(R.id.editTextComment);
 
@@ -139,14 +141,21 @@ public class ExpandedArtifactFragment extends Fragment {
                 Toast.LENGTH_LONG
         ).show();
 
+        //        FirebaseUser currentUser = userRepo.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Please log in",
+//                    Toast.LENGTH_SHORT
+//            ).show();
+//        } else {
+//            currentUid = currentUser.getUid();
+//        }
         ////////////////////////////////////////////////////
         currentUid =  "H8jfDo0xjmScP8IVCJD2bX9EPKq1";
 ///////////////////////////////////////////////////////////////////////////
-//        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
-//        displayArtifactDataModelInformation(artifact);
-//
-//        checkLikeStatus(current_lotNumber);
-//        checkSaveStatus(current_lotNumber);
+
 
 
 
@@ -162,22 +171,23 @@ public class ExpandedArtifactFragment extends Fragment {
             }
             artifact = loadedArtifact;
             displayArtifactDataModelInformation(artifact);
-        });
+        })
+        .addOnFailureListener(error ->
+            Toast.makeText(
+                    requireContext(),
+                    "Could not load artifact: "
+                            + error.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show()
+        );
         likeButton.setEnabled(false);
-        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
-        displayArtifactDataModelInformation(artifact);
-
-        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
-        //likeCount.setText("Like: " + ev.getLikeNumber());
-        likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
-        //null check + refer to previously commented out "likeCount = view.findViewById" line
 
         expandedViewRepo
                 .getExpandedViewByLotNumber(current_lotNumber)
                 .addOnSuccessListener(loadedExpandedView -> {
                     if (loadedExpandedView == null) {
                         likeButton.setEnabled(true);
-
+                        likeButton.setText("0");
                         Toast.makeText(
                                 requireContext(),
                                 "No expanded view found for lot: "
@@ -189,15 +199,11 @@ public class ExpandedArtifactFragment extends Fragment {
                     }
                     ev = loadedExpandedView;
 
-                    int numberOfLikes = 0;
-                    if(ev.getLikeNumber()!=null){
-                        numberOfLikes = ev.getLikeNumber();
-                    }
-                    likeCount.setText(
-                            "Likes: " + numberOfLikes
-                    );
+                    likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
+                    boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
+                    updateLikeDisplayAndButton(liked);
                     likeButton.setEnabled(true);
-                    checkLikeStatus(current_lotNumber);
+
                 }).addOnFailureListener(error -> {
                     likeButton.setEnabled(true);
 
@@ -240,52 +246,11 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactNotes.setText("Notes: " + checkEmptyOrNot(artifact.getNotes()));
         artifactDescription.setText("Description: " + checkEmptyOrNot(artifact.getDescription()));
     }
-    private void checkLikeStatus(String current_lotNumber){
-//        FirebaseUser currentUser = userRepo.getCurrentUser();
-//
-//        if (currentUser == null) {
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Please log in",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            currentUid = currentUser.getUid();
-//        }
 
-        boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
-        if(liked){
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-        }
-        else{
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-        }
-
-    }
 
 
     private void checkSaveStatus(String current_lotNumber){
-//        FirebaseUser currentUser = userRepo.getCurrentUser();
-//
-//        if (currentUser == null) {
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Please log in",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            currentUid = currentUser.getUid();
-//        }
+
         collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedCollection ->{
             if(savedCollection ==null){
                 updateSaveButton(false);
@@ -389,32 +354,21 @@ public class ExpandedArtifactFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    public void updateLikeDisplayAndButton(boolean alreadyLiked){
-        boolean isNowLiked = !alreadyLiked; //not exactly sure why, but it doesnt work otherwise...
+    public void updateLikeDisplayAndButton(boolean Liked){
+
+
+
+         //not exactly sure why, but it doesnt work otherwise...
         int numberOfLikes = (ev.getLikeNumber() == null) ? 0 : ev.getLikeNumber();
 
-        if (isNowLiked) {
-            numberOfLikes++;
-            ev.setLikeNumber(numberOfLikes);
-
-        }
-        else {
-            if (numberOfLikes > 0) {
-                numberOfLikes--;
-            }
-            ev.setLikeNumber(numberOfLikes);
-        }
-
-        likeCount.setText(
-                "Likes: " + numberOfLikes
-        );
 
         likeButton.setText(String.valueOf(numberOfLikes));
-        int colorOnPrimary = MaterialColors.getColor(likeButton, com.google.android.material.R.attr.colorOnPrimary);
-        likeButton.setIconResource(isNowLiked ? R.drawable.heart_icon_filled : R.drawable.heart_icon);
-        likeButton.setIconTint(ColorStateList.valueOf(colorOnPrimary));
 
-
+        int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);
+        likeButton.setIconResource(Liked ?R.drawable.heart_icon:  R.drawable.heart_icon_filled );
+        likeButton.setBackgroundTintList(ColorStateList.valueOf(Liked ? Color.WHITE : red));
+        likeButton.setIconTint(ColorStateList.valueOf(Liked ?  red: Color.WHITE));
+        likeButton.setTextColor(Liked ? red: Color.WHITE );
 }
 
 
