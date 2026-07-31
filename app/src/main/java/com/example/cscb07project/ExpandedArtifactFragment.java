@@ -80,7 +80,6 @@ public class ExpandedArtifactFragment extends Fragment {
 
     public static ExpandedArtifactFragment newInstance(String lotNumber) {
         ExpandedArtifactFragment fragment = new ExpandedArtifactFragment();
-
         Bundle bun = new Bundle();
         bun.putString("lot_number", lotNumber);
         fragment.setArguments(bun);
@@ -132,37 +131,72 @@ public class ExpandedArtifactFragment extends Fragment {
 
         current_lotNumber = bun2.getString("lot_number");
 
+        Toast.makeText(
+                requireContext(),
+                "Opening lot: [" + current_lotNumber + "]",
+                Toast.LENGTH_LONG
+        ).show();
+
         ////////////////////////////////////////////////////
-        currentUid =  "FKOIIqC6RzP8wjScFi2y0rwej063";
+        currentUid =  "H8jfDo0xjmScP8IVCJD2bX9EPKq1";
 ///////////////////////////////////////////////////////////////////////////
 //        artifact = artifactRepo.getArtifactByLotNumber(current_lotNumber).getResult();
 //        displayArtifactDataModelInformation(artifact);
 //
 //        checkLikeStatus(current_lotNumber);
 //        checkSaveStatus(current_lotNumber);
-//
-//        ev = expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).getResult();
-//        likeCount.setText("Like: " + ev.getLikeNumber());
+
+
 
         artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
             if (loadedArtifact == null) {
+                Toast.makeText(
+                        requireContext(),
+                        "The artifact lot number do not exist"
+                                + current_lotNumber,
+                        Toast.LENGTH_LONG
+                ).show();
                 return;
             }
             artifact = loadedArtifact;
             displayArtifactDataModelInformation(artifact);
         });
-
+        likeButton.setEnabled(false);
         expandedViewRepo
                 .getExpandedViewByLotNumber(current_lotNumber)
                 .addOnSuccessListener(loadedExpandedView -> {
                     if (loadedExpandedView == null) {
+                        likeButton.setEnabled(true);
+
+                        Toast.makeText(
+                                requireContext(),
+                                "No expanded view found for lot: "
+                                        + current_lotNumber,
+                                Toast.LENGTH_LONG
+                        ).show();
+
                         return;
                     }
                     ev = loadedExpandedView;
+
+                    int numberOfLikes = 0;
+                    if(ev.getLikeNumber()!=null){
+                        numberOfLikes = ev.getLikeNumber();
+                    }
                     likeCount.setText(
-                            "Likes: " + ev.getLikeNumber()
+                            "Likes: " + numberOfLikes
                     );
+                    likeButton.setEnabled(true);
                     checkLikeStatus(current_lotNumber);
+                }).addOnFailureListener(error -> {
+                    likeButton.setEnabled(true);
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Could not load like information: "
+                                    + error.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
                 });
         checkSaveStatus(current_lotNumber);
         setOnClickListenersForButtons();
@@ -307,26 +341,45 @@ public class ExpandedArtifactFragment extends Fragment {
 //        } else {
 //            currentUid = currentUser.getUid();
 //        }
+        if (ev == null) {
+            Toast.makeText(
+                    requireContext(),
+                    "Like information is still loading",
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+
+        if (currentUid == null || currentUid.trim().isEmpty()) {
+            Toast.makeText(
+                    requireContext(),
+                    "User ID is missing",
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
         boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(currentUid, ev);
 
         likeButton.setEnabled(false);
 
         if (alreadyLiked) {
             expandedViewRepo.unlike(currentUid,ev)
-                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
+                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(false);Toast.makeText(requireContext(),"Artifact unliked", Toast.LENGTH_SHORT).show();})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));;
         } else {
             expandedViewRepo.like(currentUid,ev)
-                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);})
+                    .addOnSuccessListener(a->{ updateLikeDisplayAndButton(true);Toast.makeText(requireContext(),"Artifact liked", Toast.LENGTH_SHORT).show();})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));
         }
 
+
+
     }
 
     @SuppressLint("SetTextI18n")
-    public void updateLikeDisplayAndButton(boolean alreadyLiked){
+    public void updateLikeDisplayAndButton(boolean likedNow){
         int numberOfLikes;
         if(ev.getLikeNumber() == null){
             numberOfLikes=0;
@@ -334,86 +387,273 @@ public class ExpandedArtifactFragment extends Fragment {
         else {
             numberOfLikes=ev.getLikeNumber();
         }
-
-        likeCount.setText("Likes: " + numberOfLikes);
-
-
-        if (alreadyLiked) {
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-        }
-        else {
-            likeButton.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
-            );
-            likeButton.setIconTint(
-                    ColorStateList.valueOf(Color.WHITE)
-            );
-        }
-
-    }
-
-
-    private void saveTheArtifact(){
-        Bundle bun3 = getArguments();
-        if(bun3==null){
-            return;
-        }
-        current_lotNumber = bun3.getString("lot_number");
-
-        if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
-            Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        saveButton.setEnabled(false);
-
-//        FirebaseUser currentUser = userRepo.getCurrentUser();
 //
-//        if (currentUser == null) {
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Please log in before save the artifact",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            currentUid = currentUser.getUid();
+//        likeCount.setText("Likes: " + numberOfLikes);
+//
+//
+//        if (alreadyLiked) {
+//            likeButton.setBackgroundTintList(
+//                    ColorStateList.valueOf(Color.WHITE)
+//            );
+//            likeButton.setIconTint(
+//                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+//            );
+//        }
+//        else {
+//            likeButton.setBackgroundTintList(
+//                    ColorStateList.valueOf(Color.rgb(183, 40, 45))
+//            );
+//            likeButton.setIconTint(
+//                    ColorStateList.valueOf(Color.WHITE)
+//            );
 //        }
 
-        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
-            if(savedArtifactCollection==null){
-                Collection newCollection = new Collection(currentUid, "Saved Artifacts");
-                collectionRepo.createNewCollection(newCollection)
-                        .addOnSuccessListener(unused -> {
-                            collectionRepo.addArtifactToCollection(current_lotNumber, newCollection);
 
-                            updateSaveButton(true);
-                        })
-                        .addOnFailureListener(error ->
-                                Toast.makeText(requireContext(), "Could not create a collection", Toast.LENGTH_SHORT).show()
-                        );
-            }
-            else{
-                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
+            if (likedNow) {
+                numberOfLikes++;
+                ev.setLikeNumber(numberOfLikes);
 
-                if (alreadySaved) {
-                    updateSaveButton(false);
-                    collectionRepo.removeArtifactFromCollection(current_lotNumber,savedArtifactCollection);
-                }
-                else {
-                    updateSaveButton(true);
-                    collectionRepo.addArtifactToCollection(current_lotNumber,savedArtifactCollection);
-                }
-//                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
+                likeButton.setBackgroundTintList(
+                        ColorStateList.valueOf(
+                                Color.rgb(183, 40, 45)
+                        )
+                );
+
+                likeButton.setIconTint(
+                        ColorStateList.valueOf(Color.WHITE)
+                );
+
             }
-        })
-        .addOnCompleteListener(task ->
-                saveButton.setEnabled(true)
-        );
+            else {
+                if (numberOfLikes > 0) {
+                    numberOfLikes--;
+                }
+
+                ev.setLikeNumber(numberOfLikes);
+
+                likeButton.setBackgroundTintList(
+                        ColorStateList.valueOf(Color.WHITE)
+                );
+
+                likeButton.setIconTint(
+                        ColorStateList.valueOf(
+                                Color.rgb(183, 40, 45)
+                        )
+                );
+            }
+
+            likeCount.setText(
+                    "Likes: " + numberOfLikes
+            );
+
+
     }
+
+
+//    private void saveTheArtifact(){
+//        saveButton.setEnabled(false);
+//        Bundle bun3 = getArguments();
+//        if(bun3==null){
+//            return;
+//        }
+//        current_lotNumber = bun3.getString("lot_number");
+//
+//        if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
+//            Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//
+////        FirebaseUser currentUser = userRepo.getCurrentUser();
+////
+////        if (currentUser == null) {
+////            Toast.makeText(
+////                    requireContext(),
+////                    "Please log in before save the artifact",
+////                    Toast.LENGTH_SHORT
+////            ).show();
+////        } else {
+////            currentUid = currentUser.getUid();
+////        }
+//
+//        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
+//            if(savedArtifactCollection==null){
+//                Collection newCollection = new Collection(currentUid, "Saved Artifacts");
+//                collectionRepo.createNewCollection(newCollection)
+//                        .addOnSuccessListener(unused -> {
+//                            collectionRepo.addArtifactToCollection(current_lotNumber, newCollection);
+//                            Toast.makeText(requireContext(), "A new save collection is created", Toast.LENGTH_SHORT).show();
+//                            updateSaveButton(true);
+//                        })
+//                        .addOnFailureListener(error ->
+//                                Toast.makeText(requireContext(), "Could not create a collection", Toast.LENGTH_SHORT).show()
+//                        );
+//            }
+//            else{
+//                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
+//
+//                if (alreadySaved) {
+//                    updateSaveButton(false);
+//                    collectionRepo.removeArtifactFromCollection(current_lotNumber,savedArtifactCollection);
+//                }
+//                else {
+//                    updateSaveButton(true);
+//                    collectionRepo.addArtifactToCollection(current_lotNumber,savedArtifactCollection);
+//                }
+////                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
+//            }
+//        })
+//        .addOnCompleteListener(task ->
+//                saveButton.setEnabled(true)
+//        );
+//    }
+private void saveTheArtifact() {
+    Bundle bun3 = getArguments();
+
+    if (bun3 == null) {
+        return;
+    }
+
+    current_lotNumber = bun3.getString("lot_number");
+
+    if (current_lotNumber == null
+            || current_lotNumber.trim().isEmpty()) {
+        Toast.makeText(
+                requireContext(),
+                "No artifact selected",
+                Toast.LENGTH_SHORT
+        ).show();
+        return;
+    }
+
+    saveButton.setEnabled(false);
+
+    collectionRepo
+            .getCollectionByName(
+                    currentUid,
+                    "Saved Artifacts"
+            )
+            .addOnSuccessListener(savedArtifactCollection -> {
+                if (savedArtifactCollection == null) {
+                    Collection newCollection =
+                            new Collection(
+                                    currentUid,
+                                    "Saved Artifacts"
+                            );
+
+                    collectionRepo
+                            .createNewCollection(newCollection)
+                            .addOnSuccessListener(unused ->
+                                    collectionRepo
+                                            .addArtifactToCollection(
+                                                    current_lotNumber,
+                                                    newCollection
+                                            )
+                                            .addOnSuccessListener(unused2 -> {
+                                                updateSaveButton(true);
+
+                                                Toast.makeText(
+                                                        requireContext(),
+                                                        "Artifact saved",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+                                            })
+                                            .addOnFailureListener(error ->
+                                                    Toast.makeText(
+                                                            requireContext(),
+                                                            "Could not save: "
+                                                                    + error.getMessage(),
+                                                            Toast.LENGTH_LONG
+                                                    ).show()
+                                            )
+                                            .addOnCompleteListener(task ->
+                                                    saveButton.setEnabled(true)
+                                            )
+                            )
+                            .addOnFailureListener(error -> {
+                                saveButton.setEnabled(true);
+
+                                Toast.makeText(
+                                        requireContext(),
+                                        "Could not create collection: "
+                                                + error.getMessage(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            });
+
+                } else {
+                    boolean alreadySaved =
+                            collectionRepo.isArtifactSavedByUser(
+                                    current_lotNumber,
+                                    savedArtifactCollection
+                            );
+
+                    if (alreadySaved) {
+                        collectionRepo
+                                .removeArtifactFromCollection(
+                                        current_lotNumber,
+                                        savedArtifactCollection
+                                )
+                                .addOnSuccessListener(unused -> {
+                                    updateSaveButton(false);
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Artifact unsaved",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                })
+                                .addOnFailureListener(error ->
+                                        Toast.makeText(
+                                                requireContext(),
+                                                "Could not unsave: "
+                                                        + error.getMessage(),
+                                                Toast.LENGTH_LONG
+                                        ).show()
+                                )
+                                .addOnCompleteListener(task ->
+                                        saveButton.setEnabled(true)
+                                );
+                    } else {
+                        collectionRepo
+                                .addArtifactToCollection(
+                                        current_lotNumber,
+                                        savedArtifactCollection
+                                )
+                                .addOnSuccessListener(unused -> {
+                                    updateSaveButton(true);
+
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Artifact saved",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                })
+                                .addOnFailureListener(error ->
+                                        Toast.makeText(
+                                                requireContext(),
+                                                "Could not save: "
+                                                        + error.getMessage(),
+                                                Toast.LENGTH_LONG
+                                        ).show()
+                                )
+                                .addOnCompleteListener(task ->
+                                        saveButton.setEnabled(true)
+                                );
+                    }
+                }
+            })
+            .addOnFailureListener(error -> {
+                saveButton.setEnabled(true);
+
+                Toast.makeText(
+                        requireContext(),
+                        "Could not load saved collection: "
+                                + error.getMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+            });
+}
     private void updateSaveButton(boolean saved) {
         int red = Color.rgb(183, 40, 45);
         if (saved) {
@@ -446,6 +686,11 @@ public class ExpandedArtifactFragment extends Fragment {
 
     }
     private void deleteTheArtifact(){
+        Toast.makeText(
+                requireContext(),
+                "Delete clicked. Lot: " + current_lotNumber,
+                Toast.LENGTH_LONG
+        ).show();
         if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
             return;
         }

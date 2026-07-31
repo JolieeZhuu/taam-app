@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.R;
+import com.example.cscb07project.artifact_creation_page.AddArtifactFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
@@ -34,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
 //             loadFragment(new AddArtifactFragment());
         main_filters = new FilterState();
         if (savedInstanceState == null){
-            loadFragment(
-                    ExpandedArtifactFragment.newInstance("1")
-            );
+
+          loadFragment(ExpandedArtifactFragment.newInstance("1"));
         }
     }
 

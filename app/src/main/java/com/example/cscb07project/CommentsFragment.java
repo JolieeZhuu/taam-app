@@ -76,12 +76,11 @@ public class CommentsFragment extends Fragment{
         if (bun2 != null) {
             currentLotNumber = bun2.getString("lot_number");
         }
+
         commentList = new ArrayList<>();
         commentRecyclerView = view.findViewById(R.id.commentsRecyclerView);
         deleteCommentsButton = view.findViewById(R.id.buttonDeleteSelectedComments);
         backButton = view.findViewById(R.id.back_button);
-
-
 
 
         updateDeleteButton();
