@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
@@ -25,6 +26,9 @@ public class HomepageFragment extends Fragment {
 
     private ImageView savedArtifactsBtn, profileBtn;
     private Button filterBtn;
+    private View carouselOverlayContainer;
+    private ImageButton dailyCarouselHighlightsBtn;
+    private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = true; // user admin status
 
     @Nullable
@@ -35,6 +39,8 @@ public class HomepageFragment extends Fragment {
         savedArtifactsBtn = view.findViewById(R.id.savedArtifactsBtn);
         profileBtn = view.findViewById(R.id.profileBtn);
         filterBtn = view.findViewById(R.id.filterBtn);
+        carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
+        dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
 
         savedArtifactsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +63,9 @@ public class HomepageFragment extends Fragment {
             }
         });
 
+        dailyCarouselHighlightsBtn.setOnClickListener(v -> showDailyCarouselOverlay());
+        carouselOverlayContainer.setOnClickListener(v -> hideDailyCarouselOverlay());
+
         return view;
     }
 
@@ -67,7 +76,7 @@ public class HomepageFragment extends Fragment {
         // Fragment catalogueFragment = CatalogueFragment.newInstance(0);
 
         /* getChildFragmentManager().beginTransaction()
-                .replace(R.id.homepage_catalogue_container, catalogueFragment)
+                .replace(R.id.homepageCatalogueContainer, catalogueFragment)
                 .commit(); */
     }
 
@@ -97,6 +106,39 @@ public class HomepageFragment extends Fragment {
         });
         popupMenu.show();
 
+    }
+
+    private void showDailyCarouselOverlay() {
+        if (carouselOverlayContainer.getVisibility() == View.VISIBLE) return;
+
+        if (dailyCarouselFragment == null) {
+            dailyCarouselFragment = new CarouselFragment();
+            dailyCarouselFragment.setOnCarouselItemClickListener(artifact -> {
+                // go to ExpandedView
+                hideDailyCarouselOverlay();
+            });
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.carouselFragmentContainer, dailyCarouselFragment)
+                    .commitNow();
+        }
+
+        carouselOverlayContainer.setVisibility(View.VISIBLE);
+        dailyCarouselHighlightsBtn.setVisibility(View.GONE);
+    }
+
+    private void hideDailyCarouselOverlay() {
+        if (carouselOverlayContainer.getVisibility() != View.VISIBLE) return;
+        carouselOverlayContainer.setVisibility(View.GONE);
+        dailyCarouselHighlightsBtn.setVisibility(View.VISIBLE);
+
+        if (dailyCarouselFragment != null) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .remove(dailyCarouselFragment)
+                    .commitNowAllowingStateLoss();
+            dailyCarouselFragment = null;
+        }
     }
 
     private void loadFragment(Fragment fragment) {
