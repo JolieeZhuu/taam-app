@@ -26,4 +26,6 @@ public interface CollectionInterface {
     Task<Void> deleteCollection(String userId, String collectionId);
 
     Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId, List<String> lotNumbers);
+
+    Task<List<String>> removeArtifactsFromCollectionAndGetFullList(String userId, List<String> lotNumbers);
 }

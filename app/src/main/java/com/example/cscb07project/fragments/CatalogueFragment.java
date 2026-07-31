@@ -170,11 +170,15 @@ public class CatalogueFragment extends Fragment {
 
         if (selectionLimit != 0){
             buttonSelect.setOnClickListener(v -> {
-                if (selectionBuffer.size() <= selectionLimit) {
+                if (!selectionBuffer.isEmpty() && selectionBuffer.size() <= selectionLimit) {
                     mainActivity.setMainSelection(selectionBuffer);
                     if(PURPOSE_COLLECTION.equals(selectionPurpose))saveCollection();
                     else if (PURPOSE_UNSAVE.equals(selectionPurpose))unsaveCollection();
                     else getParentFragmentManager().popBackStack(); // for multipurpose
+
+                } else if (selectionBuffer.isEmpty()) {
+                    Toast.makeText(requireContext(),
+                            "Please select at least 1 artifact.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -335,6 +339,33 @@ public class CatalogueFragment extends Fragment {
                         Toast.makeText(getContext(), "failed to save coll",
                                 Toast.LENGTH_SHORT).show();
                     });
+    }
+
+    private void unsaveCollection() {
+        com.google.firebase.auth.FirebaseUser theUser = com.google.firebase
+                .auth.FirebaseAuth.getInstance().getCurrentUser();
+        if (theUser==null){
+            Toast.makeText(getContext(), "user is not logged in error ",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<String> lotNumbers = new ArrayList<>();
+        for (Artifact b :selectionBuffer) lotNumbers.add(b.getLotNumber());
+
+        mainActivity.getMainCRep().removeArtifactsFromCollectionAndGetFullList(theUser.getUid(),
+                        lotNumbers)
+                .addOnSuccessListener(allLotNumbers -> {
+                    Toast.makeText(getContext(), "Removed from collection success",
+                            Toast.LENGTH_SHORT).show();
+
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, CatalogueFragment
+                                    .withLotNumbers(new ArrayList<>(allLotNumbers)))
+                            .setReorderingAllowed(true).addToBackStack(null).commit();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "failed to remove from coll",
+                            Toast.LENGTH_SHORT).show();
+                });
     }
 
 }
