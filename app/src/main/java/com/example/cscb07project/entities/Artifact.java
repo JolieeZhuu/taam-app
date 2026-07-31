@@ -202,4 +202,19 @@ public class Artifact {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Artifact artifact = (Artifact)o;
+        if(lotNumber!=null)return lotNumber.equals(artifact.lotNumber);
+        return artifact.lotNumber==null;
+    }
+    @Override
+    public int hashCode() {
+        if(lotNumber!=null)return lotNumber.hashCode();
+        return 0;
+    }
 }
