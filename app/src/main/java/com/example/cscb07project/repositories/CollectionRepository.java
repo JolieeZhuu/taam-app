@@ -49,8 +49,12 @@ public class CollectionRepository implements CollectionInterface {
     // for retrieving the collection pertaining to the user
     public Task<Collection> getCollection(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
-            if (snapshot.getResult() != null && snapshot.getResult().exists()) {
-                return snapshot.getResult().getValue(Collection.class);
+            DataSnapshot a = snapshot.getResult();
+            if (a != null && a.exists()) {
+                String colID = a.child("collectionId").getValue(String.class);
+                Map<String, Boolean> artifacts = (Map<String, Boolean>) a
+                        .child("artifacts").getValue();
+                return new Collection(userId, colID, "default_collection", artifacts);
             }
             // error gettign col
             return null;
@@ -136,7 +140,24 @@ public class CollectionRepository implements CollectionInterface {
             if(collection!=null && collection.getArtifacts()!=null) {
                 return new ArrayList<>(collection.getArtifacts().keySet());
             }
-            return new ArrayList<>();
+            return new ArrayList<>(); //incase of null
+        });
+    }
+
+    public Task<List<String>> removeArtifactsFromCollectionAndGetFullList(String userId, List<String> lotNumbers) {
+
+        Map<String, Object> map = new HashMap<>();
+        for(String id:lotNumbers) map.put("artifacts/" + id, null); //
+
+        return dbRef.child(userId).updateChildren(map).continueWithTask(task ->{
+            if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
+            return getCollection(userId);
+        }).continueWith(task -> {
+            Collection collection = task.getResult();
+            if(collection!=null && collection.getArtifacts()!=null) {
+                return new ArrayList<>(collection.getArtifacts().keySet());
+            }
+            return new ArrayList<>(); //incase of null
         });
     }
 }

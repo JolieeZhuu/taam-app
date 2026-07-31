@@ -51,15 +51,19 @@ public class MainActivity extends AppCompatActivity {
         }
         /*comment out above if and uncomment this to test colelcton
 
+
+        /* UNCOMMENT TO TEST COL
         if (savedInstanceState == null){
             uRep.signIn("bruh123@gmail.com","password123")
                     .addOnSuccessListener(user -> {
                         Toast.makeText(this, user.getUsername(),
                                 Toast.LENGTH_SHORT).show();
-                        loadFragment(CatalogueFragment.withParameters(8));//catalogue
-                        //sepcifically for collections
-            });*/
+                        //loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
 
+                        //loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8,
+                        //       CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
+                    });
+        }*/
     }
 
     private void loadFragment(Fragment fragment) {
