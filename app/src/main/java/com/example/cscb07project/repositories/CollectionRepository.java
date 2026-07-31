@@ -46,7 +46,6 @@ public class CollectionRepository implements CollectionInterface {
                 data.put("artifacts", newArtifacts);
                 return userRef.setValue(data);
             }
-            return null;
         });
     }
     // by E
