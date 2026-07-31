@@ -47,6 +47,7 @@ public class CatalogueFragment extends Fragment {
 
     // vars so catalogue can stay multipurpose
     public static final String PURPOSE_COLLECTION = "collection";
+    public static final String PURPOSE_UNSAVE = "unsave";
     private static final String ARG_SELECTION_PURPOSE = "selectionPurpose";
     private String selectionPurpose = PURPOSE_COLLECTION; //as of now default will be coll
 
