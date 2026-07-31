@@ -27,16 +27,13 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         aRep = new ArtifactRepository(db);
 
-//        myRef.setValue("B07 Demo!");
-//         myRef.child("movies").setValue("B07 Demo!");
-
-      // this was from artifact form creation
-//         if (savedInstanceState == null) {
-//             loadFragment(new AddArtifactFragment());
         main_filters = new FilterState();
         if (savedInstanceState == null){
 
           loadFragment(ExpandedArtifactFragment.newInstance("1"));
+//            loadFragment(new HomepageFragment());
+//             loadFragment(new AddArtifactFragment());
+            loadFragment(ExpandedArtifactFragment.newInstance("1"));
         }
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,10 +9,13 @@
     android:background="?attr/colorSurface"
     android:fillViewport="true">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+
 
 
         <LinearLayout
@@ -22,6 +26,7 @@
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp">
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/back_button"
@@ -44,6 +49,7 @@
                 app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp" />
 
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -52,6 +58,7 @@
                 android:text="tmp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="?attr/colorOnSurface" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
@@ -72,6 +79,7 @@
                 app:strokeWidth="0dp" />
         </LinearLayout>
 
+
         <ImageView
             android:id="@+id/artifactImage"
             android:layout_width="match_parent"
@@ -80,6 +88,7 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_background" />
 
+
         <LinearLayout
             android:id="@+id/artifactActionsBar"
             android:layout_width="match_parent"
@@ -87,6 +96,7 @@
             android:background="?attr/colorSurface"
             android:orientation="horizontal"
             android:padding="8dp">
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/like_button"
@@ -103,7 +113,11 @@
                 app:icon="@drawable/heart_icon"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
-                app:iconTint="?attr/colorOnPrimary" />
+                app:iconTint="?attr/colorOnPrimary"
+                android:text="23"
+                android:textColor="?attr/colorOnPrimary"
+                />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_button"
@@ -122,6 +136,7 @@
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconTint="?attr/colorOnPrimary" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/edit_button"
@@ -143,6 +158,7 @@
                 app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp" />
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/delete_button"
                 android:layout_width="0dp"
@@ -163,6 +179,7 @@
                 app:strokeWidth="1dp" />
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/artifactInformationLayout"
             android:layout_width="match_parent"
@@ -170,6 +187,7 @@
             android:background="?attr/colorSurface"
             android:orientation="vertical"
             android:padding="16dp">
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -179,6 +197,7 @@
                 android:textColor="?attr/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/artifactName"
@@ -190,33 +209,13 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"/>
 
-                <TextView
-                    android:id="@+id/num_of_likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/likes_23"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:id="@+id/save_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/saved_yes"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/artifact_category"
@@ -227,6 +226,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/artifact_creator"
                 android:layout_width="match_parent"
@@ -235,6 +235,7 @@
                 android:text="@string/creator"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/artifact_dynasty_period"
@@ -245,6 +246,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/artifact_culture_origin"
                 android:layout_width="match_parent"
@@ -253,6 +255,7 @@
                 android:text="@string/culture_origin"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/artifact_lot_number"
@@ -263,6 +266,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/artifact_material"
                 android:layout_width="match_parent"
@@ -271,6 +275,7 @@
                 android:text="@string/material"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/Dimensions"
@@ -281,6 +286,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/condition_report"
                 android:layout_width="match_parent"
@@ -289,6 +295,7 @@
                 android:text="@string/condition_report"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/current_location"
@@ -299,6 +306,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/acquisition_method"
                 android:layout_width="match_parent"
@@ -307,6 +315,7 @@
                 android:text="@string/acquisition_method"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/provenance"
@@ -317,6 +326,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/accession_number"
                 android:layout_width="match_parent"
@@ -326,6 +336,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
             <TextView
                 android:id="@+id/Notes"
                 android:layout_width="match_parent"
@@ -334,6 +345,7 @@
                 android:text="@string/notes"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
+
 
             <TextView
                 android:id="@+id/artifact_description"
@@ -345,7 +357,9 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
+
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/commentsSectionLayout"
@@ -353,6 +367,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
+
 
             <TextView
                 android:id="@+id/textCommentsTitle"
@@ -365,6 +380,8 @@
                 android:textStyle="bold" />
 
 
+
+
             <LinearLayout
                 android:id="@+id/commentInputLayout"
                 android:layout_width="match_parent"
@@ -372,6 +389,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
 
                 <EditText
                     android:id="@+id/editTextComment"
@@ -387,6 +405,7 @@
                     android:textColor="?attr/colorOnSurface"
                     android:textColorHint="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp" />
+
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonPostComment"
@@ -404,7 +423,9 @@
                     app:cornerRadius="8dp"
                     app:elevation="0dp" />
 
+
             </LinearLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/enter_comment_section"
@@ -425,8 +446,12 @@
                 app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="1dp" />
 
+
         </LinearLayout>
+
 
     </LinearLayout>
 
+
 </ScrollView>
+

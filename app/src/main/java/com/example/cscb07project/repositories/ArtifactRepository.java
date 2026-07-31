@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.ExpandedView;
+import com.example.cscb07project.entities.User;
 import com.example.cscb07project.interfaces.ArtifactInterface;
 import com.example.cscb07project.systems.FieldScraper;
 import com.google.android.gms.tasks.Task;
@@ -79,16 +80,45 @@ public class ArtifactRepository implements ArtifactInterface {
             }
             return null;
         });
+//
+//        return dbRef.orderByChild("lotNumber").equalTo(lotNumber).get().continueWith(snapshot -> {
+//            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+//                return null;
+//            }
+//            if (snapshot.getResult().hasChildren()) { // since get() returns a list, iterate through list to find matching
+//                for (DataSnapshot artifactSnapshot : snapshot.getResult().getChildren()) {
+//                    return artifactSnapshot.getValue(Artifact.class);
+//                }
+//            }
+//            return null;
+//        });
     }
 
 
     @Override
     public Task<Void> updateArtifact(Artifact artifact) {
+//        return dbRef.child(artifact.getArtifactId()).updateChildren(artifact.toMap());
         return dbRef.child(artifact.getLotNumber()).updateChildren(artifact.toMap());
     }
 
     @Override
     public Task<Void> deleteArtifactByLotNumber(String lotNumber) {
+//        return dbRef.orderByChild("lotNumber").equalTo(lotNumber).get().continueWithTask(snapshot -> {
+//            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
+//                return null;
+//            }
+//            return snapshot.getResult().getChildren().iterator().next().getRef().removeValue().continueWithTask(task -> {
+//                if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
+//                Log.d("delete from firebase", "successfully deleted expanded view with id: " + lotNumber);
+//                return expandedViewRepository.deleteExpandedViewByLotNumber(lotNumber).addOnSuccessListener(task2 -> {
+//                    Log.d("delete from firebase", "successfully deleted artifact with id: " + lotNumber);
+//                }).addOnFailureListener(e -> {
+//                    Log.e("firebase error", "error from deleting artifact with id: " + lotNumber);
+//                });
+//            });
+//        });
+
+
         return dbRef.child(lotNumber).removeValue().continueWithTask(snapshot -> {
             if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
             return expandedViewRepository.deleteExpandedViewByLotNumber(lotNumber);
