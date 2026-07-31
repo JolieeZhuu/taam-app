@@ -201,8 +201,9 @@ public class ExpandedArtifactFragment extends Fragment {
 
                     likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
                     boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
-                    updateLikeDisplayAndButton(liked);
                     likeButton.setEnabled(true);
+                    updateLikeDisplayAndButton(liked);
+
 
                 }).addOnFailureListener(error -> {
                     likeButton.setEnabled(true);
@@ -339,12 +340,12 @@ public class ExpandedArtifactFragment extends Fragment {
 
         if (alreadyLiked) {
             expandedViewRepo.unlike(currentUid,ev)
-                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(alreadyLiked);Toast.makeText(requireContext(),"Artifact unliked", Toast.LENGTH_SHORT).show();})
+                    .addOnSuccessListener(a->{updateLikeDisplayAndButton(false);Toast.makeText(requireContext(),"Artifact unliked", Toast.LENGTH_SHORT).show();})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));;
         } else {
             expandedViewRepo.like(currentUid,ev)
-                    .addOnSuccessListener(a->{ updateLikeDisplayAndButton(alreadyLiked);Toast.makeText(requireContext(),"Artifact liked", Toast.LENGTH_SHORT).show();})
+                    .addOnSuccessListener(a->{ updateLikeDisplayAndButton(true);Toast.makeText(requireContext(),"Artifact liked", Toast.LENGTH_SHORT).show();})
                     .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));
         }
@@ -365,11 +366,12 @@ public class ExpandedArtifactFragment extends Fragment {
         likeButton.setText(String.valueOf(numberOfLikes));
 
         int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);
-        likeButton.setIconResource(Liked ?R.drawable.heart_icon:  R.drawable.heart_icon_filled );
-        likeButton.setBackgroundTintList(ColorStateList.valueOf(Liked ? Color.WHITE : red));
-        likeButton.setIconTint(ColorStateList.valueOf(Liked ?  red: Color.WHITE));
-        likeButton.setTextColor(Liked ? red: Color.WHITE );
+        likeButton.setIconResource(Liked ? R.drawable.heart_icon_filled :R.drawable.heart_icon );
+        likeButton.setBackgroundTintList(ColorStateList.valueOf(Liked ?  red:Color.WHITE ));
+        likeButton.setIconTint(ColorStateList.valueOf(Liked ? Color.WHITE : red));
+        likeButton.setTextColor(Liked ?  Color.WHITE: red);
 }
+
 
 
 //    private void saveTheArtifact(){
