@@ -1,4 +1,6 @@
 <resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
@@ -10,22 +12,22 @@
     <string name="picture_of_the_artifact">picture of the artifact</string>
     <string name="artifact_information">Artifact Information</string>
     <string name="name_of_the_artifact">NAME of THE ARTIFACT</string>
-    <string name="likes_23">Likes: 23</string>
-    <string name="saved_yes">Saved: Yes</string>
-    <string name="category">Category: CATEGORY</string>
-    <string name="creator">Creator: rrrrrrrrrrr</string>
-    <string name="dynasty_period">Dynasty/Period: dddddddddddd</string>
-    <string name="culture_origin">Culture origin: cccccccccccc</string>
-<!--    <string name="lot_number">Lot number: 123456789</string>-->
-    <string name="material">Material: bbbbbbbbbbbbbbbbbbb</string>
-<!--    <string name="dimensions">Dimensions: bbbbbbbbbbbbbbbbbbb</string>-->
-<!--    <string name="condition_report">Condition report: bbbbbbbbbbbbbbbbbbb</string>-->
-<!--    <string name="current_location">Current_location: bbbbbbbbbbbbbbbbbbb</string>-->
-    <string name="acquisition_method">Acquisition method: bbbbbbbbbbbbbbbbbbb</string>
-<!--    <string name="provenance">Provenance: bbbbbbbbbbbbbbbbbbb</string>-->
-<!--    <string name="accession_number">Accession number: bbbbbbbbbbbbbbbbbbb</string>-->
-<!--    <string name="notes">Notes: bbbbbbbbbbbbbbbbbbb</string>-->
-<!--    <string name="description">Description: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</string>-->
+    <string name="likes_23">Likes: </string>
+    <string name="saved_yes">Saved: </string>
+    <string name="category">Category: </string>
+    <string name="creator">Creator: </string>
+    <string name="dynasty_period">Dynasty/Period: </string>
+    <string name="culture_origin">Culture origin: </string>
+    <string name="lot_number">Lot number: </string>
+    <string name="material">Material: </string>
+    <string name="dimensions">Dimensions: </string>
+    <string name="condition_report">Condition report: </string>
+    <string name="current_location">Current_location: </string>
+    <string name="acquisition_method">Acquisition method: </string>
+    <string name="provenance">Provenance: </string>
+    <string name="accession_number">Accession number: </string>
+    <string name="notes">Notes: </string>
+    <string name="description">Description: .</string>
     <string name="like">Like</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>

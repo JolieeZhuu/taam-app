@@ -94,6 +94,7 @@ public class ArtifactRepository implements ArtifactInterface {
 //        });
     }
 
+
     @Override
     public Task<Void> updateArtifact(Artifact artifact) {
 //        return dbRef.child(artifact.getArtifactId()).updateChildren(artifact.toMap());
