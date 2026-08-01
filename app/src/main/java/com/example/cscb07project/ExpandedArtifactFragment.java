@@ -432,7 +432,7 @@ private void saveTheArtifact() {
                 Collection newCollection = new Collection(currentUid, "My Default Collection");
                 collectionRepo.createNewCollection(newCollection)
                     .addOnSuccessListener(unused ->
-                        collectionRepo.addArtifactToCollection(current_lotNumber, newCollection).addOnSuccessListener(unused2 -> {
+                        collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
                             updateSaveButton(true);
                             Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
                         })
@@ -478,7 +478,7 @@ private void saveTheArtifact() {
                 }
                 else {
                     collectionRepo
-                        .addArtifactToCollection(current_lotNumber, savedArtifactCollection).addOnSuccessListener(unused -> {
+                        .addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused -> {
                             updateSaveButton(true);
                             Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
                         })
