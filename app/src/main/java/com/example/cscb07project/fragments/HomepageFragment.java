@@ -29,7 +29,7 @@ public class HomepageFragment extends Fragment {
     private View carouselOverlayContainer;
     private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
-    private boolean isAdmin = true; // user admin status
+    private boolean isAdmin = false; // user admin status
 
     @Nullable
     @Override
