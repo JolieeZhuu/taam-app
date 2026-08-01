@@ -27,7 +27,7 @@ public class HomepageFragment extends Fragment {
     private ImageView savedArtifactsBtn, profileBtn;
     private Button filterBtn;
     private View carouselOverlayContainer;
-    private ImageButton dailyCarouselHighlightsBtn;
+    private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = true; // user admin status
 
@@ -39,29 +39,40 @@ public class HomepageFragment extends Fragment {
         savedArtifactsBtn = view.findViewById(R.id.savedArtifactsBtn);
         profileBtn = view.findViewById(R.id.profileBtn);
         filterBtn = view.findViewById(R.id.filterBtn);
+        addArtifactBtn = view.findViewById(R.id.addArtifactBtn);
         carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
 
-        savedArtifactsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // loadFragment(new SavedArtifactsFragment());
-            }
+        savedArtifactsBtn.setOnClickListener(v -> {
+            // TODO: load collections fragment
         });
 
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProfileDropdown();
-            }
+        profileBtn.setOnClickListener(v-> {
+            showProfileDropdown();
         });
 
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FilterFragment());
-            }
+        filterBtn.setOnClickListener(v -> {
+            loadFragment(new FilterFragment());
         });
+
+        // TODO: load catalogue fragment
+        // Fragment catalogueFragment = new CatalogueFragment();
+
+        /* getChildFragmentManager().beginTransaction()
+                .replace(R.id.homepageCatalogueContainer, catalogueFragment)
+                .commit(); */
+
+        if (isAdmin) {
+            addArtifactBtn.setVisibility(View.VISIBLE);
+            addArtifactBtn.setEnabled(true);
+
+            addArtifactBtn.setOnClickListener(v -> {
+                loadFragment(new AddArtifactFragment());
+            });
+        } else {
+            addArtifactBtn.setVisibility(View.GONE);
+            addArtifactBtn.setEnabled(false);
+        }
 
         dailyCarouselHighlightsBtn.setOnClickListener(v -> showDailyCarouselOverlay());
         carouselOverlayContainer.setOnClickListener(v -> hideDailyCarouselOverlay());
@@ -69,43 +80,23 @@ public class HomepageFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Fragment catalogueFragment = CatalogueFragment.newInstance(0);
-
-        /* getChildFragmentManager().beginTransaction()
-                .replace(R.id.homepageCatalogueContainer, catalogueFragment)
-                .commit(); */
-    }
 
     private void showProfileDropdown() {
         PopupMenu popupMenu = new PopupMenu(requireContext(), profileBtn);
         popupMenu.getMenuInflater().inflate(R.menu.profile_dropdown_menu, popupMenu.getMenu());
-
-        if (isAdmin) {
-            popupMenu.getMenu().findItem(R.id.action_admin_page).setVisible(true);
-        } else {
-            popupMenu.getMenu().findItem(R.id.action_admin_page).setVisible(false);
-        }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_logout) {
-                    // logout
-                    return true;
-                } else if (itemId == R.id.action_admin_page) {
-                    // load Admin fragment
+                    // TODO: logout
                     return true;
                 }
                 return false;
             }
         });
         popupMenu.show();
-
     }
 
     private void showDailyCarouselOverlay() {
@@ -114,7 +105,8 @@ public class HomepageFragment extends Fragment {
         if (dailyCarouselFragment == null) {
             dailyCarouselFragment = new CarouselFragment();
             dailyCarouselFragment.setOnCarouselItemClickListener(artifact -> {
-                // go to ExpandedView
+
+                // TODO: load expanded view for artifact from carousel
                 hideDailyCarouselOverlay();
             });
             getParentFragmentManager()

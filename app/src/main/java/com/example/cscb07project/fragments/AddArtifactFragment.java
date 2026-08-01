@@ -33,7 +33,7 @@ public class AddArtifactFragment extends Fragment{
     private EditText editOrigin, editDimensions, editConditionReport, editCurrentLocation,
             editAcquiredMethod, editProvenance, editAccessionNumber, editNotes;
 
-    private Button buttonUploadArtifactImage, buttonAddArtifact;
+    private Button buttonUploadArtifactImage, buttonAddArtifact, buttonExit;
 
     private FirebaseDatabase db;
     private ArtifactRepository artifactRepository;
@@ -97,6 +97,7 @@ public class AddArtifactFragment extends Fragment{
         editNotes = view.findViewById(R.id.editNotes);
         buttonUploadArtifactImage = view.findViewById(R.id.buttonUploadArtifactImage);
         buttonAddArtifact = view.findViewById(R.id.buttonAddArtifact);
+        buttonExit = view.findViewById(R.id.buttonExit);
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         artifactRepository = new ArtifactRepository(db);
@@ -133,6 +134,11 @@ public class AddArtifactFragment extends Fragment{
             public void onClick(View v) {
                 uploadImage();
             }
+        });
+
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { getParentFragmentManager().popBackStack(); }
         });
 
         return view;

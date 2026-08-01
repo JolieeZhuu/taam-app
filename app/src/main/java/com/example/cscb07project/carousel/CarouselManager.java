@@ -92,6 +92,7 @@ public class CarouselManager {
         });
     }
 
+    // choose random artifacts based on the current date
     private void generateAndSaveNewDailyCarousel(String carouselId, String dateSeedStr, OnArtifactsLoadedListener listener) {
         int carouselCount = context.getResources().getInteger(R.integer.carousel_count);
         DatabaseReference artifactsRef = rootRef.getReference("artifacts");

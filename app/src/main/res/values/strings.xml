@@ -69,6 +69,7 @@
     <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
+    <string name="exit_add_artifact">Exit</string>
 
 
     <!-- Homepage Screen -->
