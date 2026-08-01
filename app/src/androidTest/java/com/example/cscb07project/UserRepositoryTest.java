@@ -1,8 +1,6 @@
 package com.example.cscb07project;
 
 import com.example.cscb07project.entities.User;
-import com.example.cscb07project.interfaces.AdminInterface;
-import com.example.cscb07project.interfaces.UserInterface;
 import com.example.cscb07project.repositories.AdminRepository;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.android.gms.tasks.Task;
@@ -22,8 +20,8 @@ import android.util.Log;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserRepositoryTest {
 
-    private UserInterface userRepository;
-    private AdminInterface adminRepository;
+    private UserRepository userRepository;
+    private AdminRepository adminRepository;
     private FirebaseDatabase dbRef;
     private FirebaseAuth dbAuth;
     private static String userId;

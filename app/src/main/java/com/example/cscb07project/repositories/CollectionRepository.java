@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.cscb07project.entities.Collection;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
-import com.example.cscb07project.interfaces.CollectionInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;

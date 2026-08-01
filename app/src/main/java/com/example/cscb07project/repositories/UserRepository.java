@@ -3,7 +3,6 @@ package com.example.cscb07project.repositories;
 import android.util.Log;
 
 import com.example.cscb07project.entities.User;
-import com.example.cscb07project.interfaces.UserInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class UserRepository implements UserInterface {
+public class UserRepository {
     private final DatabaseReference dbRefUs;
     private final DatabaseReference dbRefAd;
     private final FirebaseAuth dbAuth;
@@ -29,7 +28,6 @@ public class UserRepository implements UserInterface {
         return dbRefUs.child(userId).setValue(user);
     }
 
-    @Override
     public Task<User> createUser(final String username, String email, String password) {
         return dbAuth.createUserWithEmailAndPassword(email, password).continueWithTask(task -> {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
@@ -44,7 +42,6 @@ public class UserRepository implements UserInterface {
         });
     }
 
-    @Override
     public Task<User> signIn(String email, String password) {
         return dbAuth.signInWithEmailAndPassword(email, password).continueWithTask(task -> {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
@@ -55,13 +52,11 @@ public class UserRepository implements UserInterface {
         });
     }
 
-    @Override
     public Task<Void> updateUsername(User user, String username) {
         user.setUsername(username);
         return dbRefUs.child(user.getUserId()).updateChildren(user.toMap());
     }
 
-    @Override
     public Task<Boolean> isAdmin(String userId) {
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null)
@@ -79,7 +74,6 @@ public class UserRepository implements UserInterface {
     }
 
     // only deletes user (could be an admin)
-    @Override
     public Task<Void> deleteUser() {
         FirebaseUser user = dbAuth.getCurrentUser();
         if (user == null) return Tasks.forResult(null);
@@ -91,7 +85,6 @@ public class UserRepository implements UserInterface {
         });
     }
 
-    @Override
     public void signOut() {
         dbAuth.signOut();
     }

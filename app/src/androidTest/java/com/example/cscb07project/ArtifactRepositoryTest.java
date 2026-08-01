@@ -1,7 +1,6 @@
 package com.example.cscb07project;
 
 import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.interfaces.ArtifactInterface;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +17,7 @@ import android.util.Log;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ArtifactRepositoryTest {
-    private ArtifactInterface artifactRepository;
+    private ArtifactRepository artifactRepository;
     private FirebaseDatabase dbRef;
     private static String artifactLotNumber;
 
