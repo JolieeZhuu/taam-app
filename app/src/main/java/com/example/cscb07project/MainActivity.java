@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null){
 //            loadFragment(new HomepageFragment());
 //             loadFragment(new AddArtifactFragment());
-            loadFragment(ExpandedArtifactFragment.newInstance("1"));
+            loadFragment(ExpandedArtifactFragment.newInstance("-OyWPmV1ivuQqOD1TlRC"));
         }
     }
 

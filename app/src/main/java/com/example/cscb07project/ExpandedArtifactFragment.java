@@ -186,15 +186,19 @@ public class ExpandedArtifactFragment extends Fragment {
                 .getExpandedViewByLotNumber(current_lotNumber)
                 .addOnSuccessListener(loadedExpandedView -> {
                     if (loadedExpandedView == null) {
-                        likeButton.setEnabled(true);
-                        likeButton.setText("0");
-                        Toast.makeText(
-                                requireContext(),
-                                "No expanded view found for lot: "
-                                        + current_lotNumber,
-                                Toast.LENGTH_LONG
-                        ).show();
-
+                        ExpandedView newEv = new ExpandedView(current_lotNumber);
+                        expandedViewRepo.addExpandedView(current_lotNumber, newEv)
+                                .addOnSuccessListener(snapshot -> {
+                                    ev = newEv;
+                                    likeButton.setEnabled(true);
+                                    likeButton.setText("0");
+//                                    Toast.makeText(
+//                                            requireContext(),
+//                                            "No expanded view found for lot: "
+//                                                    + current_lotNumber,
+//                                            Toast.LENGTH_LONG
+//                                    ).show();
+                                });
                         return;
                     }
                     ev = loadedExpandedView;
@@ -339,7 +343,7 @@ public class ExpandedArtifactFragment extends Fragment {
 
     private void checkSaveStatus(String current_lotNumber){
 
-        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedCollection ->{
+        collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedCollection ->{
             if(savedCollection ==null){
                 updateSaveButton(false);
                 return;
@@ -414,9 +418,9 @@ private void saveTheArtifact() {
 
     saveButton.setEnabled(false);
 
-    collectionRepo.getCollectionByName(currentUid, "Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
+    collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedArtifactCollection -> {
             if (savedArtifactCollection == null) {
-                Collection newCollection = new Collection(currentUid, "Saved Artifacts");
+                Collection newCollection = new Collection(currentUid, "My Default Collection");
                 collectionRepo.createNewCollection(newCollection)
                     .addOnSuccessListener(unused ->
                         collectionRepo.addArtifactToCollection(current_lotNumber, newCollection).addOnSuccessListener(unused2 -> {
@@ -505,6 +509,8 @@ private void saveTheArtifact() {
 
         editButton.setEnabled(true);
 
+        // probably where elina's code has to go
+
     }
     private void deleteTheArtifact(){
         Toast.makeText(requireContext(), "Delete clicked. Lot: " + current_lotNumber, Toast.LENGTH_LONG).show();
@@ -512,17 +518,19 @@ private void saveTheArtifact() {
             return;
         }
         deleteButton.setEnabled(false);
-        artifactRepo.deleteArtifactByLotNumber(current_lotNumber)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(requireContext(), "Artifact deleted", Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                })
-                .addOnFailureListener(error ->
-                        Toast.makeText(requireContext(), "Delete failed: " + error.getMessage(), Toast.LENGTH_LONG).show()
-                )
-                .addOnCompleteListener(unused->{
-                    deleteButton.setEnabled(true);
-                });
+        artifactRepo.deleteArtifactByLotNumber(current_lotNumber).continueWithTask(task -> {
+            return collectionRepo.removeArtifactFromAllCollections(current_lotNumber);
+            })
+            .addOnSuccessListener(unused -> {
+                Toast.makeText(requireContext(), "Artifact deleted", Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().popBackStack();
+            })
+            .addOnFailureListener(error ->
+                    Toast.makeText(requireContext(), "Delete failed: " + error.getMessage(), Toast.LENGTH_LONG).show()
+            )
+            .addOnCompleteListener(unused->{
+                deleteButton.setEnabled(true);
+            });
     }
 
     private void postComment(){

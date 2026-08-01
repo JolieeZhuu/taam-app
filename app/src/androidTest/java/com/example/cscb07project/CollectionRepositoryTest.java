@@ -22,7 +22,7 @@ import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CollectionRepositoryTest {
-    private CollectionInterface collectionRepository;
+    private CollectionRepository collectionRepository;
     private FirebaseDatabase dbRef;
     private static String userId;
     private static String collectionId;
@@ -44,6 +44,13 @@ public class CollectionRepositoryTest {
 
         assertTrue(task.isSuccessful());
         collectionId = collection.getCollectionId();
+//
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid", "My Default Collection"));
+//        Tasks.await(task);
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid1", "My Default Collection"));
+//        Tasks.await(task);
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid2", "My Default Collection"));
+//        Tasks.await(task);
     }
 
     @Test
@@ -54,10 +61,13 @@ public class CollectionRepositoryTest {
         Tasks.await(task);
         assertNotNull(collection.getArtifacts().get(lotNumber));
 
-        lotNumber = "aaaa11";
+        lotNumber = "aaa";
         task = collectionRepository.addArtifactToCollection(lotNumber, collection);
         Tasks.await(task);
-        assertNotNull(collection.getArtifacts().get(lotNumber));
+
+        lotNumber = "1a11111";
+        task = collectionRepository.addArtifactToCollection(lotNumber, collection);
+        Tasks.await(task);
     }
 
     @Test
@@ -87,11 +97,19 @@ public class CollectionRepositoryTest {
 
     @Test
     public void test6RemoveArtifactFromCollection() throws Exception {
-        Task<Void> task = collectionRepository.removeArtifactFromCollection("aaaa11", collection);
+        Task<Void> task = collectionRepository.removeArtifactFromCollection("1a11111", collection);
         Tasks.await(task);
 
-        assertNull(collection.getArtifacts().get("aaaa11"));
+        assertNull(collection.getArtifacts().get("1a11111"));
         assertNotNull(collection.getArtifacts().get("2"));
+    }
+
+    @Test
+    public void test67RemoveArtifactFromAllCollections() throws Exception {
+        Task<Void> task = collectionRepository.removeArtifactFromAllCollections("aaa");
+        Tasks.await(task);
+
+        assertTrue(task.isSuccessful());
     }
 
     @Test
