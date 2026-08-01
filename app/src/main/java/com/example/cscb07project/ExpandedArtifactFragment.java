@@ -418,6 +418,15 @@ private void saveTheArtifact() {
 
     saveButton.setEnabled(false);
 
+//    collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
+//            updateSaveButton(true);
+//            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
+//        })
+//        .addOnFailureListener(error ->
+//                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
+//        )
+//        .addOnCompleteListener(task -> saveButton.setEnabled(true));
+
     collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedArtifactCollection -> {
             if (savedArtifactCollection == null) {
                 Collection newCollection = new Collection(currentUid, "My Default Collection");

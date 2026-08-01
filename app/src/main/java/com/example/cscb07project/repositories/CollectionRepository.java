@@ -59,22 +59,30 @@ public class CollectionRepository {
     }
 
     // adds to both collection, and a separate structure in a different nested format for easier retrieval
-    public Task<Void> addArtifactToCollection(String lotNumber, Collection collection) {
-        Map<String, Boolean> artifacts = collection.getArtifacts();
-        if (artifacts == null) {
-            artifacts = new HashMap<>();
-        }
-        if (artifacts.get(lotNumber) == null) { // new artifact!
-            artifacts.put(lotNumber, true);
-            collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put(collection.getUserId(), true);
-                return dbRefArtColl.child(lotNumber).updateChildren(updates);
-            });
-        }
-        return Tasks.forResult(null);
+    // by lotnumber
+    public Task<Void> addArtifactToCollection(String lotNumber, String userId) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("collections/" + userId + "/artifacts/" + lotNumber, true);
+        updates.put("artifactCollections/" + lotNumber + "/" + userId, true);
+        return rootRef.updateChildren(updates);
     } // tested
+
+//    public Task<Void> addArtifactToCollection(String lotNumber, Collection collection) {
+//        Map<String, Boolean> artifacts = collection.getArtifacts();
+//        if (artifacts == null) {
+//            artifacts = new HashMap<>();
+//        }
+//        if (artifacts.get(lotNumber) == null) { // new artifact!
+//            artifacts.put(lotNumber, true);
+//            collection.setArtifacts(artifacts);
+//            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+//                Map<String, Object> updates = new HashMap<>();
+//                updates.put(collection.getUserId(), true);
+//                return dbRefArtColl.child(lotNumber).updateChildren(updates);
+//            });
+//        }
+//        return Tasks.forResult(null);
+//    } // tested
 
     public Task<List<String>> addArtifactsToCollectionAndGetFullList(String userId,
                                                                      List<String> lotNumbers) {
@@ -107,8 +115,10 @@ public class CollectionRepository {
         });
     } // will need to reimplement to follow the other add artifact method
 
-    public boolean isArtifactInCollection(String artifactId, Collection collection) {
-        return collection.getArtifacts().containsKey("lot_"+artifactId);
+    public Task<Boolean> isArtifactInCollection(String lotNumber, String userId) {
+        return dbRefArtColl.child(lotNumber).child(userId).get().continueWith(task -> {
+            return task.isSuccessful() && task.getResult() != null;
+        });
     }
 
     // edit collection name
