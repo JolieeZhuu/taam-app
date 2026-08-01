@@ -342,15 +342,18 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
     private void checkSaveStatus(String current_lotNumber){
-
-        collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedCollection ->{
-            if(savedCollection ==null){
-                updateSaveButton(false);
-                return;
-            }
-            boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedCollection);
-            updateSaveButton(saved);
+        collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(result -> {
+            updateSaveButton(result);
         });
+
+//        collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedCollection ->{
+//            if(savedCollection ==null){
+//                updateSaveButton(false);
+//                return;
+//            }
+//            boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedCollection);
+//            updateSaveButton(saved);
+//        });
     }
 //    private void saveTheArtifact(){
 //        saveButton.setEnabled(false);
@@ -418,6 +421,72 @@ private void saveTheArtifact() {
 
     saveButton.setEnabled(false);
 
+    collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(result -> {
+        if (result) { // if it is already in collection
+            collectionRepo
+                    .removeArtifactFromCollection(current_lotNumber, currentUid)
+                    .addOnSuccessListener(unused -> {
+                        updateSaveButton(false);
+
+                        Toast.makeText(
+                                requireContext(),
+                                "Artifact unsaved",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    })
+                    .addOnFailureListener(error ->
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Could not unsave: "
+                                            + error.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show()
+                    )
+                    .addOnCompleteListener(task ->
+                            saveButton.setEnabled(true)
+                    );
+        }
+        else {
+            collectionRepo
+                    .addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused -> {
+                        updateSaveButton(true);
+                        Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(error ->
+                            Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
+                    )
+                    .addOnCompleteListener(task ->
+                            saveButton.setEnabled(true)
+                    );
+        }
+    }).addOnFailureListener(error -> {
+        error.printStackTrace();
+        saveButton.setEnabled(true);
+        Toast.makeText(
+                requireContext(),
+                "Could not load saved collection: "
+                        + error.getClass().getSimpleName()
+                        + " - "
+                        + error.getMessage(),
+                Toast.LENGTH_LONG
+        ).show();});
+
+//    boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(currentUid, ev);
+//
+//    likeButton.setEnabled(false);
+//
+//    if (alreadyLiked) {
+//        expandedViewRepo.unlike(currentUid,ev)
+//                .addOnSuccessListener(a->{updateLikeButton(false);Toast.makeText(requireContext(),"Artifact unliked", Toast.LENGTH_SHORT).show();})
+//                .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
+//                .addOnCompleteListener(task -> likeButton.setEnabled(true));;
+//    } else {
+//        expandedViewRepo.like(currentUid,ev)
+//                .addOnSuccessListener(a->{ updateLikeButton(true);Toast.makeText(requireContext(),"Artifact liked", Toast.LENGTH_SHORT).show();})
+//                .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
+//                .addOnCompleteListener(task -> likeButton.setEnabled(true));
+//    }
+
 //    collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
 //            updateSaveButton(true);
 //            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
@@ -427,81 +496,81 @@ private void saveTheArtifact() {
 //        )
 //        .addOnCompleteListener(task -> saveButton.setEnabled(true));
 
-    collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedArtifactCollection -> {
-            if (savedArtifactCollection == null) {
-                Collection newCollection = new Collection(currentUid, "My Default Collection");
-                collectionRepo.createNewCollection(newCollection)
-                    .addOnSuccessListener(unused ->
-                        collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
-                            updateSaveButton(true);
-                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
-                        })
-                        .addOnFailureListener(error ->
-                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
-                        )
-                        .addOnCompleteListener(task -> saveButton.setEnabled(true))
-                    )
-                    .addOnFailureListener(error -> {
-                        saveButton.setEnabled(true);
-                        Toast.makeText(requireContext(), "Could not create collection: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                    });
-
-            }
-            else {
-                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
-                if (alreadySaved) {
-                    collectionRepo
-                            .removeArtifactFromCollection(
-                                    current_lotNumber,
-                                    savedArtifactCollection
-                            )
-                            .addOnSuccessListener(unused -> {
-                                updateSaveButton(false);
-
-                                Toast.makeText(
-                                        requireContext(),
-                                        "Artifact unsaved",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            })
-                            .addOnFailureListener(error ->
-                                    Toast.makeText(
-                                            requireContext(),
-                                            "Could not unsave: "
-                                                    + error.getMessage(),
-                                            Toast.LENGTH_LONG
-                                    ).show()
-                            )
-                            .addOnCompleteListener(task ->
-                                    saveButton.setEnabled(true)
-                            );
-                }
-                else {
-                    collectionRepo
-                        .addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused -> {
-                            updateSaveButton(true);
-                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
-                        })
-                        .addOnFailureListener(error ->
-                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
-                        )
-                        .addOnCompleteListener(task ->
-                                saveButton.setEnabled(true)
-                        );
-                }
-            }
-        })
-        .addOnFailureListener(error -> {
-            error.printStackTrace();
-
-            Toast.makeText(
-                    requireContext(),
-                    "Could not load saved collection: "
-                            + error.getClass().getSimpleName()
-                            + " - "
-                            + error.getMessage(),
-                    Toast.LENGTH_LONG
-            ).show();});
+//    collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedArtifactCollection -> {
+//            if (savedArtifactCollection == null) {
+//                Collection newCollection = new Collection(currentUid, "My Default Collection");
+//                collectionRepo.createNewCollection(newCollection)
+//                    .addOnSuccessListener(unused ->
+//                        collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
+//                            updateSaveButton(true);
+//                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
+//                        })
+//                        .addOnFailureListener(error ->
+//                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
+//                        )
+//                        .addOnCompleteListener(task -> saveButton.setEnabled(true))
+//                    )
+//                    .addOnFailureListener(error -> {
+//                        saveButton.setEnabled(true);
+//                        Toast.makeText(requireContext(), "Could not create collection: " + error.getMessage(), Toast.LENGTH_LONG).show();
+//                    });
+//
+//            }
+//            else {
+//                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
+//                if (alreadySaved) {
+//                    collectionRepo
+//                            .removeArtifactFromCollection(
+//                                    current_lotNumber,
+//                                    savedArtifactCollection
+//                            )
+//                            .addOnSuccessListener(unused -> {
+//                                updateSaveButton(false);
+//
+//                                Toast.makeText(
+//                                        requireContext(),
+//                                        "Artifact unsaved",
+//                                        Toast.LENGTH_SHORT
+//                                ).show();
+//                            })
+//                            .addOnFailureListener(error ->
+//                                    Toast.makeText(
+//                                            requireContext(),
+//                                            "Could not unsave: "
+//                                                    + error.getMessage(),
+//                                            Toast.LENGTH_LONG
+//                                    ).show()
+//                            )
+//                            .addOnCompleteListener(task ->
+//                                    saveButton.setEnabled(true)
+//                            );
+//                }
+//                else {
+//                    collectionRepo
+//                        .addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused -> {
+//                            updateSaveButton(true);
+//                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
+//                        })
+//                        .addOnFailureListener(error ->
+//                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
+//                        )
+//                        .addOnCompleteListener(task ->
+//                                saveButton.setEnabled(true)
+//                        );
+//                }
+//            }
+//        })
+//        .addOnFailureListener(error -> {
+//            error.printStackTrace();
+//
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Could not load saved collection: "
+//                            + error.getClass().getSimpleName()
+//                            + " - "
+//                            + error.getMessage(),
+//                    Toast.LENGTH_LONG
+//            ).show();});
     }
     private void updateSaveButton(boolean saved) {
         int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);

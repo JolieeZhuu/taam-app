@@ -117,7 +117,7 @@ public class CollectionRepository {
 
     public Task<Boolean> isArtifactInCollection(String lotNumber, String userId) {
         return dbRefArtColl.child(lotNumber).child(userId).get().continueWith(task -> {
-            return task.isSuccessful() && task.getResult() != null;
+            return task.isSuccessful() && task.getResult().exists();
         });
     }
 
@@ -128,18 +128,25 @@ public class CollectionRepository {
     }
 
     // remove artifact from collection
-    public Task<Void> removeArtifactFromCollection(String lotNumber, Collection collection) {
-        Map<String, Boolean> artifacts = collection.getArtifacts();
-        if (artifacts.get(lotNumber) != null) {
-            artifacts.remove(lotNumber);
-            collection.setArtifacts(artifacts);
-            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put(collection.getUserId(), null);
-                return dbRefArtColl.child(lotNumber).updateChildren(updates);
-            });
-        }
-        return Tasks.forResult(null);
+//    public Task<Void> removeArtifactFromCollection(String lotNumber, Collection collection) {
+//        Map<String, Boolean> artifacts = collection.getArtifacts();
+//        if (artifacts.get(lotNumber) != null) {
+//            artifacts.remove(lotNumber);
+//            collection.setArtifacts(artifacts);
+//            return dbRef.child(collection.getUserId()).updateChildren(collection.toMap()).continueWithTask(task -> {
+//                Map<String, Object> updates = new HashMap<>();
+//                updates.put(collection.getUserId(), null);
+//                return dbRefArtColl.child(lotNumber).updateChildren(updates);
+//            });
+//        }
+//        return Tasks.forResult(null);
+//    } // tested
+
+    public Task<Void> removeArtifactFromCollection(String lotNumber, String userId) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("collections/" + userId + "/artifacts/" + lotNumber, null);
+        updates.put("artifactCollections/" + lotNumber + "/" + userId, null);
+        return rootRef.updateChildren(updates);
     } // tested
 
     //remove artifact from ALL collections
@@ -205,9 +212,9 @@ public class CollectionRepository {
     }
 
 
-    public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
-        return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
-    }
+//    public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
+//        return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
+//    }
 
 //    public Task<Collection> getCollectionByName(String userId, String collectionName) {
 //        Task<Collection> task = dbRef.child(userId).get().continueWith(snapshot -> {
