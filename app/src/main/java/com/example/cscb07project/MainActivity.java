@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         main_filters = new FilterState();
         if (savedInstanceState == null){
-//            loadFragment(new HomepageFragment());
+           loadFragment(new HomepageFragment());
 //             loadFragment(new AddArtifactFragment());
-            loadFragment(ExpandedArtifactFragment.newInstance("-OyWPmV1ivuQqOD1TlRC"));
+            // loadFragment(ExpandedArtifactFragment.newInstance("-OyWPmV1ivuQqOD1TlRC"));
         }
     }
 
