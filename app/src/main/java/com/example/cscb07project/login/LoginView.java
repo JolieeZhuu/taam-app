@@ -1,5 +1,6 @@
 package com.example.cscb07project.login;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.cscb07project.R;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.fragments.LoginFragment;
+import android.util.TypedValue;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -28,6 +30,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     protected abstract int getPasswordId();
     protected abstract int getMainButtonId();
     protected abstract int getSecondaryButtonId();
+    private int buttonColor;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,9 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
         mainButton.setOnClickListener(view1 -> p.handleLoginClick(email.getText().toString(), password.getText().toString(), ""));
 
         secondaryButton.setOnClickListener(view2 -> p.handleSignUpClick());
+        TypedValue typedValue = new TypedValue();
+        requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+        this.buttonColor = typedValue.data;
     }
 
 
@@ -96,5 +102,11 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, LoginFragment.class, null)
                 .commit();
+    }
+    @Override
+    public void setLoading(boolean isLoading){
+        mainButton.setEnabled(!isLoading);
+        secondaryButton.setEnabled(!isLoading);
+        mainButton.setBackgroundColor(isLoading? Color.GRAY:this.buttonColor);
     }
 }

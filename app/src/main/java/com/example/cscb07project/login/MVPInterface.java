@@ -9,6 +9,8 @@ public interface MVPInterface {
         void navigateToAdmin();
         void navigateToSignUp();
         void navigateToLogin();
+        void setLoading(boolean isLoading);
+
     }
 
     interface model{
