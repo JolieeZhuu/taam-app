@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Artifact {
-    private String artifactId;
     private String lotNumber;
     private String name;
     private String description;
@@ -27,7 +26,6 @@ public class Artifact {
     public Artifact() {}
 
     public Artifact(String lotNumber, String name, String description, String category, String material, String period, String origin, String dimensions, String conditionReport, String currentLocation, String acquiredMethod, String provenance, String accessionNumber, String notes, String image) {
-        this.artifactId = null;
         this.lotNumber = lotNumber;
         this.name = name;
         this.description = description;
@@ -47,7 +45,6 @@ public class Artifact {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("artifactId", artifactId);
         result.put("lotNumber", lotNumber);
         result.put("name", name);
         result.put("description", description);
@@ -65,14 +62,6 @@ public class Artifact {
         result.put("image", image);
 
         return result;
-    }
-
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
     }
 
     public String getLotNumber() {

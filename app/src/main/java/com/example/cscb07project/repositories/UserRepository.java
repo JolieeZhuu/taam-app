@@ -108,6 +108,10 @@ public class UserRepository implements UserInterface {
         });
     }
 
+    public FirebaseUser getCurrentUser() {
+        return dbAuth.getCurrentUser();
+    }
+
     //@Override
 //    private Task<User> getUserByEmail(String email) {
 //        return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
