@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
+        //please keep everything after this line when merging
+
         if (savedInstanceState == null) {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser != null) {
