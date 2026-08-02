@@ -1,6 +1,4 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
@@ -38,6 +36,12 @@
     <string name="view_comments">View Comments</string>
     <string name="select_filters">Choose Filters</string>
 
+    <!-- General button navigation -->
+    <string name="select_filters_button">Choose Filters</string>
+    <string name="catalogue_view_button">See Artifacts</string>
+    <string name="catalogue_select_button">Choose Artifacts</string>
+    <string name="expanded_view_button">More Details</string>
+    <string name="exit_button">Exit</string>
 
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
@@ -59,8 +63,12 @@
     <string name="artifact_material">Material</string>
     <string name="artifact_period">Period</string>
 
+    <string name="next_page">Next</string>
+    <string name="previous_page">Back</string>
     <string name="select_artifacts">Select</string>
     <string name="clear_selection">Clear</string>
+
+
 
     <!-- Need this kept when merging :) -->
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
