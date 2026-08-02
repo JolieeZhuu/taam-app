@@ -106,6 +106,7 @@
     <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
+    <string name="exit_add_artifact">Exit</string>
 
 
     <!-- Homepage Screen -->
@@ -113,6 +114,10 @@
     <string name="cd_saved_artifacts_button">Saved Artifacts</string>
     <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
     <string name="filter_button">Filters</string>
+    <string name="catalogue_title">Catalogue</string>
+    <string name="cd_add_artifact_button">Admin Add Artifact Button</string>
+    <string name="cd_carousel_highlight_button">Daily Highlights</string>
+    <string name="carousel_title">Daily Highlights</string>
     <string name="delete_comments">Delete Comments</string>
 
 
