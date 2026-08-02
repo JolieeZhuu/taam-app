@@ -41,7 +41,6 @@
     <string name="catalogue_view_button">See Artifacts</string>
     <string name="catalogue_select_button">Choose Artifacts</string>
     <string name="expanded_view_button">More Details</string>
-    <string name="exit_button">Exit</string>
 
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
@@ -62,6 +61,7 @@
     <string name="artifact_category">Category</string>
     <string name="artifact_material">Material</string>
     <string name="artifact_period">Period</string>
+    <string name="artifact_image_description">Caption</string>
 
     <string name="next_page">Next</string>
     <string name="previous_page">Back</string>

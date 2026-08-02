@@ -7,10 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.fragments.HomeFragment;
-import com.example.cscb07project.fragments.HomepageFragment;
-import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
@@ -38,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         selectedArtifacts = new HashSet<>();
 
         if (savedInstanceState == null){
-            loadFragment(new HomeFragment());
-//           loadFragment(new HomepageFragment());
+//            loadFragment(new HomeFragment());
+           loadFragment(new HomepageFragment());
 //            loadFragment(new AddArtifactFragment());
             // loadFragment(new EditArtifactFragment());
         }
@@ -55,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public FilterState getMainFS() {
         return mainFilters;
     }
+    public FirebaseDatabase getDb() {return db; }
     public ArtifactRepository getMainARep() { return aRep; }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
 }

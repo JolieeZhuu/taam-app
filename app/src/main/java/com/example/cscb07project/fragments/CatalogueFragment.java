@@ -106,7 +106,7 @@ public class CatalogueFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_catalogue, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // TODO: Optionally make this adaptive?
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         spinnerPagination = view.findViewById(R.id.spinnerPagination);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
@@ -146,7 +146,6 @@ public class CatalogueFragment extends Fragment {
         buttonBackPage = view.findViewById(R.id.BackButton);
         buttonSelect = view.findViewById(R.id.selectButton);
         buttonClear = view.findViewById(R.id.clearButton);
-        //buttonChangeFilters = null; ≈
 
         buttonNextPage.setOnClickListener(v -> {
             if ( PAGINATION_COUNT == -1 ||
@@ -174,14 +173,6 @@ public class CatalogueFragment extends Fragment {
                 ).show();
             }
         });
-
-        /*buttonChangeFilters.setOnClickListener(v ->
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new FilterFragment())
-                    .setReorderingAllowed(true)
-                    .addToBackStack(null)
-                    .commit()
-        );*/
 
         if (selectionLimit != 0){
             buttonSelect.setOnClickListener(v -> {
@@ -213,7 +204,7 @@ public class CatalogueFragment extends Fragment {
                         } else {
                             selectionBuffer.add(artifact);
                         }
-                        artifactAdapter.notifyDataSetChanged(); // TODO: Replace with notifyItemChanged(currentPage.indexOf(artifact));?
+                        artifactAdapter.notifyDataSetChanged();
                     }
             );
         } else { // We must hide the button views, it's not enough to just disable them.
@@ -221,9 +212,12 @@ public class CatalogueFragment extends Fragment {
             buttonClear.setVisibility(View.GONE);
             artifactAdapter = new ExpandedArtifactAdapter(
                     currentPage,
-                    artifact ->{
-                        // TODO: Open Expanded view here.
-            });
+                    artifact -> getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container,
+                                    ExpandedArtifactFragment.newInstance(artifact.getLotNumber()))
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit());
         }
 
         recyclerView.setAdapter(artifactAdapter);
@@ -233,7 +227,7 @@ public class CatalogueFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void setCurrentPage() { // TODO: Update for incomplete page safety.
+    private void setCurrentPage() {
         List<Artifact> subList;
         if (PAGINATION_COUNT == -1){
             subList = artifactList;
@@ -249,7 +243,7 @@ public class CatalogueFragment extends Fragment {
         artifactAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressWarnings("all")
     public void populateFromList(List<Artifact> artifacts){
         artifactList.clear();
         artifactList.addAll(artifacts);
@@ -264,7 +258,6 @@ public class CatalogueFragment extends Fragment {
 
     public void populateFromDb() {
         mainActivity.getMainARep().getFilteredArtifacts(mainActivity.getMainFS(), new BatchArtifactRetriever() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResult(List<Artifact> artifactsFromDb) {
                 artifactList.clear();
@@ -274,7 +267,6 @@ public class CatalogueFragment extends Fragment {
 
             @Override
             public void onError(DatabaseError error) {
-//                getParentFragmentManager().popBackStack(); TODO: Handle this more cleanly.
                 Toast.makeText(
                         requireContext(),
                         "Failed to fetch artifacts from database, please try again.",

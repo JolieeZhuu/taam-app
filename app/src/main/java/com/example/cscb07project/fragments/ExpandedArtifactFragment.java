@@ -1,17 +1,15 @@
-package com.example.cscb07project;
+package com.example.cscb07project.fragments;
 
-import static android.graphics.Color.RED;
-
+import com.example.cscb07project.MainActivity;
+import com.example.cscb07project.R;
 import com.google.android.material.button.MaterialButton;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.entities.Collection;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
@@ -32,12 +28,8 @@ import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.example.cscb07project.repositories.UserRepository;
-import com.google.android.material.color.MaterialColors;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Objects;
 
 
 public class ExpandedArtifactFragment extends Fragment {
@@ -227,7 +219,7 @@ public class ExpandedArtifactFragment extends Fragment {
 
     public void setupRepo(){
         MainActivity mainActivity = (MainActivity) requireActivity();
-        db = mainActivity.getDatabase();
+        db = mainActivity.getDb();
         expandedViewRepo = new ExpandedViewRepository(db);
         artifactRepo = new ArtifactRepository(db,expandedViewRepo);
         collectionRepo = new CollectionRepository(db);
