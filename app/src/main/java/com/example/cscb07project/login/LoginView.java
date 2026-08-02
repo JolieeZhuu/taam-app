@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.cscb07project.R;
 import com.example.cscb07project.fragments.HomepageFragment;
+import com.example.cscb07project.fragments.LoginFragment;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -93,7 +94,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void navigateToLogin() {
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_login.class, null)
+                .replace(R.id.fragment_container, LoginFragment.class, null)
                 .commit();
     }
 }

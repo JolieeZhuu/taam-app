@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.fragments.HomepageFragment;
+import com.example.cscb07project.fragments.LoginFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null){
 //            loadFragment(new HomeFragment());
-           loadFragment(new HomepageFragment());
+           loadFragment(new LoginFragment());
 //            loadFragment(new AddArtifactFragment());
             // loadFragment(new EditArtifactFragment());
         }

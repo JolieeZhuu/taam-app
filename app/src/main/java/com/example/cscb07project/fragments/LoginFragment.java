@@ -1,9 +1,13 @@
-package com.example.cscb07project.login;
+package com.example.cscb07project.fragments;
 
 import com.example.cscb07project.R;
+import com.example.cscb07project.login.LoginModel;
+import com.example.cscb07project.login.LoginPresenter;
+import com.example.cscb07project.login.LoginView;
+import com.example.cscb07project.login.MVPInterface;
 
 
-public class fragment_login extends LoginView {
+public class LoginFragment extends LoginView {
     @Override protected MVPInterface.presenter createPresenter() {
         return new LoginPresenter(this, new LoginModel());
     }

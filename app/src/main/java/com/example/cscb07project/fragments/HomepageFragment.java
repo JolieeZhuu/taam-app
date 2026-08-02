@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.example.cscb07project.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomepageFragment extends Fragment {
 
@@ -105,7 +106,7 @@ public class HomepageFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_logout) {
-                    // TODO: logout
+                    logOut();
                     return true;
                 }
                 return false;
@@ -153,5 +154,12 @@ public class HomepageFragment extends Fragment {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+    private void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        getParentFragmentManager().popBackStack();
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new LoginFragment())
+                .commit();
     }
 }
