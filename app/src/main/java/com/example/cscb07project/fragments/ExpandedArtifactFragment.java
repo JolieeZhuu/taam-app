@@ -585,7 +585,8 @@ private void saveTheArtifact() {
             return;
         }
         editButton.setEnabled(false);
-
+        EditArtifactFragment editArtifactFragment = EditArtifactFragment.editFrag(current_lotNumber);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editArtifactFragment).addToBackStack(null).commit();
         editButton.setEnabled(true);
 
         // probably where elina's code has to go
