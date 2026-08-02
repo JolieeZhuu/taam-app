@@ -1,4 +1,4 @@
-package com.example.cscb07project;
+package com.example.cscb07project.systems;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Comment;
 
 import java.util.List;

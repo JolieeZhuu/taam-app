@@ -8,11 +8,14 @@ import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
 import com.example.cscb07project.systems.FieldScraper;
+import com.example.cscb07project.systems.FilterState;
+import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -67,7 +70,70 @@ public class ArtifactRepository {
                 callback.onError(error);
             }
         });
+    }
 
+    /**
+     * Firebase only supports "ordering" (for our purposes filtering) by a single key at a time.
+     * We will implement a hierarchy then to pull these as follows:
+     * 1. Period; 2. Material; 3. Category;
+     * The Db will filter by the first specified filter value, then we locally filter the rest.
+     */
+    public void getFilteredArtifacts(FilterState fs, BatchArtifactRetriever callback){
+        Query firstFiltered; // This will be the first filtered layer for the db.
+        String firstMatch;
+        if (!fs.getFilterValue(FilterState.PERIOD_FILTER_KEY).equals(FilterState.NO_FILTER)){
+            firstFiltered = dbRef.orderByChild(FilterState.PERIOD_FILTER_KEY).equalTo(
+                    fs.getFilterValue(FilterState.PERIOD_FILTER_KEY));
+            firstMatch = FilterState.PERIOD_FILTER_KEY;
+        } else if (!fs.getFilterValue(FilterState.MATERIAL_FILTER_KEY).equals(FilterState.NO_FILTER)) {
+            firstFiltered = dbRef.orderByChild(FilterState.MATERIAL_FILTER_KEY).equalTo(
+                    fs.getFilterValue(FilterState.MATERIAL_FILTER_KEY));
+            firstMatch = FilterState.MATERIAL_FILTER_KEY;
+        } else if (!fs.getFilterValue(FilterState.CATEGORY_FILTER_KEY).equals(FilterState.NO_FILTER)) {
+            firstFiltered = dbRef.orderByChild(FilterState.CATEGORY_FILTER_KEY).equalTo(
+                    fs.getFilterValue(FilterState.CATEGORY_FILTER_KEY));
+            firstMatch = FilterState.CATEGORY_FILTER_KEY;
+        } else {
+            firstFiltered = dbRef;
+            firstMatch = FilterState.NO_FILTER;
+        }
+
+        firstFiltered.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Set<Artifact> filtrate = new HashSet<>();
+                for (DataSnapshot artifactSnapshot : snapshot.getChildren()){
+                    Artifact artifact = artifactSnapshot.getValue(Artifact.class);
+                    if (artifact != null){
+                        filtrate.add(artifact);
+                    }
+                }
+
+
+                switch(firstMatch) { // We use the switch statement to capture the other filtering.
+                    case FilterState.CATEGORY_FILTER_KEY:
+                    case FilterState.NO_FILTER:
+                        break;
+                    case FilterState.PERIOD_FILTER_KEY:
+                        if (!Objects.equals(fs.getFilterValue(FilterState.MATERIAL_FILTER_KEY), FilterState.NO_FILTER)) {
+                            filtrate.removeIf(solute -> !solute.getMaterial().equals(
+                                    fs.getFilterValue(FilterState.MATERIAL_FILTER_KEY)));
+                        }
+                    case FilterState.MATERIAL_FILTER_KEY:
+                        if (!Objects.equals(fs.getFilterValue(FilterState.CATEGORY_FILTER_KEY), FilterState.NO_FILTER)){
+                            filtrate.removeIf(solute -> !solute.getMaterial().equals(
+                                    fs.getFilterValue(FilterState.CATEGORY_FILTER_KEY)));
+                        }
+                }
+
+                callback.onResult(new ArrayList<>(filtrate));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onError(error);
+            }
+        });
     }
 
     public Task<Artifact> getArtifactByLotNumber(String lotNumber) {

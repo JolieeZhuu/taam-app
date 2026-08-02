@@ -22,9 +22,8 @@ import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-public class AddArtifactFragment extends Fragment{
+public class EditArtifactFragment extends Fragment{
 
     //mandatory
     private EditText editLotNumber, editName, editDescription;
@@ -33,19 +32,17 @@ public class AddArtifactFragment extends Fragment{
     private EditText editOrigin, editDimensions, editConditionReport, editCurrentLocation,
             editAcquiredMethod, editProvenance, editAccessionNumber, editNotes;
 
-    private Button buttonUploadArtifactImage, buttonAddArtifact, buttonExit;
+    private Button buttonUploadArtifactImage, buttonUpdateArtifact;
 
     private FirebaseDatabase db;
-    private ArtifactRepository artifactRepository;
-    //private DatabaseReference artifactsRef;
     private FirebaseStorage storage;
     private StorageReference storageRef;
-    private UploadTask uploadTask;
     private Uri selectedImageUri;
     private String artifactImageURL = "";
+    private ArtifactRepository artifactRepository;
 
     private void uploadImage(){
-        if(selectedImageUri==null){addArtifact(); return;}
+        if(selectedImageUri==null){updateArtifact(); return;}
 
         final StorageReference ref = storageRef.child("artifactImages/"
                 + editLotNumber.getText().toString().trim() + ".jpg");
@@ -55,7 +52,7 @@ public class AddArtifactFragment extends Fragment{
                     ref.getDownloadUrl()
                             .addOnSuccessListener(downloadUri -> {
                                 artifactImageURL = downloadUri.toString();
-                                addArtifact();})
+                                updateArtifact();})
                             .addOnFailureListener(e -> {
                                 Toast.makeText(
                                         requireContext(),
@@ -72,12 +69,14 @@ public class AddArtifactFragment extends Fragment{
     }
     private final ActivityResultLauncher<PickVisualMediaRequest>
             pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
-                    uri -> {
-                        if (uri != null){
-                            selectedImageUri = uri;
-                            Toast.makeText(getContext(), "Image selected", Toast.LENGTH_SHORT).show();
-                        }else{Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();}
-                    });
+            uri -> {
+                if (uri != null){
+                    selectedImageUri = uri;
+                    Toast.makeText(getContext(), "Image selected", Toast.LENGTH_SHORT).show();
+                }else{Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();}
+            });
+    @Override
+    @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.artifact, container, false);
 
@@ -96,8 +95,9 @@ public class AddArtifactFragment extends Fragment{
         editAccessionNumber = view.findViewById(R.id.editAccessionNumber);
         editNotes = view.findViewById(R.id.editNotes);
         buttonUploadArtifactImage = view.findViewById(R.id.buttonUploadArtifactImage);
-        buttonAddArtifact = view.findViewById(R.id.buttonAddArtifact);
-        buttonExit = view.findViewById(R.id.buttonExit);
+        buttonUpdateArtifact = view.findViewById(R.id.buttonAddArtifact);
+
+        buttonUpdateArtifact.setText("Update Artifact");
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         artifactRepository = new ArtifactRepository(db);
@@ -129,40 +129,76 @@ public class AddArtifactFragment extends Fragment{
             }
         });
 
-        buttonAddArtifact.setOnClickListener(new View.OnClickListener() {
+        buttonUpdateArtifact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadImage();
             }
         });
 
-        buttonExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { getParentFragmentManager().popBackStack(); }
-        });
+        Bundle args = getArguments();
+        if(args != null){
+            String lotNumber = args.getString("lotNumber");
 
+            if (lotNumber != null && !lotNumber.isEmpty()){
+                editLotNumber.setText(lotNumber);
+                editLotNumber.setEnabled(false);
+                loadArtifact(lotNumber);
+            } else {
+                Toast.makeText(getContext(),
+                        "Lot number failed to load", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getContext(),
+                    "Lot number failed to load", Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
-    private void clearFields(){
-        editLotNumber.setText("");
-        editName.setText("");
-        editDescription.setText("");
-        editOrigin.setText("");
-        editDimensions.setText("");
-        editConditionReport.setText("");
-        editCurrentLocation.setText("");
-        editAcquiredMethod.setText("");
-        editProvenance.setText("");
-        editAccessionNumber.setText("");
-        editNotes.setText("");
-        editCategory.setSelection(0);
-        editMaterial.setSelection(0);
-        editDynasty.setSelection(0);
-        selectedImageUri = null;
-        artifactImageURL = "";
-    }
 
-    private void addArtifact(){
+    private void loadArtifact(String lotNumber){
+        artifactRepository.getArtifactByLotNumber(lotNumber).addOnSuccessListener(artifact -> {
+            if (artifact==null) {Toast.makeText(getContext(), "Artifact not found",
+                    Toast.LENGTH_SHORT).show();
+                return;
+            }
+            fillFields(artifact);
+        }).addOnFailureListener(e -> {Toast.makeText(getContext(), "Failed to load artifact",
+                                Toast.LENGTH_SHORT).show();
+        });
+    }
+    private void fillFields(Artifact artifact){
+
+        editLotNumber.setText(artifact.getLotNumber());
+        editLotNumber.setEnabled(false);
+        editName.setText(artifact.getName());
+        editDescription.setText(artifact.getDescription());
+        editOrigin.setText(artifact.getOrigin());
+        editDimensions.setText(artifact.getDimensions());
+        editConditionReport.setText(artifact.getConditionReport());
+        editCurrentLocation.setText(artifact.getCurrentLocation());
+        editAcquiredMethod.setText(artifact.getAcquiredMethod());
+        editProvenance.setText(artifact.getProvenance());
+        editAccessionNumber.setText(artifact.getAccessionNumber());
+        editNotes.setText(artifact.getNotes());
+        artifactImageURL = artifact.getImage();
+
+        setSpinnerValue(editCategory, artifact.getCategory());
+        setSpinnerValue(editMaterial, artifact.getMaterial());
+        setSpinnerValue(editDynasty, artifact.getPeriod());
+    }
+    private void setSpinnerValue(Spinner spinner, String value){
+        if(value == null) return;
+        ArrayAdapter<?> adapter = (ArrayAdapter<?>) spinner.getAdapter();
+
+        for (int i=0; i < adapter.getCount(); i++) {
+            Object item = adapter.getItem(i);
+            if(item != null && item.toString().equals(value)){
+                spinner.setSelection(i);
+                return;
+            }
+        }
+    }
+    private void updateArtifact(){
         String lotNumber = editLotNumber.getText().toString().trim();
         String name = editName.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
@@ -178,38 +214,25 @@ public class AddArtifactFragment extends Fragment{
         String accessionNumber = editAccessionNumber.getText().toString().trim();
         String notes = editNotes.getText().toString().trim();
 
-        if (lotNumber.isEmpty() || name.isEmpty() || description.isEmpty() || category.equals("Select category")
+        if ( name.isEmpty() || description.isEmpty() || category.equals("Select category")
                 || material.equals("Select material") || dynasty.equals("Select dynasty")) {
             Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-//        artifactsRef = db.getReference("artifacts");
-//        String artifactId = artifactsRef.push().getKey();
-//        if(artifactId==null){
-//            Toast.makeText(getContext(), "Artifact creation failed", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
         Artifact artifact = new Artifact(lotNumber, name, description, category, material, dynasty,
                 origin, dimensions, conditionReport, currentLocation, acquiredMethod, provenance,
                 accessionNumber, notes, artifactImageURL);
 
-        artifactRepository.addArtifact(artifact).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Artifact added", Toast.LENGTH_SHORT).show();
-                clearFields();
+        artifactRepository.updateArtifact(artifact).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {Toast.makeText(getContext(), "Artifact updated",
+                                Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "Failed to add artifact", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to update artifact", Toast.LENGTH_SHORT)
+                                .show();
             }
-        });
+    });
 
-//        artifactsRef.child(artifactId).setValue(artifact).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                Toast.makeText(getContext(), "Artifact added", Toast.LENGTH_SHORT).show();
-//                clearFields();
-//            }else {
-//                Toast.makeText(getContext(), "Failed to add artifact", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 }

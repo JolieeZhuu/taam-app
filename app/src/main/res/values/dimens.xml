@@ -2,6 +2,7 @@
 <resources>
     <dimen name="fragment_vertical_top_margin">48dp</dimen>
     <dimen name="fragment_vertical_bot_margin">24dp</dimen>
+
     <dimen name="fragment_section_padding">8dp</dimen>
 
     <dimen name="small_button_height">48dp</dimen>
