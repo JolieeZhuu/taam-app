@@ -1,6 +1,43 @@
 <resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Toronto Asian Art Museum</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="add_item">Add Item</string>
+    <string name="recyclerview">RecyclerView</string>
+    <string name="scroller">Scroller</string>
+    <string name="spinner">Spinner</string>
+    <string name="manage_items">Manage Items</string>
     <string name="back">Back</string>
+    <string name="picture_of_the_artifact">picture of the artifact</string>
+    <string name="artifact_information">Artifact Information</string>
+    <string name="name_of_the_artifact">NAME of THE ARTIFACT</string>
+    <string name="likes_23">Likes: </string>
+    <string name="saved_yes">Saved: </string>
+    <string name="category">Category: </string>
+    <string name="creator">Creator: </string>
+    <string name="dynasty_period">Dynasty/Period: </string>
+    <string name="culture_origin">Culture origin: </string>
+<!--    <string name="lot_number_expview">Lot number: </string>-->
+    <string name="material">Material: </string>
+<!--    <string name="dimensions_expview">Dimensions: </string>-->
+<!--    <string name="condition_report_expview">Condition report: </string>-->
+<!--    <string name="current_location_expview">Current_location: </string>-->
+    <string name="acquisition_method">Acquisition method: </string>
+<!--    <string name="provenance_expview">Provenance: </string>-->
+<!--    <string name="accession_number_expview">Accession number: </string>-->
+<!--    <string name="notes_expview">Notes: </string>-->
+<!--    <string name="description_expview">Description: </string>-->
+    <string name="like">Like</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="comment_section">Comment Section</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="post">Post</string>
+    <string name="view_comments">View Comments</string>
+    <string name="select_filters">Choose Filters</string>
+
 
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
@@ -69,6 +106,7 @@
     <string name="notes">Notes</string>
     <string name="upload_image">Upload image</string>
     <string name="add_artifact">Add artifact</string>
+    <string name="exit_add_artifact">Exit</string>
 
 
     <!-- Homepage Screen -->
@@ -76,6 +114,11 @@
     <string name="cd_saved_artifacts_button">Saved Artifacts</string>
     <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
     <string name="filter_button">Filters</string>
+    <string name="catalogue_title">Catalogue</string>
+    <string name="cd_add_artifact_button">Admin Add Artifact Button</string>
+    <string name="cd_carousel_highlight_button">Daily Highlights</string>
+    <string name="carousel_title">Daily Highlights</string>
+    <string name="delete_comments">Delete Comments</string>
 
 
 </resources>

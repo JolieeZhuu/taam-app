@@ -6,11 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.cscb07project.fragments.AddArtifactFragment;
-import com.example.cscb07project.fragments.EditArtifactFragment;
-import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.fragments.HomeFragment;
-import com.example.cscb07project.R;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.systems.FilterState;
@@ -48,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     public FilterState getMainFS() {
         return main_filters;
+    }
+    public FirebaseDatabase getDatabase() {
+        return db;
     }
     public ArtifactRepository getMainARep() {return aRep; }
 }

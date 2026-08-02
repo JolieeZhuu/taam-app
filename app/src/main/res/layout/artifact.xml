@@ -152,6 +152,14 @@
             android:text="@string/add_artifact"
             android:importantForAutofill="no"
             android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/buttonExit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exit_add_artifact"
+            android:importantForAutofill="no"
+            android:minHeight="48dp"/>
     </LinearLayout>
 </ScrollView>
 

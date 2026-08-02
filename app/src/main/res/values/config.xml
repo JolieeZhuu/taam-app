@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Number of items displayed in the carousel -->
+    <integer name="carousel_count">4</integer>
+    <integer name="carousel_time_interval">6000</integer>
+</resources>
