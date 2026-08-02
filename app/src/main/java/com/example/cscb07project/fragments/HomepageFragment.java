@@ -30,6 +30,21 @@ public class HomepageFragment extends Fragment {
     private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
+    private static final String ARG_IS_ADMIN = "is_admin";
+    public static HomepageFragment newInstance(boolean isAdmin){
+        HomepageFragment fragment = new HomepageFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_IS_ADMIN, isAdmin);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) isAdmin = getArguments().getBoolean(ARG_IS_ADMIN, false);
+    }
+
+
 
     @Nullable
     @Override

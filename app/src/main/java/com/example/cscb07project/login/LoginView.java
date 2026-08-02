@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cscb07project.R;
+import com.example.cscb07project.fragments.HomepageFragment;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
@@ -67,7 +68,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void navigateToHome() {
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_fake_home.class, null)
+                .replace(R.id.fragment_container, HomepageFragment.newInstance(false), null)
                 .commit();
     }
 
@@ -75,7 +76,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void navigateToAdmin() {
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_fake_admin.class, null)
+                .replace(R.id.fragment_container, HomepageFragment.newInstance(true), null)
                 .commit();
 
     }
