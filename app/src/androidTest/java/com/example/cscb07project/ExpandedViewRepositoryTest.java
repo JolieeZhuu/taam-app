@@ -63,10 +63,10 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test4GetExpandedViewByLotNumber() throws Exception {
-        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
+        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber("-OyWPmV1ivuQqOD1TlRC");
         Tasks.await(task);
 
-        assertEquals(lotNumber, task.getResult().getLotNumber());
+        assertEquals("-OyWPmV1ivuQqOD1TlRC", task.getResult().getLotNumber());
         assertEquals(Integer.valueOf(0), task.getResult().getLikeNumber());
     }
 
