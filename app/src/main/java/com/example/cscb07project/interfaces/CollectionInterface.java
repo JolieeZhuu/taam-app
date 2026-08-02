@@ -10,9 +10,9 @@ public interface CollectionInterface {
 
     Task<Void> createNewCollection(Collection collection);
 
-    Task<List<Collection>> getCollections(String userId);
+    Task<Collection> getCollectionByUserId(String userId);
 
-    Task<Collection> getCollectionById(String userId, String collectionId);
+    Task<Collection> getCollectionById(String collectionId);
 
     Task<Void> addArtifactToCollection(String lotNumber, Collection collection);
 
