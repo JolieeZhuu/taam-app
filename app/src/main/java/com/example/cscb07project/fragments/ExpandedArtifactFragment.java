@@ -1,5 +1,6 @@
 package com.example.cscb07project.fragments;
 
+import com.bumptech.glide.Glide;
 import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.R;
 import com.google.android.material.button.MaterialButton;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class ExpandedArtifactFragment extends Fragment {
-    private User user;
 
     private FirebaseDatabase db;
     private TextView artifactName;
@@ -64,6 +65,7 @@ public class ExpandedArtifactFragment extends Fragment {
     private ExpandedViewRepository expandedViewRepo;
     private CollectionRepository collectionRepo;
     private UserRepository userRepo;
+    private ImageView imageview;
 
     private String current_lotNumber;
     private String currentUid;
@@ -117,6 +119,9 @@ public class ExpandedArtifactFragment extends Fragment {
         deleteButton = view.findViewById(R.id.delete_button);
         postCommentButton = view.findViewById(R.id.buttonPostComment);
         viewCommentsButton  = view.findViewById(R.id.enter_comment_section);
+
+        imageview=view.findViewById(R.id.artifactImage);
+
 
         setupRepo();
 
@@ -242,6 +247,10 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactAccession.setText("Accession number: " + checkEmptyOrNot(artifact.getAccessionNumber()));
         artifactNotes.setText("Notes: " + checkEmptyOrNot(artifact.getNotes()));
         artifactDescription.setText("Description: " + checkEmptyOrNot(artifact.getDescription()));
+
+        String artifact_url = artifact.getImage();
+        if (artifact_url==null||artifact_url.isEmpty()) {return;}
+        Glide.with(this).load(artifact_url).into(imageview);
     }
 
 
