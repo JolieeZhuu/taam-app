@@ -28,13 +28,13 @@ import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    Intent intent;
     FirebaseDatabase db;
     ArtifactRepository aRep;
     CollectionRepository cRep;
     UserRepository uRep;
     FilterState mainFilters;
     Set<Artifact> selectedArtifacts;
+//    private String searchQuery; TODO: REMOVE THIS???
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         cRep = new CollectionRepository(db);
         uRep = new UserRepository(db, FirebaseAuth.getInstance());
 
-        intent = getIntent();
-        handleMainIntent();
+//        handleMainIntent(); TODO: Remove if it works.
 
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
@@ -76,60 +75,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent){ // For our purposes this is called on search queries.
+    protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
         setIntent(intent);
     }
 
-    private void handleMainIntent(){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if (query == null) {
-                return;
-            }
-            query = query.toLowerCase();
-            getSoughtArtifacts(query);
-        }
-    }
+//    private void handleMainIntent(){ TODO: Remove if it works.
+//        Intent intent = getIntent();
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            if (query == null) {
+//                return;
+//            }
+//            searchQuery = query.toLowerCase();
+//        }
+//    }
 
-    /**
-     * @param query, the substring on which we must search.
-     * Note that the search is applied in addition to the currently specified FilterState.
-     */
-    public void getSoughtArtifacts(String query) {
-        aRep.getFilteredArtifacts(mainFilters, new BatchArtifactRetriever() {
-            @Override
-            public void onResult(List<Artifact> artifactList) {
-                artifactList.removeIf(artifact -> !(
-                        artifact.getName().toLowerCase().contains(query)
-                                || artifact.getCategory().toLowerCase().contains(query)
-                                || artifact.getMaterial().toLowerCase().contains(query)
-                                || artifact.getPeriod().toLowerCase().contains(query)
-                ));
 
-//                activeFragment.updateArtifactsFromSearch(artifactList); TODO: What do to here?
-            }
+//    public void getSoughtArtifacts(String query) { TODO: Handle this logic better.
+//
+//    }
 
-            @Override
-            public void onError(DatabaseError error) {
-                getDbErrorToaster();
-            }
-        });
-    }
-
-    public void getDbErrorToaster(){
-        Toast.makeText(
-                this,
-                "Database error, please try again.",
-                Toast.LENGTH_SHORT
-        ).show();
-    }
-    public FilterState getMainFS() {
-        return mainFilters;
-    }
     public FirebaseDatabase getDb() {return db; }
     public ArtifactRepository getMainARep() { return aRep; }
     public CollectionRepository getMainCRep() {return cRep; }
     public UserRepository getMainURep() {return uRep; }
+    public FilterState getMainFS() {return mainFilters;}
+//    public String getSearchQuery(){ TODO: Remove if it works.
+//        String out = searchQuery;
+//        searchQuery = null;
+//        return out;
+//    }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
 }

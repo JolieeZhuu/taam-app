@@ -15,9 +15,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
+import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.List;
+import java.util.Objects;
 
 public class HomepageFragment extends Fragment {
 
@@ -37,6 +46,11 @@ public class HomepageFragment extends Fragment {
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
     private static final String ARG_IS_ADMIN = "is_admin";
+    @SuppressWarnings("FieldCanBeLocal")
+    private SearchView searchView;
+    private MainActivity mainActivity;
+    private CatalogueFragment catalogueFragment;
+
     public static HomepageFragment newInstance(boolean isAdmin){
         HomepageFragment fragment = new HomepageFragment();
         Bundle args = new Bundle();
@@ -48,6 +62,9 @@ public class HomepageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) isAdmin = getArguments().getBoolean(ARG_IS_ADMIN, false);
+
+        mainActivity = (MainActivity) requireActivity();
+        catalogueFragment = new CatalogueFragment(); // Open in EAV mode.
     }
 
     @Nullable
@@ -62,6 +79,23 @@ public class HomepageFragment extends Fragment {
         carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
 
+        searchView = view.findViewById(R.id.searchBar);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                updateDisplayBySearch(s);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.isBlank()) {
+                    catalogueFragment.populateFromDb();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         savedArtifactsBtn.setOnClickListener(v -> {
             // TODO: load collections fragment
         });
@@ -69,8 +103,6 @@ public class HomepageFragment extends Fragment {
         profileBtn.setOnClickListener(v-> showProfileDropdown());
 
         filterBtn.setOnClickListener(v -> loadFragment(new FilterFragment()));
-
-        Fragment catalogueFragment = new CatalogueFragment();
 
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.homepage_catalogue_container, catalogueFragment)
@@ -114,8 +146,7 @@ public class HomepageFragment extends Fragment {
         if (dailyCarouselFragment == null) {
             dailyCarouselFragment = new CarouselFragment();
             dailyCarouselFragment.setOnCarouselItemClickListener(artifact -> {
-
-                // TODO: load expanded view for artifact from carousel
+                loadFragment(ExpandedArtifactFragment.newInstance(artifact.getLotNumber()));
                 hideDailyCarouselOverlay();
             });
             getParentFragmentManager()
@@ -154,5 +185,31 @@ public class HomepageFragment extends Fragment {
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment())
                 .commit();
+    }
+
+    private void updateDisplayBySearch(String query){
+        mainActivity.getMainARep().getFilteredArtifacts(
+                mainActivity.getMainFS(), new BatchArtifactRetriever() {
+            @Override
+            public void onResult(List<Artifact> artifactList) {
+                artifactList.removeIf(artifact -> !(
+                        artifact.getName().toLowerCase().contains(query)
+                                || artifact.getCategory().toLowerCase().contains(query)
+                                || artifact.getMaterial().toLowerCase().contains(query)
+                                || artifact.getPeriod().toLowerCase().contains(query)
+                ));
+
+                catalogueFragment.populateFromList(artifactList);
+            }
+            @Override
+            public void onError(DatabaseError error) {
+                Toast.makeText(
+                        requireContext(),
+                        "Database error upon this search.",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+
     }
 }
