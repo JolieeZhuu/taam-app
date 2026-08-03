@@ -35,22 +35,19 @@ public class CollectionRepository {
         if (collectionId == null) throw new IllegalStateException();
         collection.setCollectionId(collectionId);
         return dbRef.child(collection.getUserId()).setValue(collection);
-    } // untested
+    } // tested
 
     /**
      * Fetch functions for collections
      */
     public Task<Collection> getCollectionByUserId(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
-            DataSnapshot a = snapshot.getResult();
-            if (a != null && a.exists()) { // considering the case when the collection wasn't created
-                String colID = a.child("collectionId").getValue(String.class);
-                Map<String, Boolean> artifacts = (Map<String, Boolean>) a.child("artifacts").getValue();
-                return new Collection(userId, colID, "My Default Collection", artifacts);
+            if (snapshot.getResult() != null) {
+                return snapshot.getResult().getValue(Collection.class);
             }
             return null;
         });
-    } // untested
+    } // tested
 
     private Task<List<String>> getAllCollectionsFromArtifact(String lotNumber) {
         return dbRefArtColl.child(lotNumber).get().continueWith(task -> {
@@ -64,7 +61,7 @@ public class CollectionRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
 
     /**
@@ -79,7 +76,7 @@ public class CollectionRepository {
         updates.put("collections/" + userId + "/artifacts/" + lotNumber, true);
         updates.put("artifactCollections/" + lotNumber + "/" + userId, true); // used for easier querying
         return rootRef.updateChildren(updates);
-    } // untested
+    } // tested
 
 
     /**
@@ -104,7 +101,7 @@ public class CollectionRepository {
             }
             return new ArrayList<>(); // in case of null
         });
-    } // untested
+    } // tested
 
     private Task<Void> saveToCollection(String userId, Map<String, Boolean> newArtifacts) {
         DatabaseReference userRef = dbRef.child(userId);
@@ -131,19 +128,19 @@ public class CollectionRepository {
             }
             return rootRef.updateChildren(updates);
         });
-    } // untested
+    }
 
     // checks if artifact already exists; function specifically for expanded view
     public Task<Boolean> isArtifactInCollection(String lotNumber, String userId) {
         return dbRefArtColl.child(lotNumber).child(userId).get().continueWith(task -> {
             return task.isSuccessful() && task.getResult().exists();
         });
-    } // untested
+    } // tested
 
     public Task<Void> updateCollectionName(String name, Collection collection) {
         collection.setName(name);
         return dbRef.child(collection.getUserId()).updateChildren(collection.toMap());
-    } // untested
+    } // tested
 
     /**
      * Unsave functions for collection; in
@@ -163,7 +160,7 @@ public class CollectionRepository {
         updates.put("collections/" + userId + "/artifacts/" + lotNumber, null);
         updates.put("artifactCollections/" + lotNumber + "/" + userId, null);
         return rootRef.updateChildren(updates);
-    } // untested
+    } // tested
 
     /**
      * Unsaves a selection of artifacts from a collection. Function
@@ -189,7 +186,7 @@ public class CollectionRepository {
             }
             return new ArrayList<>(); // in case of null
         });
-    } // untested
+    } // tested
 
     /**
      * Deletion functions for collection
@@ -204,27 +201,40 @@ public class CollectionRepository {
     public Task<Void> removeArtifactFromAllCollections(String lotNumber) {
         return getAllCollectionsFromArtifact(lotNumber).continueWithTask(task -> {
             Map<String, Object> updates = new HashMap<>();
-            if (!task.isSuccessful() || task.getResult() == null) throw new IllegalStateException();
-            List<String> collectionIds = task.getResult();
-            for (String id : collectionIds) {
-                updates.put("collections/" + id + "/artifacts/" + lotNumber, null);
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<String> collectionIds = task.getResult();
+                for (String id : collectionIds) {
+                    updates.put("collections/" + id + "/artifacts/" + lotNumber, null);
+                }
             }
             updates.put("artifactCollections/" + lotNumber, null); // must update the querying table too
             return rootRef.updateChildren(updates);
         });
-    } // untested
+    } // tested
 
 
     /* MAY DELETE LATER ON */
 
     // delete collection
     // unneeded? unless we can have deleting users
-    public Task<Void> deleteCollection(String userId, String collectionId) {
-        return dbRef.child(userId).removeValue().addOnSuccessListener(snapshot -> {
-            Log.d("delete from firebase", "successfully deleted collection with id: " + collectionId);
+    public Task<Void> deleteCollection(String userId) {
+        return getCollectionByUserId(userId).continueWithTask(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) throw Objects.requireNonNull(task.getException());
+            Collection col = task.getResult();
+            Map<String, Object> updates = new HashMap<>();
+            if (col.getArtifacts() != null) {
+                for (String lotNumber : col.getArtifacts().keySet()) {
+                    updates.put("artifactCollections/" + lotNumber + "/" + userId, null);
+                }
+            }
+            updates.put("collections/" + userId, null);
+            return rootRef.updateChildren(updates);
+        })
+        .addOnSuccessListener(snapshot -> {
+            Log.d("delete from firebase", "successfully deleted collection with id: " + userId);
         }).addOnFailureListener(e -> {
-            Log.e("firebase error", "error from deleting collection with id: " + collectionId);
+            Log.e("firebase error", "error from deleting collection with id: " + userId);
         });
-    }  // untested
+    }  // tested
 
 }

@@ -29,7 +29,7 @@ public class ExpandedViewRepositoryTest {
     public void setup() {
         dbRef = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         expandedViewRepository = new ExpandedViewRepository(dbRef);
-        lotNumber = "lotNumber0123";
+        lotNumber = "abc123";
     }
 
     @Test
@@ -62,22 +62,21 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test4GetExpandedViewByLotNumber() throws Exception {
-        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber("-OyWPmV1ivuQqOD1TlRC");
+        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber("abc123");
         Tasks.await(task);
 
-        assertEquals("-OyWPmV1ivuQqOD1TlRC", task.getResult().getLotNumber());
+        assertEquals("abc123", task.getResult().getLotNumber());
         assertEquals(Integer.valueOf(0), task.getResult().getLikeNumber());
     }
 
     @Test
     public void test51IncreaseLike() throws Exception {
-        String lotNumber = "myLotNumberTest2";
+        String lotNumber = "abc123";
         Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
         Tasks.await(task1);
         assertEquals(lotNumber, task1.getResult().getLotNumber());
 
         ExpandedView expandedView = task1.getResult();
-//        Log.d("firebase likes", expandedView.toString());
         Task<Void> task2 = expandedViewRepository.like("hardcodeuserId223", expandedView);
         Tasks.await(task2);
 
@@ -85,8 +84,18 @@ public class ExpandedViewRepositoryTest {
     }
 
     @Test
-    public void test52DecreaseLike() throws Exception {
-        String lotNumber = "myLotNumberTest2";
+    public void test52IsArtifactLikedByUser() throws Exception {
+        String lotNumber = "abc123";
+        Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
+        Tasks.await(task1);
+        ExpandedView ev = task1.getResult();
+
+        assertTrue(expandedViewRepository.isArtifactLikedByUser("hardcodeuserId223", ev));
+    }
+
+    @Test
+    public void test53DecreaseLike() throws Exception {
+        String lotNumber = "abc123";
         Task<ExpandedView> task1 = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
         Tasks.await(task1);
         assertEquals(lotNumber, task1.getResult().getLotNumber());

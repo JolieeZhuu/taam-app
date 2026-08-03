@@ -27,7 +27,7 @@ public class AdminRepository {
         Map<String, Object> map = new HashMap<>();
         map.put(userId, true);
         return dbRefAd.updateChildren(map);
-    } // untested
+    } // tested
 
     /**
      * Deletes an admin object given its user id from the admin table
@@ -41,5 +41,5 @@ public class AdminRepository {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting user with id: " + userId);
         });
-    } // untested
+    } // tested
 }

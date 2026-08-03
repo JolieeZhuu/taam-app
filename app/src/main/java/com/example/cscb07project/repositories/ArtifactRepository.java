@@ -48,7 +48,7 @@ public class ArtifactRepository {
             if (!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
             return expandedViewRepository.addExpandedView(artifact.getLotNumber(), new ExpandedView(artifact.getLotNumber()));
         });
-    } // untested
+    } // tested
 
     public Task<Artifact> getArtifactByLotNumber(String lotNumber) {
         return dbRef.child(lotNumber).get().continueWith(snapshot -> {
@@ -57,11 +57,11 @@ public class ArtifactRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
     public Task<Void> updateArtifact(Artifact artifact) {
         return dbRef.child(artifact.getLotNumber()).updateChildren(artifact.toMap());
-    } // untested
+    } // tested
 
     public Task<Void> deleteArtifactByLotNumber(String lotNumber) {
         return dbRef.child(lotNumber).removeValue().continueWithTask(snapshot -> {
@@ -73,7 +73,7 @@ public class ArtifactRepository {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting artifact with id: " + lotNumber);
         });
-    } // untested
+    } // tested
 
     public void scrapeFieldValues(String key, FieldScraper callback){
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {

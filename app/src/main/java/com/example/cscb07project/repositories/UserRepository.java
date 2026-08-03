@@ -45,7 +45,7 @@ public class UserRepository {
                 return user;
             });
         }); // by default, somewhere in the Login fragments, a collection will be created
-    } // untested
+    } // tested
 
     // upon creating a user in Auth, their user id will be stored in Realtime
     private Task<Void> addUserWithId(User user, String userId) {
@@ -67,7 +67,7 @@ public class UserRepository {
 
             return getUserById(userId);
         });
-    } // untested
+    } // tested
 
     private Task<User> getUserById(String userId) {
         return dbRefUs.child(userId).get().continueWith(snapshot -> {
@@ -76,12 +76,12 @@ public class UserRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
     public Task<Void> updateUsername(User user, String username) {
         user.setUsername(username);
         return dbRefUs.child(user.getUserId()).updateChildren(user.toMap());
-    } // untested
+    } // tested
 
     public Task<Boolean> isAdmin(String userId) { // checks to see if user is an admin from admin table
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
@@ -89,7 +89,7 @@ public class UserRepository {
                 return false;
             return snapshot.getResult().exists();
         });
-    } // untested
+    } // tested
 
     private Task<Void> deleteUserById(String userId) {
         return dbRefUs.child(userId).removeValue().addOnSuccessListener(snapshot -> {
@@ -97,7 +97,7 @@ public class UserRepository {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting user with id: " + userId);
         });
-    } // untested
+    }
 
 
     /**
@@ -115,7 +115,7 @@ public class UserRepository {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
             return deleteUserById(userId);
         });
-    } // untested
+    } // tested
 
     public void signOut() {
         dbAuth.signOut();

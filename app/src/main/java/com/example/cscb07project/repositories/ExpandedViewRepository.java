@@ -39,7 +39,7 @@ public class ExpandedViewRepository {
         if (commentId == null) throw new IllegalStateException();
         comment.setCommentId(commentId);
         return dbRefCo.child(lotNumber).child(commentId).setValue(comment);
-    } // untested
+    } // tested
 
 
     /**
@@ -53,7 +53,7 @@ public class ExpandedViewRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
     public Task<Comment> getCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).get().continueWith(snapshot -> {
@@ -62,7 +62,7 @@ public class ExpandedViewRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
     public Task<List<Comment>> getCommentsByLotNumber(String lotNumber) { // for displaying purposes in fragment
         return dbRefCo.child(lotNumber).get().continueWith(snapshot -> {
@@ -76,7 +76,7 @@ public class ExpandedViewRepository {
             }
             return null;
         });
-    } // untested
+    } // tested
 
 
     /**
@@ -85,7 +85,7 @@ public class ExpandedViewRepository {
 
     public Task<Void> updateComment(Comment comment) {
         return dbRefCo.child(comment.getLotNumber()).child(comment.getCommentId()).updateChildren(comment.toMap());
-    } // untested
+    } // tested
 
     public Task<Void> like(String userId, ExpandedView expandedView) {
         if (!isArtifactLikedByUser(userId, expandedView)) {
@@ -103,7 +103,7 @@ public class ExpandedViewRepository {
             });
         }
         return Tasks.forResult(null);
-    } // untested
+    } // tested
 
     public Task<Void> unlike(String userId, ExpandedView expandedView) {
         if (isArtifactLikedByUser(userId, expandedView)) {
@@ -120,11 +120,11 @@ public class ExpandedViewRepository {
             });
         }
         return Tasks.forResult(null);
-    } // untested
+    } // tested
 
     public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
         return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
-    } // untested
+    } // tested
 
     /**
      * Deletion functions for expanded view and comments
@@ -136,7 +136,7 @@ public class ExpandedViewRepository {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting expanded view with id: " + lotNumber);
         });
-    } // untested
+    } // tested
 
     public Task<Void> deleteCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).removeValue().addOnSuccessListener(snapshot -> {
@@ -144,5 +144,5 @@ public class ExpandedViewRepository {
         }).addOnFailureListener(e -> {
             Log.e("firebase error", "error from deleting comment with id: " + commentId);
         });
-    } // untested
+    } // tested
 }
