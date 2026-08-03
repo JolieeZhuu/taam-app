@@ -75,18 +75,18 @@ public class CollectionRepository {
 
     // by E
     // for retrieving the collection pertaining to the user
-    public Task<Collection> getCollection(String userId) {
-        return dbRef.child(userId).get().continueWith(snapshot -> {
-            DataSnapshot a = snapshot.getResult();
-            if (a != null && a.exists()) {
-                String colID = a.child("collectionId").getValue(String.class);
-                Map<String, Boolean> artifacts = (Map<String, Boolean>) a.child("artifacts").getValue();
-                return new Collection(userId, colID, "My Default Collection", artifacts);
-            }
-            // error gettign col
-            return null;
-        });
-    }
+//    public Task<Collection> getCollection(String userId) {
+//        return dbRef.child(userId).get().continueWith(snapshot -> {
+//            DataSnapshot a = snapshot.getResult();
+//            if (a != null && a.exists()) {
+//                String colID = a.child("collectionId").getValue(String.class);
+//                Map<String, Boolean> artifacts = (Map<String, Boolean>) a.child("artifacts").getValue();
+//                return new Collection(userId, colID, "My Default Collection", artifacts);
+//            }
+//            // error gettign col
+//            return null;
+//        });
+//    }
 
     public Task<Collection> getCollectionByUserId(String userId) {
         return dbRef.child(userId).get().continueWith(snapshot -> {
@@ -150,7 +150,7 @@ public class CollectionRepository {
 
         return saveToCollection(userId, map).continueWithTask(task ->{
             if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
-            return getCollection(userId);
+            return getCollectionByUserId(userId);
         }).continueWith(task -> {
             Collection collection = task.getResult();
             if(collection!=null && collection.getArtifacts()!=null) {
@@ -249,7 +249,7 @@ public class CollectionRepository {
         Map<String, Object> updates = new HashMap<>();
         for(String id: lotNumbers) {
 
-            updates.put("collections/" + userId + "artifacts/" + id, null); //
+            updates.put("collections/" + userId + "/artifacts/" + id, null); //
             updates.put("artifactCollections/" + id, null);
         }
 //        for (String id : collectionIds) {
@@ -259,7 +259,7 @@ public class CollectionRepository {
 
         return rootRef.updateChildren(updates).continueWithTask(task ->{
             if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
-            return getCollection(userId);
+            return getCollectionByUserId(userId);
         }).continueWith(task -> {
             Collection collection = task.getResult();
             if(collection!=null && collection.getArtifacts()!=null) {

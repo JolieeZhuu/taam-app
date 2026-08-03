@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(user -> {
                         Toast.makeText(this, user.getUsername(),
                                 Toast.LENGTH_SHORT).show();
-                        loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
+//                        loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
 
-//                        loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8, CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
+                        loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8, CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
                     });
         }
     }
