@@ -32,7 +32,7 @@ public class EditArtifactFragment extends Fragment{
     private EditText editOrigin, editDimensions, editConditionReport, editCurrentLocation,
             editAcquiredMethod, editProvenance, editAccessionNumber, editNotes;
 
-    private Button buttonUploadArtifactImage, buttonUpdateArtifact;
+    private Button buttonUploadArtifactImage, buttonUpdateArtifact,exit_button;
 
     private FirebaseDatabase db;
     private FirebaseStorage storage;
@@ -40,7 +40,13 @@ public class EditArtifactFragment extends Fragment{
     private Uri selectedImageUri;
     private String artifactImageURL = "";
     private ArtifactRepository artifactRepository;
-
+    public static EditArtifactFragment editFrag(String lotNumber){
+        EditArtifactFragment fragment = new EditArtifactFragment();
+        Bundle args = new Bundle();
+        args.putString("lotNumber", lotNumber); //2nd is just the lotnum u wanna use
+        fragment.setArguments(args);
+        return fragment;
+    }
     private void uploadImage(){
         if(selectedImageUri==null){updateArtifact(); return;}
 
@@ -96,6 +102,8 @@ public class EditArtifactFragment extends Fragment{
         editNotes = view.findViewById(R.id.editNotes);
         buttonUploadArtifactImage = view.findViewById(R.id.buttonUploadArtifactImage);
         buttonUpdateArtifact = view.findViewById(R.id.buttonAddArtifact);
+        exit_button = view.findViewById(R.id.buttonExit);
+
 
         buttonUpdateArtifact.setText("Update Artifact");
 
@@ -135,6 +143,8 @@ public class EditArtifactFragment extends Fragment{
                 uploadImage();
             }
         });
+
+        exit_button.setOnClickListener(v->return_to_expanded_view());
 
         Bundle args = getArguments();
         if(args != null){
@@ -234,5 +244,22 @@ public class EditArtifactFragment extends Fragment{
     });
 
 
+
     }
+    private void return_to_expanded_view(){
+        Bundle args2 = getArguments();
+        String lot_number;
+        if(args2==null){
+            return;
+        }
+        lot_number = args2.getString("lotNumber");
+        if ( lot_number== null || lot_number.isEmpty()) {
+            return;
+        }
+        exit_button.setEnabled(false);
+        ExpandedArtifactFragment expandedArtifactFragment = ExpandedArtifactFragment.newInstance(lot_number);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expandedArtifactFragment).addToBackStack(null).commit();
+        exit_button.setEnabled(true);
+    }
+
 }
