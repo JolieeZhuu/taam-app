@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,49 +15,64 @@
             android:id="@+id/editLotNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/lot_number"
-            android:textColorHint="@android:color/holo_red_dark"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:textColorHint="?attr/colorPrimary" />
 
         <EditText
             android:id="@+id/editArtifactName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/artifact_name"
-            android:textColorHint="@android:color/holo_red_dark"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:textColorHint="?attr/colorPrimary" />
 
         <EditText
             android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/description"
-            android:textColorHint="@android:color/holo_red_dark"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:textColorHint="?attr/colorPrimary" />
 
         <Spinner
             android:id="@+id/spinnerCategory"
-            android:textColorHint="@android:color/holo_red_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"/>
 
         <Spinner
             android:id="@+id/spinnerMaterial"
-            android:textColorHint="@android:color/holo_red_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"/>
 
         <Spinner
             android:id="@+id/spinnerDynasty"
-            android:textColorHint="@android:color/holo_red_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"/>
@@ -63,96 +81,171 @@
             android:id="@+id/editOrigin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/origin"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editDimensions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/dimensions"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editConditionReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/condition_report"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editCurrentLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/current_location"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editAcquiredMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/acquired_method"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editProvenance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/provenance"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editAccessionNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/accession_number"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_outlined_text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/notes"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonUploadArtifactImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/small_button_height"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:includeFontPadding="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginTop="12dp"
             android:text="@string/upload_image"
-            android:importantForAutofill="no"/>
-
-        <Button
+            android:importantForAutofill="no"
+            app:cornerRadius="8dp"
+            android:textColor="?attr/colorPrimary"
+            app:backgroundTint="@color/white"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp"
+            android:textAllCaps="false"/>
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonAddArtifact"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/small_button_height"
+            android:includeFontPadding="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginTop="12dp"
             android:text="@string/add_artifact"
             android:importantForAutofill="no"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            app:cornerRadius="8dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textAllCaps="false"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonExit"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/small_button_height"
+            android:includeFontPadding="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginTop="8dp"
             android:text="@string/exit_add_artifact"
             android:importantForAutofill="no"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            app:cornerRadius="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:textAllCaps="false"/>
     </LinearLayout>
 </ScrollView>
 

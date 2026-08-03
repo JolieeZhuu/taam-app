@@ -9,8 +9,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.fragments.ExpandedArtifactFragment;
 import com.example.cscb07project.fragments.HomepageFragment;
+import com.example.cscb07project.fragments.LoginFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
+import com.example.cscb07project.repositories.UserRepository;
 import com.example.cscb07project.systems.FilterState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashSet;
@@ -33,13 +37,21 @@ public class MainActivity extends AppCompatActivity {
 
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
+        //please keep everything after this line when merging
 
-        if (savedInstanceState == null){
-//            loadFragment(new HomeFragment());
-           loadFragment(new HomepageFragment());
-//            loadFragment(new AddArtifactFragment());
-            // loadFragment(new EditArtifactFragment());
-//            loadFragment(ExpandedArtifactFragment.newInstance("2"));
+        if (savedInstanceState == null) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                UserRepository userRepo = new UserRepository(
+                        FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/"),
+                        FirebaseAuth.getInstance()
+                );
+                userRepo.isAdmin(currentUser.getUid())
+                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
+                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
+                //we dont know if user is admin or not, assume not for safety.
+            }
+            else loadFragment(new LoginFragment());
         }
     }
 
