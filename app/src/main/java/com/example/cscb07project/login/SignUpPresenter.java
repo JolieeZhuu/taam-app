@@ -22,6 +22,7 @@ public class SignUpPresenter implements MVPInterface.presenter {
             v.showError("fields cannot be empty");
             return;
         }
+        v.setLoading(true);
         m.authenticateUser(email, password, username, new MVPInterface.model.callback() {
             @Override
             public void onSuccess(User user) {
@@ -30,6 +31,7 @@ public class SignUpPresenter implements MVPInterface.presenter {
             @Override
             public void onError(String message) {
                 v.showError(message);
+                v.setLoading(false);
             }
         });
     }
