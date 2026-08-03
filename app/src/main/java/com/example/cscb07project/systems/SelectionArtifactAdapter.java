@@ -1,8 +1,11 @@
 package com.example.cscb07project.systems;
 
+import com.bumptech.glide.Glide;
+import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Artifact;
 
 import android.graphics.Typeface;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -21,20 +24,21 @@ public class SelectionArtifactAdapter extends ArtifactAdapter{
     @Override
     public void onBindViewHolder(@NonNull ArtifactViewHolder holder, int position) {
         Artifact artifact = artifactList.get(position);
+        Log.d("ArtifactImageCheck", "image value: " + artifact.getImage());
 
         holder.textViewName.setText(artifact.getName());
-        holder.textViewCategory.setText(artifact.getCategory());
-        holder.textViewMaterial.setText(artifact.getMaterial());
-        holder.textViewPeriod.setText(artifact.getPeriod());
+        Glide.with(holder.imageViewArtifact.getContext())
+                .load(artifact.getImage())
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(holder.imageViewArtifact);
 
         holder.itemView.setSelected(selectionBuffer.contains(artifact));
-
-        itemSelectionChanged(holder);
+        onItemSelectionChanged(holder);
 
         holder.itemView.setOnClickListener(v -> listener.onArtifactClicked(artifact));
     }
 
-    public void itemSelectionChanged(ArtifactViewHolder holder){
+    public void onItemSelectionChanged(ArtifactViewHolder holder){
         if (holder.itemView.isSelected()) {
             holder.textViewName.setTypeface(null, Typeface.BOLD);
         } else {

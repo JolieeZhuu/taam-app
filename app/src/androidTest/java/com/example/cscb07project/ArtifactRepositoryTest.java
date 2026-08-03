@@ -1,7 +1,6 @@
 package com.example.cscb07project;
 
 import com.example.cscb07project.entities.Artifact;
-import com.example.cscb07project.interfaces.ArtifactInterface;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +17,7 @@ import android.util.Log;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ArtifactRepositoryTest {
-    private ArtifactInterface artifactRepository;
+    private ArtifactRepository artifactRepository;
     private FirebaseDatabase dbRef;
     private static String artifactLotNumber;
 
@@ -30,7 +29,7 @@ public class ArtifactRepositoryTest {
 
     @Test
     public void test1AddArtifact() throws Exception {
-        Artifact artifact = new Artifact("6", "Artifact A", "Artifact description", "Furniture", "Wood", "Shang Dynasty", null, null, null, null, null, null, null, null, null);
+        Artifact artifact = new Artifact("awserawe1&44$", "Artifact A", "Artifact description", "Furniture", "Wood", "Shang Dynasty", null, null, null, null, null, null, null, null, null);
         Task<Void> task = artifactRepository.addArtifact(artifact);
         Tasks.await(task);
 

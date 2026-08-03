@@ -3,7 +3,6 @@ package com.example.cscb07project;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
 import com.example.cscb07project.entities.User;
-import com.example.cscb07project.interfaces.ExpandedViewInterface;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -63,10 +62,10 @@ public class ExpandedViewRepositoryTest {
 
     @Test
     public void test4GetExpandedViewByLotNumber() throws Exception {
-        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber(lotNumber);
+        Task<ExpandedView> task = expandedViewRepository.getExpandedViewByLotNumber("-OyWPmV1ivuQqOD1TlRC");
         Tasks.await(task);
 
-        assertEquals(lotNumber, task.getResult().getLotNumber());
+        assertEquals("-OyWPmV1ivuQqOD1TlRC", task.getResult().getLotNumber());
         assertEquals(Integer.valueOf(0), task.getResult().getLikeNumber());
     }
 

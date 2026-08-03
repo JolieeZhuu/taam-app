@@ -1,6 +1,5 @@
 package com.example.cscb07project.entities;
 
-//import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +8,6 @@ public class Collection {
     private String collectionId;
     private String name;
     private Map<String, Boolean> artifacts; // identifies which artifact ids belong to collection
-    //private LocalDateTime createdAt; these make the app crash cuz firebase dk how to use it
-    //private LocalDateTime updatedAt; these make the app crash cuz firebase dk how to use it
 
     public Collection() {}
 

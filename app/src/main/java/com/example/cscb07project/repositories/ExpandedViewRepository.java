@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
-import com.example.cscb07project.interfaces.ExpandedViewInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpandedViewRepository implements ExpandedViewInterface {
+public class ExpandedViewRepository {
     // also for Comment repository
     private final DatabaseReference dbRefEx;
     private final DatabaseReference dbRefCo;
@@ -27,12 +26,10 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         this.dbRefCo = rootRef.getReference("comments");
     }
 
-    @Override
     public Task<Void> addExpandedView(String lotNumber, ExpandedView expandedView) {
         return dbRefEx.child(lotNumber).setValue(expandedView);
     }
 
-    @Override
     public Task<Void> addComment(String lotNumber, Comment comment) {
         String commentId = dbRefCo.push().getKey();
         if (commentId == null) throw new IllegalStateException();
@@ -40,11 +37,10 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         return dbRefCo.child(lotNumber).child(commentId).setValue(comment);
     }
 
-    @Override
     public Task<Void> updateComment(Comment comment) {
         return dbRefCo.child(comment.getLotNumber()).child(comment.getCommentId()).updateChildren(comment.toMap());
     }
-    @Override
+
     public Task<Void> like(String userId, ExpandedView expandedView) {
         if (!isArtifactLikedByUser(userId, expandedView)) {
             Map<String, Object> updates = new HashMap<>();
@@ -62,7 +58,7 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         }
         return Tasks.forResult(null);
     }
-    @Override
+
     public Task<Void> unlike(String userId, ExpandedView expandedView) {
         if (isArtifactLikedByUser(userId, expandedView)) {
             Map<String, Object> updates = new HashMap<>();
@@ -79,12 +75,11 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         }
         return Tasks.forResult(null);
     }
-    @Override
+
     public boolean isArtifactLikedByUser(String userId, ExpandedView expandedView) {
         return expandedView.getLikes() != null && expandedView.getLikes().containsKey(userId);
     }
 
-    @Override
     public Task<ExpandedView> getExpandedViewByLotNumber(String lotNumber) {
         return dbRefEx.child(lotNumber).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
@@ -94,7 +89,6 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         });
     }
 
-    @Override
     public Task<Comment> getCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
@@ -104,7 +98,6 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         });
     }
 
-    @Override
     public Task<List<Comment>> getCommentsByLotNumber(String lotNumber) {
         return dbRefCo.child(lotNumber).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) return null;
@@ -119,7 +112,6 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         });
     }
 
-    @Override
     public Task<Void> deleteCommentById(String lotNumber, String commentId) {
         return dbRefCo.child(lotNumber).child(commentId).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted comment with id: " + commentId);
@@ -128,7 +120,6 @@ public class ExpandedViewRepository implements ExpandedViewInterface {
         });
     }
 
-    @Override
     public Task<Void> deleteExpandedViewByLotNumber(String lotNumber) {
         return dbRefEx.child(lotNumber).removeValue().addOnSuccessListener(snapshot -> {
             Log.d("delete from firebase", "successfully deleted expanded view with id: " + lotNumber);

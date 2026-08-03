@@ -8,20 +8,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cscb07project.entities.Artifact;
+import com.example.cscb07project.fragments.ExpandedArtifactFragment;
+import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.fragments.CatalogueFragment;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.UserRepository;
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.example.cscb07project.systems.FilterState;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,24 +44,25 @@ public class MainActivity extends AppCompatActivity {
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
 
-        if (savedInstanceState == null){
-            loadFragment(new HomeFragment());
-        }
-        /*comment out above if and uncomment this to test colelcton
+//        if (savedInstanceState == null){
+//            loadFragment(new HomeFragment());
+//           loadFragment(new HomepageFragment());
+//            loadFragment(new AddArtifactFragment());
+//            // loadFragment(new EditArtifactFragment());
+//            loadFragment(ExpandedArtifactFragment.newInstance("2"));
+//        }
 
-
-        /* UNCOMMENT TO TEST COL
+//        UNCOMMENT TO TEST COL
         if (savedInstanceState == null){
             uRep.signIn("bruh123@gmail.com","password123")
                     .addOnSuccessListener(user -> {
                         Toast.makeText(this, user.getUsername(),
                                 Toast.LENGTH_SHORT).show();
-                        //loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
+                        loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
 
-                        //loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8,
-                        //       CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
+//                        loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8, CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
                     });
-        }*/
+        }
     }
 
     private void loadFragment(Fragment fragment) {
@@ -76,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     public FilterState getMainFS() {
         return mainFilters;
     }
-    public ArtifactRepository getMainARep() {return aRep; }
+    public FirebaseDatabase getDb() {return db; }
+    public ArtifactRepository getMainARep() { return aRep; }
     public CollectionRepository getMainCRep() {return cRep; }
     public UserRepository getMainURep() {return uRep; }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }

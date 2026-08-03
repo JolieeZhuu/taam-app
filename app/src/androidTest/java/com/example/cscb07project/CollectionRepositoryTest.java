@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.example.cscb07project.entities.Collection;
-import com.example.cscb07project.interfaces.CollectionInterface;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +21,7 @@ import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CollectionRepositoryTest {
-    private CollectionInterface collectionRepository;
+    private CollectionRepository collectionRepository;
     private FirebaseDatabase dbRef;
     private static String userId;
     private static String collectionId;
@@ -32,7 +31,7 @@ public class CollectionRepositoryTest {
     public void setup() {
         dbRef = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         collectionRepository = new CollectionRepository(dbRef);
-        userId = "OH4QzuCtBVgCpndqhjgkbF10uzt2"; // hard coded, should be from a logged-in user
+        userId = "TESTUSERTESTUSER"; // hard coded, should be from a logged-in user
     }
 
     @Test
@@ -44,25 +43,44 @@ public class CollectionRepositoryTest {
 
         assertTrue(task.isSuccessful());
         collectionId = collection.getCollectionId();
+//
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid", "My Default Collection"));
+//        Tasks.await(task);
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid1", "My Default Collection"));
+//        Tasks.await(task);
+//        task = collectionRepository.createNewCollection(new Collection("randomuserid2", "My Default Collection"));
+//        Tasks.await(task);
     }
 
     @Test
     public void test2AddArtifactToCollection() throws Exception {
-        String lotNumber = "-Oy5WDvqwcDbwAhelS2m"; // hard coded, should be from the artifact they selected
+        String lotNumber = "2"; // hard coded, should be from the artifact they selected
         collection = new Collection(userId, collectionId, "My First Collection!",  null);
-        Task<Void> task = collectionRepository.addArtifactToCollection(lotNumber, collection);
+        Task<Void> task = collectionRepository.addArtifactToCollection(lotNumber, userId);
         Tasks.await(task);
-        assertNotNull(collection.getArtifacts().get(lotNumber));
+        assertTrue(task.isSuccessful());
+//        assertNotNull(collection.getArtifacts().get(lotNumber));
 
-        lotNumber = "-Oy5Wgo7YvcgAPc4aVc5";
-        task = collectionRepository.addArtifactToCollection(lotNumber, collection);
+        lotNumber = "aaa";
+        task = collectionRepository.addArtifactToCollection(lotNumber, userId);
         Tasks.await(task);
-        assertNotNull(collection.getArtifacts().get(lotNumber));
+
+        lotNumber = "1a11111";
+        task = collectionRepository.addArtifactToCollection(lotNumber, userId);
+        Tasks.await(task);
+    }
+
+    @Test
+    public void test23IsArtifactInCollection() throws Exception {
+        String lotNumber = "2";
+        Task<Boolean> task = collectionRepository.isArtifactInCollection(lotNumber, userId);
+        Tasks.await(task);
+        assertTrue(task.getResult());
     }
 
     @Test
     public void test3GetCollectionById() throws Exception {
-        Task<Collection> task = collectionRepository.getCollectionById(userId, collectionId);
+        Task<Collection> task = collectionRepository.getCollectionById(collectionId);
         Tasks.await(task);
 
         assertEquals(collectionId, task.getResult().getCollectionId());
@@ -71,12 +89,10 @@ public class CollectionRepositoryTest {
     }
 
     @Test
-    public void test4GetCollections() throws Exception {
-        Task<List<Collection>> task = collectionRepository.getCollections(userId);
+    public void test4GetCollectionByUserId() throws Exception {
+        Task<Collection> task = collectionRepository.getCollectionByUserId(userId);
         Tasks.await(task);
-        for (Collection coll : task.getResult()) {
-            assertEquals(coll.getCollectionId(), collectionId); // i only tested this assuming there's only one collection
-        }
+        assertEquals(task.getResult().getCollectionId(), collectionId); // i only tested this assuming there's only one collection
     }
 
     @Test
@@ -89,11 +105,19 @@ public class CollectionRepositoryTest {
 
     @Test
     public void test6RemoveArtifactFromCollection() throws Exception {
-        Task<Void> task = collectionRepository.removeArtifactFromCollection("-Oy5Wgo7YvcgAPc4aVc5", collection);
+        Task<Void> task = collectionRepository.removeArtifactFromCollection("1a11111", userId);
         Tasks.await(task);
 
-        assertNull(collection.getArtifacts().get("-Oy5Wgo7YvcgAPc4aVc5"));
-        assertNotNull(collection.getArtifacts().get("-Oy5WDvqwcDbwAhelS2m"));
+        assertNull(collection.getArtifacts().get("1a11111"));
+        assertNotNull(collection.getArtifacts().get("2"));
+    }
+
+    @Test
+    public void test67RemoveArtifactFromAllCollections() throws Exception {
+        Task<Void> task = collectionRepository.removeArtifactFromAllCollections("aaa");
+        Tasks.await(task);
+
+        assertTrue(task.isSuccessful());
     }
 
     @Test

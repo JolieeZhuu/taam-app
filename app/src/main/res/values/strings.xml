@@ -2,21 +2,52 @@
     <string name="app_name">Toronto Asian Art Museum</string>
     <string name="delete_item">Delete Item</string>
     <string name="add_item">Add Item</string>
-    <string name="back">Back</string>
     <string name="recyclerview">RecyclerView</string>
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="back">Back</string>
+    <string name="picture_of_the_artifact">picture of the artifact</string>
+    <string name="artifact_information">Artifact Information</string>
+    <string name="name_of_the_artifact">NAME of THE ARTIFACT</string>
+    <string name="likes_23">Likes: </string>
+    <string name="saved_yes">Saved: </string>
+    <string name="category">Category: </string>
+    <string name="creator">Creator: </string>
+    <string name="dynasty_period">Dynasty/Period: </string>
+    <string name="culture_origin">Culture origin: </string>
+<!--    <string name="lot_number_expview">Lot number: </string>-->
+    <string name="material">Material: </string>
+<!--    <string name="dimensions_expview">Dimensions: </string>-->
+<!--    <string name="condition_report_expview">Condition report: </string>-->
+<!--    <string name="current_location_expview">Current_location: </string>-->
+    <string name="acquisition_method">Acquisition method: </string>
+<!--    <string name="provenance_expview">Provenance: </string>-->
+<!--    <string name="accession_number_expview">Accession number: </string>-->
+<!--    <string name="notes_expview">Notes: </string>-->
+<!--    <string name="description_expview">Description: </string>-->
+    <string name="like">Like</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="comment_section">Comment Section</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="post">Post</string>
+    <string name="view_comments">View Comments</string>
+    <string name="select_filters">Choose Filters</string>
 
     <!-- General button navigation -->
     <string name="select_filters_button">Choose Filters</string>
     <string name="catalogue_view_button">See Artifacts</string>
     <string name="catalogue_select_button">Choose Artifacts</string>
     <string name="expanded_view_button">More Details</string>
-    <string name="exit_button">Exit</string>
 
     <!-- Filter Screen -->
     <string name="fs_title_text">Select Filters</string>
+
+    <string name="save_button">Save</string>
+    <string name="clear_button">Clear</string>
+    <string name="exit_button">Exit</string>
 
     <string name="category_filter">Category</string>
     <string name="material_filter">Material</string>
@@ -27,50 +58,15 @@
 
     <!-- Catalogue Screen -->
     <string name="selection_count">Selected: </string>
-    <string name="artifact_name">Name</string>
     <string name="artifact_category">Category</string>
     <string name="artifact_material">Material</string>
     <string name="artifact_period">Period</string>
+    <string name="artifact_image_description">Caption</string>
 
+    <string name="next_page">Next</string>
+    <string name="previous_page">Back</string>
     <string name="select_artifacts">Select</string>
     <string name="clear_selection">Clear</string>
-
-    <!-- Artifact Form Strings -->
-    <string name="lot_number">Lot Number</string>
-    <string name="description">Description</string>
-    <string name="origin">Origin</string>
-    <string name="dimensions">Dimensions</string>
-    <string name="condition_report">Condition Report</string>
-    <string name="current_location">Current Location</string>
-    <string name="acquired_method">Acquired Method</string>
-    <string name="provenance">Provenance</string>
-    <string name="accession_number">Accession Number</string>
-    <string name="notes">Notes</string>
-    <string name="upload_image">Upload Image</string>
-    <string name="add_artifact">Add Artifact</string>
-
-    <!-- Navigation and Fake Fragments -->
-    <string name="fake_admin">Admin</string>
-    <string name="fake_home">Home</string>
-    <string name="action_log_out">Log Out</string>
-
-    <!-- Homepage -->
-    <string name="homepage_title">Toronto Asian Art Museum</string>
-    <string name="cd_saved_artifacts_button">Saved Artifacts</string>
-    <string name="cd_profile_dropdown_button">Profile</string>
-    <string name="filter_button">Filter</string>
-
-    <!-- Login and New User -->
-    <string name="TAAM">TAAM</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="action_login">Login</string>
-    <string name="action_new_user">New User? Sign Up</string>
-    <string name="new_account">Create New Account</string>
-    <string name="username">Username</string>
-    <string name="hint_confirm_password">Confirm Password</string>
-    <string name="action_create_new_account">Create Account</string>
-    <string name="action_back_to_login">Back to Login</string>
 
     <!-- Save Collection Dialog -->
     <string name="dialog_save_collection_title">Name your Collection</string>
@@ -82,6 +78,59 @@
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>
     <string name="supabase_anon_key">sb_publishable_GTvQPT0eUkL2AFkXGGYZ2w_JghrXLZK</string>
     <string name="supabase_image_bucket">CSCB07 Project Images</string>
+
+
+    <!-- Strings related to login -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="action_new_user">New user? Create new account</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="action_create_new_account">Create account</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="username">"Username"</string>
+    <string name="fake_home">"Fake home screen!"</string>
+    <string name="fake_admin">"Fake admin screen!"</string>
+    <string name="action_back_to_login">"Back to log in"</string>
+    <string name="action_log_out">"Log out :("</string>
+    <string name="TAAM">"TAAM"</string>
+    <string name="new_account">"New Account"</string>
+
+
+    <!-- Artifact property strings -->
+    <string name="lot_number">Lot Number</string>
+    <string name="artifact_name">Artifact Name</string>
+    <string name="description">Description</string>
+    <string name="origin">Origin</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="condition_report">Condition Report</string>
+    <string name="current_location">Current Location</string>
+    <string name="acquired_method">Acquired Method</string>
+    <string name="provenance">Provenance</string>
+    <string name="accession_number">Accession Number</string>
+    <string name="notes">Notes</string>
+    <string name="upload_image">Upload image</string>
+    <string name="add_artifact">Add artifact</string>
+    <string name="exit_add_artifact">Exit</string>
+
+
+    <!-- Homepage Screen -->
+    <string name="homepage_title">TAAM</string>
+    <string name="cd_saved_artifacts_button">Saved Artifacts</string>
+    <string name="cd_profile_dropdown_button">Profile Dropdown Menu</string>
+    <string name="filter_button">Filters</string>
+    <string name="catalogue_title">Catalogue</string>
+    <string name="cd_add_artifact_button">Admin Add Artifact Button</string>
+    <string name="cd_carousel_highlight_button">Daily Highlights</string>
+    <string name="carousel_title">Daily Highlights</string>
+    <string name="delete_comments">Delete Comments</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.cscb07project.systems;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,5 +37,4 @@ public abstract class ArtifactAdapter extends RecyclerView.Adapter<ArtifactViewH
     public int getItemCount() {
         return artifactList.size();
     }
-
 }

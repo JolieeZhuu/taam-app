@@ -1,4 +1,4 @@
-package com.example.cscb07project.artifact_creation_page;
+package com.example.cscb07project.fragments;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.R;
@@ -34,7 +33,7 @@ public class AddArtifactFragment extends Fragment{
     private EditText editOrigin, editDimensions, editConditionReport, editCurrentLocation,
             editAcquiredMethod, editProvenance, editAccessionNumber, editNotes;
 
-    private Button buttonUploadArtifactImage, buttonAddArtifact;
+    private Button buttonUploadArtifactImage, buttonAddArtifact, buttonExit;
 
     private FirebaseDatabase db;
     private ArtifactRepository artifactRepository;
@@ -98,6 +97,7 @@ public class AddArtifactFragment extends Fragment{
         editNotes = view.findViewById(R.id.editNotes);
         buttonUploadArtifactImage = view.findViewById(R.id.buttonUploadArtifactImage);
         buttonAddArtifact = view.findViewById(R.id.buttonAddArtifact);
+        buttonExit = view.findViewById(R.id.buttonExit);
 
         db = FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/");
         artifactRepository = new ArtifactRepository(db);
@@ -134,6 +134,11 @@ public class AddArtifactFragment extends Fragment{
             public void onClick(View v) {
                 uploadImage();
             }
+        });
+
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { getParentFragmentManager().popBackStack(); }
         });
 
         return view;

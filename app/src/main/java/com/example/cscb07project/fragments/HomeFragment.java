@@ -15,8 +15,15 @@ import com.example.cscb07project.R;
 public class HomeFragment extends Fragment {
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        Button buttonCatalogueViewmode = view.findViewById(R.id.buttonCatalogue);
+        buttonCatalogueViewmode.setOnClickListener(v -> loadFragment(new CatalogueFragment()));
+
+        Button buttonCatalogueSelect = view.findViewById(R.id.buttonSelectCatalogue);
+        buttonCatalogueSelect.setOnClickListener(v -> loadFragment(new CatalogueFragment().withParameters(1)));
         return view;
     }
 
