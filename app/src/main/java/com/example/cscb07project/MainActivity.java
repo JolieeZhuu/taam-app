@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    private HomepageFragment activeFragment;
     Intent intent;
     FirebaseDatabase db;
     ArtifactRepository aRep;
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                 || artifact.getPeriod().toLowerCase().contains(query)
                 ));
 
-                activeFragment.updateArtifactsFromSearch(artifactList);
+//                activeFragment.updateArtifactsFromSearch(artifactList); TODO: What do to here?
             }
 
             @Override

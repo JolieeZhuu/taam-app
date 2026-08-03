@@ -26,12 +26,14 @@ public class HomepageFragment extends Fragment {
     }
 
     @SuppressWarnings("FieldCanBeLocal")
-    private ImageView savedArtifactsBtn, profileBtn;
+    private ImageView savedArtifactsBtn;
+    private ImageView profileBtn;
     @SuppressWarnings("FieldCanBeLocal")
     private Button filterBtn;
     private View carouselOverlayContainer;
+    private ImageButton dailyCarouselHighlightsBtn;
     @SuppressWarnings("FieldCanBeLocal")
-    private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
+    private ImageButton addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
     private static final String ARG_IS_ADMIN = "is_admin";
@@ -47,8 +49,6 @@ public class HomepageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) isAdmin = getArguments().getBoolean(ARG_IS_ADMIN, false);
     }
-
-
 
     @Nullable
     @Override
@@ -70,12 +70,11 @@ public class HomepageFragment extends Fragment {
 
         filterBtn.setOnClickListener(v -> loadFragment(new FilterFragment()));
 
-        // TODO: load catalogue fragment
-        // Fragment catalogueFragment = new CatalogueFragment();
+        Fragment catalogueFragment = new CatalogueFragment();
 
-        /* getChildFragmentManager().beginTransaction()
-                .replace(R.id.homepageCatalogueContainer, catalogueFragment)
-                .commit(); */
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.homepage_catalogue_container, catalogueFragment)
+                .commit();
 
         if (isAdmin) {
             addArtifactBtn.setVisibility(View.VISIBLE);
