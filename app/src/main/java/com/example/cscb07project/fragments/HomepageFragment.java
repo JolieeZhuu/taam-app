@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.List;
-import java.util.Objects;
 
 public class HomepageFragment extends Fragment {
 
@@ -83,7 +81,7 @@ public class HomepageFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                updateDisplayBySearch(s);
+                updateDisplayBySearch(s.toLowerCase());
                 return true;
             }
             @Override

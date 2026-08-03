@@ -1,9 +1,6 @@
 package com.example.cscb07project;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,16 +12,12 @@ import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.UserRepository;
 import com.example.cscb07project.fragments.LoginFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
-import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.example.cscb07project.systems.FilterState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     UserRepository uRep;
     FilterState mainFilters;
     Set<Artifact> selectedArtifacts;
-//    private String searchQuery; TODO: REMOVE THIS???
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         cRep = new CollectionRepository(db);
         uRep = new UserRepository(db, FirebaseAuth.getInstance());
 
-//        handleMainIntent(); TODO: Remove if it works.
 
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
@@ -74,37 +65,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent){
-        super.onNewIntent(intent);
-        setIntent(intent);
-    }
-
-//    private void handleMainIntent(){ TODO: Remove if it works.
-//        Intent intent = getIntent();
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            String query = intent.getStringExtra(SearchManager.QUERY);
-//            if (query == null) {
-//                return;
-//            }
-//            searchQuery = query.toLowerCase();
-//        }
-//    }
-
-
-//    public void getSoughtArtifacts(String query) { TODO: Handle this logic better.
-//
-//    }
-
     public FirebaseDatabase getDb() {return db; }
     public ArtifactRepository getMainARep() { return aRep; }
     public CollectionRepository getMainCRep() {return cRep; }
     public UserRepository getMainURep() {return uRep; }
     public FilterState getMainFS() {return mainFilters;}
-//    public String getSearchQuery(){ TODO: Remove if it works.
-//        String out = searchQuery;
-//        searchQuery = null;
-//        return out;
-//    }
     public void setMainSelection(Set<Artifact> new_selection) {selectedArtifacts = new_selection; }
 }
