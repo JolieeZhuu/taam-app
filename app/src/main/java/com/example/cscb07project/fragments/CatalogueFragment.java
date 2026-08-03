@@ -408,8 +408,10 @@ public class CatalogueFragment extends Fragment {
                             && !artifactF.getPeriod().equals(perF))
                         matching = false;
                     if(matching)artifactList.add(artifactF);
-                }}
+                }} //everything above here is doing stuff to artifactList
+            //
             artifactAdapter.notifyDataSetChanged();
+            this.setCurrentPage();
         }).addOnFailureListener(e -> {
             Toast.makeText(getContext(), "Error filtering artifacts",
                     Toast.LENGTH_SHORT).show();
