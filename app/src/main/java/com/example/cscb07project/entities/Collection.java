@@ -1,6 +1,5 @@
 package com.example.cscb07project.entities;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +8,6 @@ public class Collection {
     private String collectionId;
     private String name;
     private Map<String, Boolean> artifacts; // identifies which artifact ids belong to collection
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public Collection() {}
 
@@ -43,7 +40,6 @@ public class Collection {
 
         return result;
     }
-
 
     public String getUserId() {
         return userId;

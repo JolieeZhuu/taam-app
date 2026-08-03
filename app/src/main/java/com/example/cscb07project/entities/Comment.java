@@ -9,8 +9,6 @@ public class Comment {
     private String commentId;
     private String userId;
     private String comment;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public Comment() {}
     public Comment(String lotNumber, String commentId, String userId, String comment) {

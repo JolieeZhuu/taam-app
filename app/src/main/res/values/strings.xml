@@ -68,7 +68,11 @@
     <string name="select_artifacts">Select</string>
     <string name="clear_selection">Clear</string>
 
-
+    <!-- Save Collection Dialog -->
+    <string name="dialog_save_collection_title">Name your Collection</string>
+    <string name="dialog_save_collection_hint">Collection Name</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
 
     <!-- Need this kept when merging :) -->
     <string name="supabase_url">https://ugfoqpliplvjcqearfcc.supabase.co</string>

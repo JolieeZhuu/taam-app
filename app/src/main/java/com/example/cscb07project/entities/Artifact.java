@@ -22,9 +22,7 @@ public class Artifact {
     private String provenance;
     private String accessionNumber;
     private String notes;
-    private String image; // URL from Supabase
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String image;
 
     public Artifact() {}
 
@@ -187,19 +185,17 @@ public class Artifact {
         this.image = image;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Artifact artifact = (Artifact)o;
+        if(lotNumber!=null)return lotNumber.equals(artifact.lotNumber);
+        return artifact.lotNumber==null;
     }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    @Override
+    public int hashCode() {
+        if(lotNumber!=null)return lotNumber.hashCode();
+        return 0;
     }
 }
