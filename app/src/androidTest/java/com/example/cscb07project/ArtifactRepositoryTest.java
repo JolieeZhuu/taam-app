@@ -29,7 +29,7 @@ public class ArtifactRepositoryTest {
 
     @Test
     public void test1AddArtifact() throws Exception {
-        Artifact artifact = new Artifact("awserawe1&44$", "Artifact A", "Artifact description", "Furniture", "Wood", "Shang Dynasty", null, null, null, null, null, null, null, null, null);
+        Artifact artifact = new Artifact("abc123", "Artifact A", "Artifact description", "Furniture", "Wood", "Shang Dynasty", null, null, null, null, null, null, null, null, null);
         Task<Void> task = artifactRepository.addArtifact(artifact);
         Tasks.await(task);
 
@@ -48,7 +48,16 @@ public class ArtifactRepositoryTest {
     }
 
     @Test
-    public void test3DeleteArtifactByLotNumber() throws Exception {
+    public void test3UpdateArtifact() throws Exception {
+        Artifact artifact = new Artifact("abc123", "Artifact A", "Artifact description", "Furniture", "Wood", "Shang Dynasty", null, null, null, "idk", null, null, null, null, "https://firebasestorage.googleapis.com/v0/b/cscb07-project-e0581.firebasestorage.app/o/artifactImages%2F29.jpg?alt=media&token=79c80310-5cea-4480-8e7d-7f83430bd7a3");
+        Task<Void> task = artifactRepository.updateArtifact(artifact);
+        Tasks.await(task);
+
+        assertTrue(task.isSuccessful());
+    }
+
+    @Test
+    public void test4DeleteArtifactByLotNumber() throws Exception {
         Task<Void> task = artifactRepository.deleteArtifactByLotNumber(artifactLotNumber);
         Tasks.await(task);
 

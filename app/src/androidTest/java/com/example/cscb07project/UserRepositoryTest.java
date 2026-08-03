@@ -65,7 +65,23 @@ public class UserRepositoryTest {
 
     @Test
     public void test4IsAdmin() throws Exception {
-        String userId = "H8jfDo0xjmScP8IVCJD2bX9EPKq1";
+        Task<Boolean> task = userRepository.isAdmin(userId);
+        Tasks.await(task);
+
+        Log.d("isAdmin test", String.valueOf(task.getResult()));
+        assertFalse(task.getResult());
+    }
+
+    @Test
+    public void test5AddAdmin() throws Exception {
+        Task<Void> task = adminRepository.createAdmin(userId);
+        Tasks.await(task);
+
+        assertTrue(task.isSuccessful());
+    }
+
+    @Test
+    public void test6IsAdmin() throws Exception {
         Task<Boolean> task = userRepository.isAdmin(userId);
         Tasks.await(task);
 
@@ -74,17 +90,13 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test5AddAdmin() throws Exception {
-        Task<Void> task = adminRepository.createAdmin("FKOIIqC6RzP8wjScFi2y0rwej063");
-        Tasks.await(task);
-
-        assertTrue(task.isSuccessful());
-    }
-
-    @Test
     public void test9DeleteUserById() throws Exception {
         Task<Void> task = userRepository.deleteUser();
         Tasks.await(task);
         assertTrue(task.isSuccessful());
+
+        Task<Void> task2 = adminRepository.deleteAdminById(userId);
+        Tasks.await(task2);
+        assertTrue(task2.isSuccessful());
     }
 }

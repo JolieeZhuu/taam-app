@@ -3,7 +3,6 @@ package com.example.cscb07project.repositories;
 import android.util.Log;
 
 import com.example.cscb07project.entities.Carousel;
-import com.example.cscb07project.interfaces.CarouselInterface;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CarouselRepository implements CarouselInterface {
+public class CarouselRepository {
 
     private final DatabaseReference dbRef;
     public CarouselRepository(FirebaseDatabase rootRef) {

@@ -24,10 +24,15 @@ public class UserRepository {
         this.dbAuth = dbAuth;
     }
 
-    private Task<Void> addUserWithId(User user, String userId) {
-        return dbRefUs.child(userId).setValue(user);
-    }
 
+    /**
+     * Signs up a user through Firebase Authentication, then adds the user's
+     * non-sensitive data to Firebase Realtime
+     * @param username
+     * @param email
+     * @param password
+     * @return asynchronous task with return type User
+     */
     public Task<User> createUser(final String username, String email, String password) {
         return dbAuth.createUserWithEmailAndPassword(email, password).continueWithTask(task -> {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
@@ -39,9 +44,21 @@ public class UserRepository {
                 if (!dbTask.isSuccessful()) throw Objects.requireNonNull(dbTask.getException());
                 return user;
             });
-        });
+        }); // by default, somewhere in the Login fragments, a collection will be created
+    } // tested
+
+    // upon creating a user in Auth, their user id will be stored in Realtime
+    private Task<Void> addUserWithId(User user, String userId) {
+        return dbRefUs.child(userId).setValue(user);
     }
 
+
+    /**
+     * Verifies user login through Firebase Authentication
+     * @param email
+     * @param password
+     * @return asynchronous task with return type User
+     */
     public Task<User> signIn(String email, String password) {
         return dbAuth.signInWithEmailAndPassword(email, password).continueWithTask(task -> {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
@@ -50,20 +67,29 @@ public class UserRepository {
 
             return getUserById(userId);
         });
-    }
+    } // tested
+
+    private Task<User> getUserById(String userId) {
+        return dbRefUs.child(userId).get().continueWith(snapshot -> {
+            if (snapshot.getResult() != null) {
+                return snapshot.getResult().getValue(User.class);
+            }
+            return null;
+        });
+    } // tested
 
     public Task<Void> updateUsername(User user, String username) {
         user.setUsername(username);
         return dbRefUs.child(user.getUserId()).updateChildren(user.toMap());
-    }
+    } // tested
 
-    public Task<Boolean> isAdmin(String userId) {
+    public Task<Boolean> isAdmin(String userId) { // checks to see if user is an admin from admin table
         return dbRefAd.child(userId).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null)
                 return false;
             return snapshot.getResult().exists();
         });
-    }
+    } // tested
 
     private Task<Void> deleteUserById(String userId) {
         return dbRefUs.child(userId).removeValue().addOnSuccessListener(snapshot -> {
@@ -73,7 +99,13 @@ public class UserRepository {
         });
     }
 
-    // only deletes user (could be an admin)
+
+    /**
+     * Deletes a user from Firebase authentication and
+     * Realtime database. Deleting admin specifically must
+     * be handled separately.
+     * @return asynchronous function with return type void
+     */
     public Task<Void> deleteUser() {
         FirebaseUser user = dbAuth.getCurrentUser();
         if (user == null) return Tasks.forResult(null);
@@ -83,44 +115,22 @@ public class UserRepository {
             if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
             return deleteUserById(userId);
         });
-    }
+    } // tested
 
     public void signOut() {
         dbAuth.signOut();
     }
-    // should still do a .addOnSuccessListener();
 
+
+
+    /* WILL DELETE THIS SOON!!! */
 
     // -- extra functions that we may want -- //
-    private Task<User> getUserById(String userId) {
-        return dbRefUs.child(userId).get().continueWith(snapshot -> {
-            if (snapshot.getResult() != null) {
-                return snapshot.getResult().getValue(User.class);
-            }
-            return null;
-        });
-    }
 
     public FirebaseUser getCurrentUser() {
         return dbAuth.getCurrentUser();
     }
 
-    //@Override
-//    private Task<User> getUserByEmail(String email) {
-//        return dbRefUs.orderByChild("email").equalTo(email).get().continueWith(snapshot -> {
-//            if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
-//                return null;
-//            }
-//            if (snapshot.getResult().hasChildren()) { // since get() returns a list, iterate through list to find matching
-//                for (DataSnapshot userSnapshot : snapshot.getResult().getChildren()) {
-//                    return userSnapshot.getValue(User.class);
-//                }
-//            }
-//            return null;
-//        });
-//    }
-
-    //@Override
     private Task<User> getUserByUsername(String username) {
         return dbRefUs.orderByChild("username").equalTo(username).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) {

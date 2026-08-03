@@ -150,7 +150,7 @@ public class ExpandedArtifactFragment extends Fragment {
 //            currentUid = currentUser.getUid();
 //        }
         ////////////////////////////////////////////////////
-        currentUid =  "H8jfDo0xjmScP8IVCJD2bX9EPKq1";
+        currentUid =  "n96baewp0fOaIOTIUDouILkPr4w2";
 ///////////////////////////////////////////////////////////////////////////
 
 
