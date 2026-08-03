@@ -14,8 +14,12 @@ import com.example.cscb07project.fragments.HomeFragment;
 import com.example.cscb07project.fragments.CatalogueFragment;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.UserRepository;
+import com.example.cscb07project.fragments.LoginFragment;
 import com.example.cscb07project.repositories.ArtifactRepository;
+import com.example.cscb07project.repositories.UserRepository;
 import com.example.cscb07project.systems.FilterState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -43,25 +47,21 @@ public class MainActivity extends AppCompatActivity {
 
         mainFilters = new FilterState();
         selectedArtifacts = new HashSet<>();
+        //please keep everything after this line when merging
 
-//        if (savedInstanceState == null){
-//            loadFragment(new HomeFragment());
-//           loadFragment(new HomepageFragment());
-//            loadFragment(new AddArtifactFragment());
-//            // loadFragment(new EditArtifactFragment());
-//            loadFragment(ExpandedArtifactFragment.newInstance("2"));
-//        }
-
-//        UNCOMMENT TO TEST COL
-        if (savedInstanceState == null){
-            uRep.signIn("bruh123@gmail.com","password123")
-                    .addOnSuccessListener(user -> {
-                        Toast.makeText(this, user.getUsername(),
-                                Toast.LENGTH_SHORT).show();
-//                        loadFragment(CatalogueFragment.withParameters(8));//FOR ADDING ART TO COL
-
-                        loadFragment(CatalogueFragment.withUserId(user.getUserId(), 8, CatalogueFragment.PURPOSE_UNSAVE)); //FOR REMOVING ARTS FROM COL
-                    });
+        if (savedInstanceState == null) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                UserRepository userRepo = new UserRepository(
+                        FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/"),
+                        FirebaseAuth.getInstance()
+                );
+                userRepo.isAdmin(currentUser.getUid())
+                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
+                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
+                //we dont know if user is admin or not, assume not for safety.
+            }
+            else loadFragment(new LoginFragment());
         }
     }
 

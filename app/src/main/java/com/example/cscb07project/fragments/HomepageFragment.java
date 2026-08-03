@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.example.cscb07project.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomepageFragment extends Fragment {
 
@@ -30,6 +31,21 @@ public class HomepageFragment extends Fragment {
     private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
+    private static final String ARG_IS_ADMIN = "is_admin";
+    public static HomepageFragment newInstance(boolean isAdmin){
+        HomepageFragment fragment = new HomepageFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_IS_ADMIN, isAdmin);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) isAdmin = getArguments().getBoolean(ARG_IS_ADMIN, false);
+    }
+
+
 
     @Nullable
     @Override
@@ -90,7 +106,7 @@ public class HomepageFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_logout) {
-                    // TODO: logout
+                    logOut();
                     return true;
                 }
                 return false;
@@ -138,5 +154,12 @@ public class HomepageFragment extends Fragment {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+    private void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        getParentFragmentManager().popBackStack();
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new LoginFragment())
+                .commit();
     }
 }

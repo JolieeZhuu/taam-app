@@ -20,8 +20,8 @@
     <color name="ink_black">#120F0E</color>
 
 
-    <color name="button_default_1">#FF764BBC</color> // TODO: UI UNIVERSALIZE OUT THESE CONSTANTS / ALIAS THEM.
+    <color name="button_default_1">#FF764BBC</color> //not sure what these first two colors do...
     <color name="button_default_2">#FF1D3E66</color>
-    <color name="state_button_1_default">#FF764BBC</color>
-    <color name="state_button_1_alt">#FFB0ADB2</color>
+    <color name="state_button_1_default">@color/crimson_red</color>
+    <color name="state_button_1_alt">#e7e7e7</color>
 </resources>
