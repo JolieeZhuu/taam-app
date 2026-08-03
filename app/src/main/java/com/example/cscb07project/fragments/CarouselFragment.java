@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cscb07project.R;
-import com.example.cscb07project.carousel.CarouselAdapter;
-import com.example.cscb07project.carousel.CarouselManager;
+import com.example.cscb07project.systems.CarouselAdapter;
+import com.example.cscb07project.systems.CarouselManager;
 import com.example.cscb07project.entities.Artifact;
 import com.google.firebase.database.FirebaseDatabase;
 

@@ -1,4 +1,4 @@
-package com.example.cscb07project.carousel;
+package com.example.cscb07project.systems;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
