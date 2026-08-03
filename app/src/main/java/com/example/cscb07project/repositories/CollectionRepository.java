@@ -246,10 +246,18 @@ public class CollectionRepository {
 
     public Task<List<String>> removeArtifactsFromCollectionAndGetFullList(String userId, List<String> lotNumbers) {
 
-        Map<String, Object> map = new HashMap<>();
-        for(String id:lotNumbers) map.put("artifacts/" + id, null); //
+        Map<String, Object> updates = new HashMap<>();
+        for(String id: lotNumbers) {
 
-        return dbRef.child(userId).updateChildren(map).continueWithTask(task ->{
+            updates.put("collections/" + userId + "artifacts/" + id, null); //
+            updates.put("artifactCollections/" + id, null);
+        }
+//        for (String id : collectionIds) {
+//            updates.put("collections/" + id + "/artifacts/" + lotNumber, null);
+//        }
+//        updates.put("artifactCollections/" + lotNumber, null);
+
+        return rootRef.updateChildren(updates).continueWithTask(task ->{
             if(!task.isSuccessful())throw Objects.requireNonNull(task.getException());
             return getCollection(userId);
         }).continueWith(task -> {
