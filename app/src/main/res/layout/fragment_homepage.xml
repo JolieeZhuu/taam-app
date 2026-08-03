@@ -90,7 +90,7 @@
         android:includeFontPadding="false"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="@string/filter_button"
+        android:text="@string/select_filters_button"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnPrimary"
         app:backgroundTint="?attr/colorPrimary"

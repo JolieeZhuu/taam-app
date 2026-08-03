@@ -25,9 +25,12 @@ public class HomepageFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("FieldCanBeLocal")
     private ImageView savedArtifactsBtn, profileBtn;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button filterBtn;
     private View carouselOverlayContainer;
+    @SuppressWarnings("FieldCanBeLocal")
     private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
@@ -63,13 +66,9 @@ public class HomepageFragment extends Fragment {
             // TODO: load collections fragment
         });
 
-        profileBtn.setOnClickListener(v-> {
-            showProfileDropdown();
-        });
+        profileBtn.setOnClickListener(v-> showProfileDropdown());
 
-        filterBtn.setOnClickListener(v -> {
-            loadFragment(new FilterFragment());
-        });
+        filterBtn.setOnClickListener(v -> loadFragment(new FilterFragment()));
 
         // TODO: load catalogue fragment
         // Fragment catalogueFragment = new CatalogueFragment();
@@ -82,9 +81,7 @@ public class HomepageFragment extends Fragment {
             addArtifactBtn.setVisibility(View.VISIBLE);
             addArtifactBtn.setEnabled(true);
 
-            addArtifactBtn.setOnClickListener(v -> {
-                loadFragment(new AddArtifactFragment());
-            });
+            addArtifactBtn.setOnClickListener(v -> loadFragment(new AddArtifactFragment()));
         } else {
             addArtifactBtn.setVisibility(View.GONE);
             addArtifactBtn.setEnabled(false);
@@ -101,16 +98,13 @@ public class HomepageFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(requireContext(), profileBtn);
         popupMenu.getMenuInflater().inflate(R.menu.profile_dropdown_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_logout) {
-                    logOut();
-                    return true;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_logout) {
+                logOut();
+                return true;
             }
+            return false;
         });
         popupMenu.show();
     }

@@ -108,7 +108,7 @@ public class CatalogueFragment extends Fragment {
 
         catalogueFrag.setArguments(args);
         return catalogueFrag;
-    } 
+    }
 
     // called for showing specific list of artifacts so in collections case
     @NonNull
@@ -148,7 +148,7 @@ public class CatalogueFragment extends Fragment {
         if (args != null) {
             selectionLimit = args.getInt(ARG_SELECTION_COUNT);
             collectionUserId = args.getString(ARG_COLLECTION_USER_ID);//now can see other ppl cols
-            specifiedLotNumbers = args.getStringArrayList(ARG_SPECIFIED_LOT_NUMBERS); //COLLECITON
+            specifiedLotNumbers = args.getStringArrayList(ARG_SPECIFIED_LOT_NUMBERS); //COLLECTION
             selectionPurpose = args.getString(ARG_SELECTION_PURPOSE);
             if (selectionPurpose == null) selectionPurpose = PURPOSE_COLLECTION;
         }
@@ -211,9 +211,9 @@ public class CatalogueFragment extends Fragment {
         buttonBackPage = view.findViewById(R.id.BackButton);
         buttonSelect = view.findViewById(R.id.selectButton);
         if (PURPOSE_UNSAVE.equals(selectionPurpose)){
-            buttonSelect.setText("Unsave");
+            buttonSelect.setText(R.string.save);
         }else if(PURPOSE_COLLECTION.equals(selectionPurpose)){
-            buttonSelect.setText("Save");
+            buttonSelect.setText(R.string.save);
         }
 
         buttonClear = view.findViewById(R.id.clearButton);
@@ -333,7 +333,8 @@ public class CatalogueFragment extends Fragment {
         prefs.edit().putInt(PREF_PAGINATION_COUNT, newPref).apply();
     }
 
-    // FROMELINa: top function unneeded, could js do below, also need userid for seeing others
+    // FROM Elina: top function unneeded, could js do below, also need userid for seeing others
+    @SuppressLint("NotifyDataSetChanged")
     public void populateFromDb() {
         if (collectionUserId != null) { //need the users id
             mainActivity.getMainCRep().getCollectionByUserId(collectionUserId)
@@ -346,10 +347,10 @@ public class CatalogueFragment extends Fragment {
                     artifactList.clear();
                     artifactAdapter.notifyDataSetChanged();
                 }
-            }).addOnFailureListener(e -> {
-                Toast.makeText(getContext(), "Eror getting user collection",
-                        Toast.LENGTH_SHORT).show();
-            });
+            }).addOnFailureListener(e ->
+                Toast.makeText(getContext(), "Error getting user collection",
+                        Toast.LENGTH_SHORT).show()
+            );
             return;
         }
 
@@ -379,12 +380,11 @@ public class CatalogueFragment extends Fragment {
     }
 
     //loads the artifacts
+    @SuppressLint("NotifyDataSetChanged")
     private void loadArtifactsByIds(@NonNull List<String> lotNumbers) {
         List<Task<Artifact>> artifacts = new ArrayList<>();
         for (String lotNumber:lotNumbers)artifacts.add(mainActivity.getMainARep()
                 .getArtifactByLotNumber(lotNumber));
-        //maybe change getfilteredartifacts() cuz rn it goes thru all artifacts
-        // then i can call it for this so all this can be removed
         Tasks.whenAllSuccess(artifacts).addOnSuccessListener(results -> {
             artifactList.clear();
             com.example.cscb07project.systems.FilterState fs = mainActivity.getMainFS();
@@ -397,10 +397,8 @@ public class CatalogueFragment extends Fragment {
             for (Object result:results) {
                 if (result instanceof Artifact){
                     Artifact artifactF = (Artifact)result;
-                    boolean matching = true;
-                    if(!catF.equals(com.example.cscb07project.systems.FilterState.NO_FILTER)
-                            && !artifactF.getCategory().equals(catF))
-                        matching = false;
+                    boolean matching = catF.equals(com.example.cscb07project.systems.FilterState.NO_FILTER)
+                            || artifactF.getCategory().equals(catF);
                     if(!matF.equals(com.example.cscb07project.systems.FilterState.NO_FILTER)
                             && !artifactF.getMaterial().equals(matF))
                         matching = false;
@@ -408,22 +406,21 @@ public class CatalogueFragment extends Fragment {
                             && !artifactF.getPeriod().equals(perF))
                         matching = false;
                     if(matching)artifactList.add(artifactF);
-                }} //everything above here is doing stuff to artifactList
-            //
+                }}
             artifactAdapter.notifyDataSetChanged();
             this.setCurrentPage();
-        }).addOnFailureListener(e -> {
+        }).addOnFailureListener(e ->
             Toast.makeText(getContext(), "Error filtering artifacts",
-                    Toast.LENGTH_SHORT).show();
-        });
+                    Toast.LENGTH_SHORT).show()
+        );
     }
 
-//EVERYTHING HERE TO END FOR OCLLECITON
+//EVERYTHING HERE TO END FOR COLLECTION
     private void saveCollection() {
         com.google.firebase.auth.FirebaseUser theUser = com.google.firebase
                 .auth.FirebaseAuth.getInstance().getCurrentUser();
             if(theUser==null){
-                Toast.makeText(getContext(), "user is not logged in error ",
+                Toast.makeText(getContext(), "User is not logged in error",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -433,24 +430,22 @@ public class CatalogueFragment extends Fragment {
             mainActivity.getMainCRep().addArtifactsToCollectionAndGetFullList(theUser.getUid(),
                             lotNumbers)
                     .addOnSuccessListener(allLotNumbers -> {
-                        Toast.makeText(getContext(), "added to collection success",
+                        Toast.makeText(getContext(), "Added to collection!",
                                 Toast.LENGTH_SHORT).show();
 
                         getParentFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, CatalogueFragment
                                         .withLotNumbers(new ArrayList<>(allLotNumbers)))
                                 .setReorderingAllowed(true).addToBackStack(null).commit();
-                    }).addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "failed to save coll",
-                                Toast.LENGTH_SHORT).show();
-                    });
+                    }).addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to save collection.",
+                            Toast.LENGTH_SHORT).show());
     }
 
     private void unsaveCollection() {
         com.google.firebase.auth.FirebaseUser theUser = com.google.firebase
                 .auth.FirebaseAuth.getInstance().getCurrentUser();
         if (theUser==null){
-            Toast.makeText(getContext(), "user is not logged in error ",
+            Toast.makeText(getContext(), "User is not logged in.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -467,10 +462,8 @@ public class CatalogueFragment extends Fragment {
                             .replace(R.id.fragment_container, CatalogueFragment
                                     .withLotNumbers(new ArrayList<>(allLotNumbers)))
                             .setReorderingAllowed(true).addToBackStack(null).commit();
-                }).addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "failed to remove from coll",
-                            Toast.LENGTH_SHORT).show();
-                });
+                }).addOnFailureListener(e -> Toast.makeText(getContext(), "failed to remove from collection.",
+                        Toast.LENGTH_SHORT).show());
     }
 
 }
