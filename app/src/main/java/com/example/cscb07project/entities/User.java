@@ -7,7 +7,6 @@ public class User {
     private String userId;
     private String email;
     private String username;
-    // will add createdAt and updatedAt later
 
     public User() {}
 

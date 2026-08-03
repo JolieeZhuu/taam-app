@@ -11,11 +11,6 @@ public class ExpandedView {
 
 
     public ExpandedView() {}
-//    public ExpandedView(String lotNumber, Integer likeNumber) {
-//        this.lotNumber = lotNumber;
-//        this.likeNumber = likeNumber;
-//        this.usersThatLiked = null;
-//    }
 
     public ExpandedView(String lotNumber) {
         this.expandedViewId = null;

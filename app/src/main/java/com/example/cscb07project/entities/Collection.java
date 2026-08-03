@@ -9,8 +9,6 @@ public class Collection {
     private String collectionId;
     private String name;
     private Map<String, Boolean> artifacts; // identifies which artifact ids belong to collection
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public Collection() {}
 
