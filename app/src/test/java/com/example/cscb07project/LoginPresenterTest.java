@@ -28,7 +28,7 @@ public class LoginPresenterTest {
 
     @Test
     public void emptyEmail_invokesError(){
-        loginPresenter.handleLoginClick("", "123", "");
+        loginPresenter.handleMainButtonClick("", "123", "");
         verify(view).showError("fields cannot be empty");
         verify(view, never()).navigateToAdmin();
         verify(view, never()).navigateToHome();
@@ -36,7 +36,7 @@ public class LoginPresenterTest {
 
     @Test
     public void emptyPassword_invokesError(){
-        loginPresenter.handleLoginClick("123", "", "");
+        loginPresenter.handleMainButtonClick("123", "", "");
         verify(view).showError("fields cannot be empty");
         verify(view, never()).navigateToAdmin();
         verify(view, never()).navigateToHome();
@@ -51,7 +51,7 @@ public class LoginPresenterTest {
             return null;
         }).when(model).authenticateUser(anyString(), anyString(), anyString(), any());
 
-        loginPresenter.handleLoginClick("test@test.com", "pass123", "");
+        loginPresenter.handleMainButtonClick("test@test.com", "pass123", "");
 
         verify(view, never()).navigateToAdmin();
         verify(view).navigateToHome();
@@ -66,7 +66,7 @@ public class LoginPresenterTest {
             return null;
         }).when(model).authenticateUser(anyString(), anyString(), anyString(), any());
 
-        loginPresenter.handleLoginClick("test@test.com", "pass123", "");
+        loginPresenter.handleMainButtonClick("test@test.com", "pass123", "");
 
         verify(view).showError("Incorrect username or password");
         verify(view, never()).navigateToHome();
@@ -91,7 +91,7 @@ public class LoginPresenterTest {
             return null;
         }).when(adminModel).checkAdmin(eq(user), any());
 
-        adminPresenter.handleLoginClick("admin@test.com", "pass123", "");
+        adminPresenter.handleMainButtonClick("admin@test.com", "pass123", "");
 
         verify(view).navigateToAdmin();
         verify(view, never()).navigateToHome();
@@ -115,16 +115,16 @@ public class LoginPresenterTest {
             return null;
         }).when(adminModel).checkAdmin(eq(user), any());
 
-        adminPresenter.handleLoginClick("test@test.com", "pass123", "");
+        adminPresenter.handleMainButtonClick("test@test.com", "pass123", "");
 
         verify(view).navigateToHome();
         verify(view, never()).navigateToAdmin();
     }
 
     @Test
-    public void handleSignUpClick_navigatesToSignUp(){
+    public void handleSecondaryButtonClick_navigatesToSignUp(){
         //my favourite test :D
-        loginPresenter.handleSignUpClick();
+        loginPresenter.handleSecondaryButtonClick();
         verify(view).navigateToSignUp();
     }
 }

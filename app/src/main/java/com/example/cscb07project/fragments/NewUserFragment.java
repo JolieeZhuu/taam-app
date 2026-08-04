@@ -36,7 +36,7 @@ public class NewUserFragment extends LoginView {
                 showError("passwords do not match");
                 return;
             }
-            p.handleLoginClick(
+            p.handleMainButtonClick(
                     email.getText().toString(),
                     password.getText().toString(),
                     usernameField.getText().toString()

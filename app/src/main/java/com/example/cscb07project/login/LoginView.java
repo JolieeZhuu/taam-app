@@ -72,9 +72,9 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
         this.mainButton = view.findViewById(getMainButtonId());
         this.secondaryButton = view.findViewById(getSecondaryButtonId());
 
-        mainButton.setOnClickListener(view1 -> p.handleLoginClick(email.getText().toString(), password.getText().toString(), ""));
+        mainButton.setOnClickListener(view1 -> p.handleMainButtonClick(email.getText().toString(), password.getText().toString(), ""));
 
-        secondaryButton.setOnClickListener(view2 -> p.handleSignUpClick());
+        secondaryButton.setOnClickListener(view2 -> p.handleSecondaryButtonClick());
         TypedValue typedValue = new TypedValue();
         requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
         this.buttonColor = typedValue.data;

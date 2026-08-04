@@ -104,12 +104,11 @@ public interface MVPInterface {
          * @param password user's password
          * @param username only used by SignUpPresenter, LoginPresenter ignores this param
          */
-        void handleLoginClick(String email, String password, String username);
+        void handleMainButtonClick(String email, String password, String username);
 
         /**
-         * Handles the secondary button click (go to signup, or go back to login,
-         * depending on implementation see child class comments).
+         * Handles the secondary button click (go to signup, or go back to login).
          */
-        void handleSignUpClick();
+        void handleSecondaryButtonClick();
     }
 }

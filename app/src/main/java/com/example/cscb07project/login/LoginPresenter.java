@@ -27,7 +27,7 @@ public class LoginPresenter implements MVPInterface.presenter {
      * and shows errpr.
      */
     @Override
-    public void handleLoginClick(String email, String password, String username) {
+    public void handleMainButtonClick(String email, String password, String username) {
         if (password.isEmpty() || email.isEmpty()) {
             v.showError("fields cannot be empty");
             return;
@@ -62,7 +62,7 @@ public class LoginPresenter implements MVPInterface.presenter {
     }
 
     @Override
-    public void handleSignUpClick() {
+    public void handleSecondaryButtonClick() {
         v.navigateToSignUp();
     }
 }
