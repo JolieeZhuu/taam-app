@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
-    tools:context=".login.fragment_new_user">
+    tools:context=".fragments.NewUserFragment">
 
     <LinearLayout
         android:layout_width="0dp"

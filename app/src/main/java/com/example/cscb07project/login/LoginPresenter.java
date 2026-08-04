@@ -3,6 +3,11 @@ package com.example.cscb07project.login;
 import com.example.cscb07project.entities.User;
 
 public class LoginPresenter implements MVPInterface.presenter {
+    /*
+    The "in between" class for login view and model. Validates user input,
+    controls loading states, and navigates to home/admin/signup using view,
+    based on what loginModel gives us.
+     */
     private MVPInterface.view v;
     private MVPInterface.model m;
 
@@ -16,16 +21,28 @@ public class LoginPresenter implements MVPInterface.presenter {
         this.m = m;
     }
 
+    /**
+     * Validates email/pw, then invokes model. On success, routes to
+     * admin or home screen depending on AdminCheckable, on failure, does nothing
+     * and shows errpr.
+     */
     @Override
-    public void handleLoginClick(String email, String password, String username) {
+    public void handleMainButtonClick(String email, String password, String username) {
         if (password.isEmpty() || email.isEmpty()) {
             v.showError("fields cannot be empty");
             return;
         }
-        v.setLoading(true);
+        v.setLoading(true); //block multiple concurrent login attempts, overlapping
+        //async callbacks racing to replace our fragment is bad :(
         m.authenticateUser(email, password, "", new MVPInterface.model.callback() {
             @Override
             public void onSuccess(User user) {
+                /*
+                An artifact of the past: this instanceof check exists because LoginModel did not
+                always implement AdminCheckable. Earlier in development the branching logic
+                here allowed the app to remain demoable before admin checking was added.
+                From pre commit e969688 on prototype/login.
+                */
                 if (m instanceof MVPInterface.AdminCheckable) {
                     ((MVPInterface.AdminCheckable) m).checkAdmin(user, isAdmin -> {
                         if (isAdmin) v.navigateToAdmin();
@@ -45,7 +62,7 @@ public class LoginPresenter implements MVPInterface.presenter {
     }
 
     @Override
-    public void handleSignUpClick() {
+    public void handleSecondaryButtonClick() {
         v.navigateToSignUp();
     }
 }
