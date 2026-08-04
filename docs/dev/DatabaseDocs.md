@@ -14,7 +14,7 @@ The structure of artifacts is pretty self-explanatory, as we were given the fiel
 Now, why exactly do I have a separate entity for ExpandedView? Because we have to track like numbers, as well as the users who liked those artifacts. I thought that having like numbers in the same entity would make things a lot slower, because I would constantly be fetching and updating the same entity over and over again if users kept clicking the like button. Same reason why Comments entity isn't attached to ExpandedView.
 
 ## Collections/ArtifactCollections
-Again, structure for collections is self-explanatory. I ordered it by userId instead of collectionId for the convenience of querying, and because we assume that every user only has ONE collection. In fact, collectionId is redundant here, but I just keep it there "just in case".
+Again, structure for collections is self-explanatory. I ordered it by userId instead of collectionId for the convenience of querying, and because we assume that every user only has ONE collection.
 
 But why is there an artifactCollections? Well, what happens when an entire artifact gets deleted? There's no easy way to order collections by artifacts in the Collection entity, then remove the artifact from every collection that used to have it. That's why ArtifactCollections exist.
 
