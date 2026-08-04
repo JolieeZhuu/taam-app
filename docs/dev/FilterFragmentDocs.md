@@ -1,3 +1,4 @@
+Written by: Andy
 
 Overview: 
 The filter fragment is designed to be a screen / fragment roughly half the size of the page. 
