@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.cscb07project.R;
 import com.example.cscb07project.fragments.HomepageFragment;
 import com.example.cscb07project.fragments.LoginFragment;
+import com.example.cscb07project.fragments.NewUserFragment;
+
 import android.util.TypedValue;
 
 
@@ -22,7 +24,9 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     /*
     Abstract base class for both Login AND SignUp (hence main/secondary button).
     Fragments supply actual layout and view ids. Class handles click wiring
-    common to both screens. Prevents yucky duplicated fragment wiring code.
+    common to both screens. Fragments define what each button does in their
+    respective presenter classes.
+    Prevents yucky duplicated fragment wiring code.
      */
     protected MVPInterface.presenter p;
     protected EditText email;
@@ -97,7 +101,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void navigateToSignUp() {
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, fragment_new_user.class, null)
+                .replace(R.id.fragment_container, NewUserFragment.class, null)
                 .commit();
     }
 

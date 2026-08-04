@@ -3,6 +3,11 @@ package com.example.cscb07project.login;
 import com.example.cscb07project.entities.User;
 
 public class SignUpPresenter implements MVPInterface.presenter {
+    /*
+    I didn't want to write a new signup presenter class, so
+    the same login class was used, however, this leads to
+    some confusing method names, mentioned below.
+     */
     private MVPInterface.view v;
     private MVPInterface.model m;
 
@@ -18,6 +23,7 @@ public class SignUpPresenter implements MVPInterface.presenter {
 
     @Override
     public void handleLoginClick(String email, String password, String username) {
+        // Defines what the "sign up" button does.
         if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
             v.showError("fields cannot be empty");
             return;
@@ -38,6 +44,7 @@ public class SignUpPresenter implements MVPInterface.presenter {
 
     @Override
     public void handleSignUpClick() {
+        // Defines what the "back to log in" button does.
         v.navigateToLogin();
     }
 }

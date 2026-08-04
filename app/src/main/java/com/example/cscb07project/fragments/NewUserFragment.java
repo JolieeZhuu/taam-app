@@ -1,12 +1,16 @@
-package com.example.cscb07project.login;
+package com.example.cscb07project.fragments;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.cscb07project.R;
+import com.example.cscb07project.login.LoginView;
+import com.example.cscb07project.login.MVPInterface;
+import com.example.cscb07project.login.SignUpModel;
+import com.example.cscb07project.login.SignUpPresenter;
 
-public class fragment_new_user extends LoginView {
+public class NewUserFragment extends LoginView {
     protected EditText confirmPassword;
     protected EditText usernameField;
     @Override protected MVPInterface.presenter createPresenter() {
@@ -22,11 +26,13 @@ public class fragment_new_user extends LoginView {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        // Unique to this fragment, not needed for loginFragment.
         this.confirmPassword = view.findViewById(R.id.confirmEditText);
         this.usernameField = view.findViewById(R.id.usernameTextEdit);
 
         mainButton.setOnClickListener(v -> {
             if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+                //rest of checks are in signupModel.
                 showError("passwords do not match");
                 return;
             }

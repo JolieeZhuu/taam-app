@@ -1,5 +1,7 @@
 package com.example.cscb07project.login;
 
+import android.util.Log;
+
 import com.example.cscb07project.entities.Collection;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.UserRepository;
@@ -9,10 +11,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.database.FirebaseDatabase;
+import java.util.regex.Pattern;
+
 
 import java.util.Objects;
 
 public class SignUpModel implements MVPInterface.model {
+    private final Pattern p = Pattern.compile("^[a-zA-Z0-9]+$");
     private final UserRepository userRepo;
     private final CollectionRepository collectionRepository;
 
@@ -29,25 +34,46 @@ public class SignUpModel implements MVPInterface.model {
 
     @Override
     public void authenticateUser(String email, String password, String username, callback callback) {
-        userRepo.createUser(username, email, password)
-                .continueWithTask(task -> {
-                    if (task.isSuccessful()) {
-                        return collectionRepository.createNewCollection(new Collection(task.getResult().getUserId(), "My Default Collection"))
-                                .continueWith(task2 -> {
-                                    if (task2.isSuccessful()) return task.getResult();
-                                    throw Objects.requireNonNull(task2.getException());
-                                });
-                    }
-                    throw Objects.requireNonNull(task.getException());
-                })
-                .addOnSuccessListener(callback::onSuccess)
-                .addOnFailureListener(e -> callback.onError(getError(e)));
-        //MAJOR ISSUE: PEOPLE CAN HAVE SAME USERNAME.
+        // Race condition? If multiple people sign up with same username at same time there could be
+        // collisions. Acceptable trade off because its very unlikely.
+        if (!p.matcher(username).matches()) {
+            callback.onError("Username must be alphanumeric characters only.");
+            return;
+        }
+        userRepo.usernameExists(username)
+                        .addOnSuccessListener(exist ->{
+                            Log.d("SignUpModel", "usernameExists(" + username + ") = " + exist);
+                            if(exist){
+                                callback.onError("Username is already taken.");
+                            }
+                            else {
+                                userRepo.createUser(username, email, password)
+                                        .continueWithTask(task -> {
+                                            if (task.isSuccessful()) {
+                                                return collectionRepository.createNewCollection(new Collection(task.getResult().getUserId(), "My Default Collection"))
+                                                        .continueWith(task2 -> {
+                                                            if (task2.isSuccessful())
+                                                                return task.getResult();
+                                                            throw Objects.requireNonNull(task2.getException());
+                                                        });
+                                            }
+                                            throw Objects.requireNonNull(task.getException());
+                                        })
+                                        .addOnSuccessListener(callback::onSuccess)
+                                        .addOnFailureListener(e -> callback.onError(getError(e)));
+                            }
+
+                        })
+                .addOnFailureListener(e -> {
+                    Log.e("SignUpModel", "usernameExists check failed", e);
+                    callback.onError("Something went wrong.");
+                });
+
     }
 
     private String getError(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
-            return "Your password is too weak.";
+            return "Password must be at least 6 characters.";
         } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
             return "The email address entered is invalid.";
         } else if (e instanceof FirebaseAuthUserCollisionException) {

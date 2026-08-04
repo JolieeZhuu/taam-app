@@ -7,18 +7,19 @@ public class User {
     private String userId;
     private String email;
     private String username;
+    private String usernameLower;
 
     public User() {}
 
     public User(String userId, String username, String email) {
         this.userId = userId;
-        this.username = username;
         this.email = email;
+        setUsername(username);
     }
 
     public User(String userId, String username) {
         this.userId = userId;
-        this.username = username;
+        setUsername(username);
     }
 
     public Map<String, Object> toMap() {
@@ -26,6 +27,7 @@ public class User {
         result.put("userId", userId);
         result.put("email", email);
         result.put("username", username);
+        result.put("usernameLower", usernameLower);
 
         return result;
     }
@@ -56,6 +58,10 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null? null: username.strip();
+        this.usernameLower = username == null? null: username.toLowerCase().strip();
+    }
+    public String getUsernameLower() {
+        return usernameLower;
     }
 }

@@ -13,7 +13,7 @@ public class LoginPresenterTest {
     private MVPInterface.model model;
 
     private interface AdminModel extends MVPInterface.model, MVPInterface.AdminCheckable {} //tests only,
-    // so that "m instanceof MVPInterface.AdminCheckable" is true. 
+    // so that "m instanceof MVPInterface.AdminCheckable" is true.
 
     @Before
     public void setUp() {
