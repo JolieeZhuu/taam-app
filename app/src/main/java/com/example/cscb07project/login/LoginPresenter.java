@@ -5,8 +5,8 @@ import com.example.cscb07project.entities.User;
 public class LoginPresenter implements MVPInterface.presenter {
     /*
     The "in between" class for login view and model. Validates user input,
-    controls loading states, and navigates to home/admin/signup based on
-    what loginModel gives us.
+    controls loading states, and navigates to home/admin/signup using view,
+    based on what loginModel gives us.
      */
     private MVPInterface.view v;
     private MVPInterface.model m;
@@ -21,6 +21,11 @@ public class LoginPresenter implements MVPInterface.presenter {
         this.m = m;
     }
 
+    /**
+     * Validates email/pw, then invokes model. On success, routes to
+     * admin or home screen depending on AdminCheckable, on failure, does nothing
+     * and shows errpr.
+     */
     @Override
     public void handleLoginClick(String email, String password, String username) {
         if (password.isEmpty() || email.isEmpty()) {

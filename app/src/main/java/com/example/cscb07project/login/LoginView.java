@@ -34,6 +34,10 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     protected Button mainButton;
     protected Button secondaryButton;
     protected abstract MVPInterface.presenter createPresenter();
+
+    /**
+     * Layout resource for screen (not the same for login and signup).
+     */
     protected abstract int getLayoutResId();
     protected abstract int getEmailId();
     protected abstract int getPasswordId();
@@ -61,6 +65,8 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        // Binds views, wires the two buttons, and color from theme
+        // used later in setLoading, to differentiate loading (grey) and normal button color..
         this.email = view.findViewById(getEmailId());
         this.password = view.findViewById(getPasswordId());
         this.mainButton = view.findViewById(getMainButtonId());

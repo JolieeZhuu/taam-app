@@ -22,6 +22,15 @@ public class LoginModel implements MVPInterface.model, MVPInterface.AdminCheckab
         this.userRepo = new UserRepository(db, FirebaseAuth.getInstance());
     }
 
+    /**
+     * Signs in an existing user via Firebase Auth.
+     * @param email user email
+     * @param password user password
+     * @param username unused (see MVPInterface comment for why this param is here)
+     * @param callback onSuccess receives the signed in User; onError receives a generic
+     *                 "Incorrect username or password" message. Kept intentionally vague
+     *                 to prevent enumeration attacks.
+     */
     @Override
     public void authenticateUser(String email, String password, String username, callback callback) {
         //As mentioned in MVP interface comments, username is not used here, but is kept
@@ -31,6 +40,11 @@ public class LoginModel implements MVPInterface.model, MVPInterface.AdminCheckab
                 .addOnFailureListener(e -> callback.onError("Incorrect username or password"));
     }
 
+    /**
+     * Checks whether the given user is an admin.
+     * @param user the user to check
+     * @param callback receives Boolean; defaults to false if the check itself fails
+     */
     @Override
     public void checkAdmin(User user, AdminCallback callback) {
         userRepo.isAdmin(user.getUserId())

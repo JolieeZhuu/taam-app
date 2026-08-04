@@ -31,8 +31,8 @@ public class NewUserFragment extends LoginView {
         this.usernameField = view.findViewById(R.id.usernameTextEdit);
 
         mainButton.setOnClickListener(v -> {
+            // Only check password match here, other formal checks happen in SignUpModel.
             if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-                //rest of checks are in signupModel.
                 showError("passwords do not match");
                 return;
             }

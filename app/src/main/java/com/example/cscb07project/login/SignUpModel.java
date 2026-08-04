@@ -17,6 +17,15 @@ import java.util.regex.Pattern;
 import java.util.Objects;
 
 public class SignUpModel implements MVPInterface.model {
+    /*
+    Model half of the MVP signup flow. Unlike LoginModel, does not implement
+    AdminCheckable, as new users are never admins. Owns both a UserRepository
+    and a CollectionRepository, since signup needs to create a user profile
+    AND their default Collection as one logical unit. See authenticateUser
+    for the actual signup steps.
+
+    NOTE TO FUTURE: REQUIRE READ ACCESS TO "usernameLower" IN DB
+     */
     private final Pattern p = Pattern.compile("^[a-zA-Z0-9]+$");
     private final UserRepository userRepo;
     private final CollectionRepository collectionRepository;
@@ -32,8 +41,16 @@ public class SignUpModel implements MVPInterface.model {
         this.collectionRepository = collectionRepository;
     }
 
+    /**
+     * Validates username format, checks username uniqueness, creates the Firebase Auth user,
+     * writes their profile, and creates their default collection, all before
+     * reporting success.
+     */
     @Override
     public void authenticateUser(String email, String password, String username, callback callback) {
+        /*
+        This function handles signing up new users
+         */
         // Race condition? If multiple people sign up with same username at same time there could be
         // collisions. Acceptable trade off because its very unlikely.
         if (!p.matcher(username).matches()) {
@@ -42,7 +59,6 @@ public class SignUpModel implements MVPInterface.model {
         }
         userRepo.usernameExists(username)
                         .addOnSuccessListener(exist ->{
-                            Log.d("SignUpModel", "usernameExists(" + username + ") = " + exist);
                             if(exist){
                                 callback.onError("Username is already taken.");
                             }
@@ -65,12 +81,14 @@ public class SignUpModel implements MVPInterface.model {
 
                         })
                 .addOnFailureListener(e -> {
-                    Log.e("SignUpModel", "usernameExists check failed", e);
-                    callback.onError("Something went wrong.");
+                    callback.onError(getError(e));
                 });
 
     }
 
+    /**
+     * Maps Firebase Auth exceptions to user-friendly error strings.
+     */
     private String getError(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
             return "Password must be at least 6 characters.";
