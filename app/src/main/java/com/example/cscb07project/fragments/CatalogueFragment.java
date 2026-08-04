@@ -428,10 +428,15 @@ public class CatalogueFragment extends Fragment {
                         Toast.makeText(getContext(), "Added to collection!",
                                 Toast.LENGTH_SHORT).show();
 
-                        getParentFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, CatalogueFragment
-                                        .withLotNumbers(new ArrayList<>(allLotNumbers)))
-                                .setReorderingAllowed(true).addToBackStack(null).commit();
+                        Fragment parent = getParentFragment();
+                        if (parent instanceof HomepageFragment) {
+                            ((HomepageFragment) parent).onCollectionOperationFinished();
+                        } else {
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, CatalogueFragment
+                                            .withLotNumbers(new ArrayList<>(allLotNumbers)))
+                                    .setReorderingAllowed(true).addToBackStack(null).commit();
+                        }
                     }).addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to save collection.",
                             Toast.LENGTH_SHORT).show());
     }
@@ -453,10 +458,15 @@ public class CatalogueFragment extends Fragment {
                     Toast.makeText(getContext(), "Removed from collection success",
                             Toast.LENGTH_SHORT).show();
 
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, CatalogueFragment
-                                    .withLotNumbers(new ArrayList<>(allLotNumbers)))
-                            .setReorderingAllowed(true).addToBackStack(null).commit();
+                    Fragment parent = getParentFragment();
+                    if (parent instanceof HomepageFragment) {
+                        ((HomepageFragment) parent).onCollectionOperationFinished();
+                    } else {
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, CatalogueFragment
+                                        .withLotNumbers(new ArrayList<>(allLotNumbers)))
+                                .setReorderingAllowed(true).addToBackStack(null).commit();
+                    }
                 }).addOnFailureListener(e -> Toast.makeText(getContext(), "failed to remove from collection.",
                         Toast.LENGTH_SHORT).show());
     }
