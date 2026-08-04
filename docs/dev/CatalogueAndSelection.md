@@ -1,3 +1,5 @@
+Written by: Andy
+
 Overview: The catalogue screen is essentially this app's way of standardizing how we open 
 recyclerview. It has two main modes, view (default) and select. Note that the "selection" does not
 have intrinsic meaning, rather it is entirely context dependent. An example would be when you are
