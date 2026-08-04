@@ -8,6 +8,10 @@ import com.example.cscb07project.login.*;
 import static org.mockito.Mockito.*;
 
 public class LoginPresenterTest {
+    /*
+    one no arg constructor is left untested, there is a specially made constructor
+    meant for testing to be possible via mockito.
+     */
     private LoginPresenter loginPresenter;
     private MVPInterface.view view;
     private MVPInterface.model model;
