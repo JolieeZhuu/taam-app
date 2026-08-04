@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,7 +92,11 @@ public class FilterFragment extends Fragment {
 
             @Override
             public void onError(DatabaseError err) {
-                // TODO: Handle this.
+                Toast.makeText(
+                        requireContext(),
+                        "Fetching filters from Db failed, please try again.",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }

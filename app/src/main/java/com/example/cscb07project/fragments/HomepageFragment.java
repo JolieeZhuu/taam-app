@@ -8,16 +8,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.R;
+import com.example.cscb07project.entities.Artifact;
+import com.example.cscb07project.systems.BatchArtifactRetriever;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.List;
 
 public class HomepageFragment extends Fragment {
 
@@ -25,13 +32,23 @@ public class HomepageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private ImageView savedArtifactsBtn, profileBtn;
+    @SuppressWarnings("FieldCanBeLocal")
+    private ImageView savedArtifactsBtn;
+    private ImageView profileBtn;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button filterBtn;
     private View carouselOverlayContainer;
-    private ImageButton dailyCarouselHighlightsBtn, addArtifactBtn;
+    private ImageButton dailyCarouselHighlightsBtn;
+    @SuppressWarnings("FieldCanBeLocal")
+    private ImageButton addArtifactBtn;
     private CarouselFragment dailyCarouselFragment;
     private boolean isAdmin = false; // user admin status
     private static final String ARG_IS_ADMIN = "is_admin";
+    @SuppressWarnings("FieldCanBeLocal")
+    private SearchView searchView;
+    private MainActivity mainActivity;
+    private CatalogueFragment catalogueFragment;
+
     public static HomepageFragment newInstance(boolean isAdmin){
         HomepageFragment fragment = new HomepageFragment();
         Bundle args = new Bundle();
@@ -43,9 +60,10 @@ public class HomepageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) isAdmin = getArguments().getBoolean(ARG_IS_ADMIN, false);
+
+        mainActivity = (MainActivity) requireActivity();
+        catalogueFragment = new CatalogueFragment(); // Open in EAV mode.
     }
-
-
 
     @Nullable
     @Override
@@ -59,32 +77,40 @@ public class HomepageFragment extends Fragment {
         carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
 
+        searchView = view.findViewById(R.id.searchBar);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                updateDisplayBySearch(s.toLowerCase());
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.isBlank()) {
+                    catalogueFragment.populateFromDb();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         savedArtifactsBtn.setOnClickListener(v -> {
             // TODO: load collections fragment
         });
 
-        profileBtn.setOnClickListener(v-> {
-            showProfileDropdown();
-        });
+        profileBtn.setOnClickListener(v-> showProfileDropdown());
 
-        filterBtn.setOnClickListener(v -> {
-            loadFragment(new FilterFragment());
-        });
+        filterBtn.setOnClickListener(v -> loadFragment(new FilterFragment()));
 
-        // TODO: load catalogue fragment
-        // Fragment catalogueFragment = new CatalogueFragment();
-
-        /* getChildFragmentManager().beginTransaction()
-                .replace(R.id.homepageCatalogueContainer, catalogueFragment)
-                .commit(); */
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.homepage_catalogue_container, catalogueFragment)
+                .commit();
 
         if (isAdmin) {
             addArtifactBtn.setVisibility(View.VISIBLE);
             addArtifactBtn.setEnabled(true);
 
-            addArtifactBtn.setOnClickListener(v -> {
-                loadFragment(new AddArtifactFragment());
-            });
+            addArtifactBtn.setOnClickListener(v -> loadFragment(new AddArtifactFragment()));
         } else {
             addArtifactBtn.setVisibility(View.GONE);
             addArtifactBtn.setEnabled(false);
@@ -101,16 +127,13 @@ public class HomepageFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(requireContext(), profileBtn);
         popupMenu.getMenuInflater().inflate(R.menu.profile_dropdown_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_logout) {
-                    logOut();
-                    return true;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_logout) {
+                logOut();
+                return true;
             }
+            return false;
         });
         popupMenu.show();
     }
@@ -121,8 +144,7 @@ public class HomepageFragment extends Fragment {
         if (dailyCarouselFragment == null) {
             dailyCarouselFragment = new CarouselFragment();
             dailyCarouselFragment.setOnCarouselItemClickListener(artifact -> {
-
-                // TODO: load expanded view for artifact from carousel
+                loadFragment(ExpandedArtifactFragment.newInstance(artifact.getLotNumber()));
                 hideDailyCarouselOverlay();
             });
             getParentFragmentManager()
@@ -161,5 +183,31 @@ public class HomepageFragment extends Fragment {
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment())
                 .commit();
+    }
+
+    private void updateDisplayBySearch(String query){
+        mainActivity.getMainARep().getFilteredArtifacts(
+                mainActivity.getMainFS(), new BatchArtifactRetriever() {
+            @Override
+            public void onResult(List<Artifact> artifactList) {
+                artifactList.removeIf(artifact -> !(
+                        artifact.getName().toLowerCase().contains(query)
+                                || artifact.getCategory().toLowerCase().contains(query)
+                                || artifact.getMaterial().toLowerCase().contains(query)
+                                || artifact.getPeriod().toLowerCase().contains(query)
+                ));
+
+                catalogueFragment.populateFromList(artifactList);
+            }
+            @Override
+            public void onError(DatabaseError error) {
+                Toast.makeText(
+                        requireContext(),
+                        "Database error upon this search.",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+
     }
 }

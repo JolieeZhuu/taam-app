@@ -131,6 +131,7 @@
     <string name="cd_carousel_highlight_button">Daily Highlights</string>
     <string name="carousel_title">Daily Highlights</string>
     <string name="delete_comments">Delete Comments</string>
+    <string name="search_hint">Search artifacts</string>
 
 
 </resources>

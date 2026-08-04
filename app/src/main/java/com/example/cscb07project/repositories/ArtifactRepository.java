@@ -100,13 +100,12 @@ public class ArtifactRepository {
     }
 
     /**
-     * Firebase only supports "ordering" (for our purposes filtering) by a single key at a time.
-     * We will implement a hierarchy then to pull these as follows:
-     * 1. Period; 2. Material; 3. Category;
-     * The Db will filter by the first specified filter value, then we locally filter the rest.
+     * Queries the database according to a provided FilterState, recommended is mainFilters. It
+     * will pass the results into the BatchArtifactRetriever interface, implementer's responsibility
+     * at that point.
      */
     public void getFilteredArtifacts(FilterState fs, BatchArtifactRetriever callback){
-        Query firstFiltered; // This will be the first filtered layer for the db.
+        Query firstFiltered; // Firebase only supports filtering on one query so we do the rest.
         String firstMatch;
         if (!fs.getFilterValue(FilterState.PERIOD_FILTER_KEY).equals(FilterState.NO_FILTER)){
             firstFiltered = dbRef.orderByChild(FilterState.PERIOD_FILTER_KEY).equalTo(
