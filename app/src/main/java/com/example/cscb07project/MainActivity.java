@@ -49,20 +49,21 @@ public class MainActivity extends AppCompatActivity {
         selectedArtifacts = new HashSet<>();
         //please keep everything after this line when merging
 
-        if (savedInstanceState == null) {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                UserRepository userRepo = new UserRepository(
-                        FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/"),
-                        FirebaseAuth.getInstance()
-                );
-                userRepo.isAdmin(currentUser.getUid())
-                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
-                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
-                //we dont know if user is admin or not, assume not for safety.
-            }
-            else loadFragment(new LoginFragment());
-        }
+        loadFragment(ExpandedArtifactFragment.newInstance("1"));
+//        if (savedInstanceState == null) {
+//            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//            if (currentUser != null) {
+//                UserRepository userRepo = new UserRepository(
+//                        FirebaseDatabase.getInstance("https://cscb07-project-e0581-default-rtdb.firebaseio.com/"),
+//                        FirebaseAuth.getInstance()
+//                );
+//                userRepo.isAdmin(currentUser.getUid())
+//                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
+//                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
+//                //we dont know if user is admin or not, assume not for safety.
+//            }
+//            else loadFragment(new LoginFragment());
+//        }
     }
 
     private void loadFragment(Fragment fragment) {

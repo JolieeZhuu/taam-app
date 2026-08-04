@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cscb07project.MainActivity;
 import com.example.cscb07project.systems.ArtifactAdapter;
 import com.example.cscb07project.systems.ExpandedArtifactAdapter;
+import com.example.cscb07project.fragments.ExpandedArtifactFragment;
 import com.example.cscb07project.systems.SelectionArtifactAdapter;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.R;

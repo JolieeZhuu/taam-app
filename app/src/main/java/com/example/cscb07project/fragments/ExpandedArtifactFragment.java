@@ -35,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class ExpandedArtifactFragment extends Fragment {
-
+    private boolean isAdmin;
     private FirebaseDatabase db;
     private TextView artifactName;
     private TextView artifactCategory;
@@ -123,7 +123,12 @@ public class ExpandedArtifactFragment extends Fragment {
         imageview=view.findViewById(R.id.artifactImage);
 
 
-        setupRepo();
+            MainActivity mainActivity = (MainActivity) requireActivity();
+        db = mainActivity.getDb();
+        expandedViewRepo = new ExpandedViewRepository(db);
+        artifactRepo = new ArtifactRepository(db,expandedViewRepo);
+        collectionRepo = new CollectionRepository(db);
+        userRepo = new UserRepository(db, FirebaseAuth.getInstance());
 
         Bundle bun2 = getArguments();
         if(bun2==null){
@@ -150,7 +155,7 @@ public class ExpandedArtifactFragment extends Fragment {
 //            currentUid = currentUser.getUid();
 //        }
         ////////////////////////////////////////////////////
-        currentUid =  "n96baewp0fOaIOTIUDouILkPr4w2";
+        currentUid =  "huqBE8wffBXBIWHVhiBtPvTL56P2";
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -217,18 +222,13 @@ public class ExpandedArtifactFragment extends Fragment {
                     ).show();
                 });
         checkSaveStatus(current_lotNumber);
-        setOnClickListenersForButtons();
+
+        userRepo.isAdmin(currentUid).addOnSuccessListener(isOrNot ->{
+            isAdmin = isOrNot;
+        }).addOnCompleteListener(task->setOnClickListenersForButtons());
+
 
         return view;
-    }
-
-    public void setupRepo(){
-        MainActivity mainActivity = (MainActivity) requireActivity();
-        db = mainActivity.getDb();
-        expandedViewRepo = new ExpandedViewRepository(db);
-        artifactRepo = new ArtifactRepository(db,expandedViewRepo);
-        collectionRepo = new CollectionRepository(db);
-        userRepo = new UserRepository(db, FirebaseAuth.getInstance());
     }
 
     @SuppressLint("SetTextI18n")
@@ -264,11 +264,40 @@ public class ExpandedArtifactFragment extends Fragment {
     }
 
     private void setOnClickListenersForButtons(){
+//        editButton.setOnClickListener(v->editTheArtifact());
+//        deleteButton.setOnClickListener(v->deleteTheArtifact());
+        if(isAdmin){
+            editButton.setOnClickListener(v->editTheArtifact());
+            deleteButton.setOnClickListener(v->deleteTheArtifact());
+            editButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+            Toast.makeText(
+                    requireContext(),
+                    "is an admin",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+        }
+        else{
+            editButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+            editButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            editButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
+            editButton.setTextColor(Color.WHITE);
+            editButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+            deleteButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
+            deleteButton.setTextColor(Color.WHITE);
+            Toast.makeText(
+                    requireContext(),
+                    "is not an admin",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
         postCommentButton.setOnClickListener(v->postComment());
         likeButton.setOnClickListener(v->likeTheArtifact());
         saveButton.setOnClickListener(v->saveTheArtifact());
-        editButton.setOnClickListener(v->editTheArtifact());
-        deleteButton.setOnClickListener(v->deleteTheArtifact());
         viewCommentsButton.setOnClickListener(v->openCommentsSection());
     }
 
@@ -633,7 +662,7 @@ private void saveTheArtifact() {
             return;
         }
         viewCommentsButton.setEnabled(false);
-        CommentsFragment commentFragment = CommentsFragment.newInstance(current_lotNumber);
+        CommentsFragment commentFragment = CommentsFragment.newInstance(current_lotNumber,currentUid);
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, commentFragment).addToBackStack(null).commit();
         viewCommentsButton.setEnabled(true);
     }
