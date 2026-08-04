@@ -19,6 +19,11 @@ import android.util.TypedValue;
 
 
 public abstract class LoginView extends Fragment implements MVPInterface.view{
+    /*
+    Abstract base class for both Login AND SignUp (hence main/secondary button).
+    Fragments supply actual layout and view ids. Class handles click wiring
+    common to both screens. Prevents yucky duplicated fragment wiring code.
+     */
     protected MVPInterface.presenter p;
     protected EditText email;
     protected EditText password;
@@ -70,7 +75,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
-
+    //Below this are methods to navigate to places we could go to
     @Override
     public void navigateToHome() {
         getParentFragmentManager().beginTransaction()
@@ -98,6 +103,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
 
     @Override
     public void navigateToLogin() {
+        //recall: this is a base class for both login and signup screens
         getParentFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, LoginFragment.class, null)
@@ -105,6 +111,7 @@ public abstract class LoginView extends Fragment implements MVPInterface.view{
     }
     @Override
     public void setLoading(boolean isLoading){
+        //disable all buttons while async request has not come back, used in presenters.
         mainButton.setEnabled(!isLoading);
         secondaryButton.setEnabled(!isLoading);
         mainButton.setBackgroundColor(isLoading? Color.GRAY:this.buttonColor);
