@@ -182,6 +182,17 @@ public class AddArtifactFragment extends Fragment{
                 || material.equals("Select material") || dynasty.equals("Select dynasty")) {
             Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
+        } //no .$#[]/ asci control 0x00-0x1f  0x7f
+
+        if(lotNumber.matches(".*[.$#\\[\\]/\\u0000-\\u001f\\u007f].*")) {
+            Toast.makeText(getContext(), "Lot number cannot contain these symbols: " +
+                    ".$#[]/", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (lotNumber.matches("\\d+")){
+            Toast.makeText(getContext(), "Lot number must have non numeric characters too",
+                    Toast.LENGTH_LONG).show();
+            return;
         }
 
 //        artifactsRef = db.getReference("artifacts");
