@@ -123,16 +123,22 @@ public class UserRepository {
 
 
 
-    /* WILL DELETE THIS SOON!!! */
+    /* WILL DELETE THIS SOON!!! PLEASE DO NOT DELETE THIS I NEED IT (from Yile) */
 
-    // -- extra functions that we may want -- //
+    // -- functions related to username uniqueness checks -- //
 
     public FirebaseUser getCurrentUser() {
         return dbAuth.getCurrentUser();
     }
 
+
+    /**
+     * Gets a user by username.
+     * @param username
+     * @return asynchronous task with return type User.
+     */
     private Task<User> getUserByUsername(String username) {
-        return dbRefUs.orderByChild("username").equalTo(username).get().continueWith(snapshot -> {
+        return dbRefUs.orderByChild("usernameLower").equalTo(username.toLowerCase().strip()).get().continueWith(snapshot -> {
             if (!snapshot.isSuccessful() || snapshot.getResult() == null) {
                 return null;
             }
@@ -142,6 +148,20 @@ public class UserRepository {
                 }
             }
             return null;
+        });
+    }
+
+
+    /**
+     * Checks if a username is already taken.
+     * @param username
+     * @return asynchronous task with return type boolean, returns true iff user with that username
+     * already exists.
+     */
+    public Task<Boolean> usernameExists(String username){
+        return getUserByUsername(username).continueWith(snapshot -> {
+            if(!snapshot.isSuccessful()) throw Objects.requireNonNull(snapshot.getException());
+            return snapshot.getResult() != null;
         });
     }
 }
