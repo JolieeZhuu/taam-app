@@ -1,15 +1,15 @@
 # TAAM Artifact Management System
 TAAM Artifact Management System is an android application that we developed in order to help the admins of the Toronto Asian Art Museum (TAAM) with storing their inventory of artifacts, adding/editing/deleting artifacts, and displaying it online for users to interact with. This app is the final project for the course CSCB07 S26.
 
-## Tech Stack
+## 📚 Tech Stack
 - UI (frontend): XML
 - App logic (backend): Java
 - Databases: Firebase Realtime Database, Firebase Authentication, Firebase Storage
 
-## Running the Application
+## 🚀 Running the Application
 Nothing so far :)
 
-## Features
+## ✨ Features
 - **User login/signup:** Users must log in to the app to access TAAM's artifact repository. New users must sign up, providing their email, name, and a strong password (requirements for a strong password are checked). Upon logging in, the user is redirected to the home page.
 - **Roles:** Users are split into general and admin. When an admin logs in, they have more permissions in the homepage and related app pages, like adding/editing/deleting artifacts and comment control.
 - **Artifact view + pagination:** Home page displays a gallery of artifacts that TAAM owns. Each artifact is designed as a card with an image attached to it, and users can select how many artifacts they want on each page (i.e. all, 12, or 24 artifacts per page).
@@ -19,5 +19,5 @@ Nothing so far :)
 - **Comments:** Users are able to comment on the artifact of their choice. They can also view other users' comments. Admins specifically are allowed to delete user comments.
 - **UI/UX:** standardized UI and colour scheme, with intuitive user experience and navgiation.
 
-## Authors
-@Andynonymous-guy, @elinaelooo, @JolieeZhuu, @notapinguin, @Kimi-Ong, @Wen-324
+## 🧑‍💻 Authors
+[@Andynonymous-guy](https://github.com/Andynonymous-guy), [@elinaelooo](https://github.com/elinaelooo), [@JolieeZhuu](https://github.com/JolieeZhuu), [@notapinguin](https://github.com/notapinguin), [@Kimi-Ong](https://github.com/Kimi-Ong), [@Wen-324](https://github.com/Wen-324)
