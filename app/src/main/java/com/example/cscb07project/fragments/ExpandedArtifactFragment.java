@@ -31,6 +31,7 @@ import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
 import com.example.cscb07project.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -148,19 +149,19 @@ public class ExpandedArtifactFragment extends Fragment {
                 Toast.LENGTH_LONG
         ).show();
 
-        //        FirebaseUser currentUser = userRepo.getCurrentUser();
+        FirebaseUser currentUser = userRepo.getCurrentUser();
 //
-//        if (currentUser == null) {
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Please log in",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            currentUid = currentUser.getUid();
-//        }
+        if (currentUser == null) {
+            Toast.makeText(
+                    requireContext(),
+                    "Please log in",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+        else {
+            currentUid = currentUser.getUid();
+        }
         ////////////////////////////////////////////////////
-        currentUid =  "FKOIIqC6RzP8wjScFi2y0rwej063";
 ///////////////////////////////////////////////////////////////////////////
 
 

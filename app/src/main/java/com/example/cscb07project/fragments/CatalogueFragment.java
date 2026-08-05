@@ -289,8 +289,13 @@ public class CatalogueFragment extends Fragment {
             buttonClear.setVisibility(View.GONE);
             artifactAdapter = new ExpandedArtifactAdapter(
                     currentPage,
-                    null // TODO: Wenqing put EAV in here
-            );}
+                    artifact -> getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container,
+                                    ExpandedArtifactFragment.newInstance(artifact.getLotNumber()))
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit());
+        }
 
         recyclerView.setAdapter(artifactAdapter);
         populateFromDb();
