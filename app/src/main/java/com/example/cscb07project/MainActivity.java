@@ -45,16 +45,15 @@ public class MainActivity extends AppCompatActivity {
         selectedArtifacts = new HashSet<>();
         //please keep everything after this line when merging
 
-//        if (savedInstanceState == null) {
-//            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//            if (currentUser != null) {
-//                uRep.isAdmin(currentUser.getUid())
-//                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
-//                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
-//            }
-//            else loadFragment(new LoginFragment());
-//        }
-        loadFragment(new CatalogueFragment());
+        if (savedInstanceState == null) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                uRep.isAdmin(currentUser.getUid())
+                        .addOnSuccessListener(isAdmin -> loadFragment(HomepageFragment.newInstance(isAdmin)))
+                        .addOnFailureListener(e -> loadFragment(HomepageFragment.newInstance(false)));
+            }
+            else loadFragment(new LoginFragment());
+        }
 
     }
 

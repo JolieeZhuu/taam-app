@@ -289,7 +289,7 @@ public class CatalogueFragment extends Fragment {
             buttonClear.setVisibility(View.GONE);
             artifactAdapter = new ExpandedArtifactAdapter(
                     currentPage,
-                    artifact -> getParentFragmentManager().beginTransaction()
+                    artifact -> requireActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container,
                                     ExpandedArtifactFragment.newInstance(artifact.getLotNumber()))
                             .setReorderingAllowed(true)
