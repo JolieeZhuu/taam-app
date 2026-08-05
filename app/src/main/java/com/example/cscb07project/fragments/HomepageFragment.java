@@ -57,7 +57,6 @@ public class HomepageFragment extends Fragment {
     private Button addToCollectionBtn;
     private Button removeFromCollectionBtn;
     private View collectionButtonsRow;
-    private boolean isShowingCollection = false;
 
     // UI modes for the collection (saved artifacts) area
     private static final int MODE_NORMAL = 0;
@@ -96,7 +95,6 @@ public class HomepageFragment extends Fragment {
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
         exitBtn = view.findViewById(R.id.exitBtn);
         backBtn = view.findViewById(R.id.backBtn);
-
 
         appTitle = view.findViewById(R.id.appTitle);
         collectionTitle = view.findViewById(R.id.collectionTitle);
@@ -180,8 +178,8 @@ public class HomepageFragment extends Fragment {
     }
 
     /**
-     * Loads user's collection into the homepage catalogue container and sets UI mode
-     * to "View Collection" mode (title + "Add" and "Remove" buttons).
+     * Loads user's collection into the homepage catalogue container and sets UI mode to
+     * "View Collection" mode (title + "Add" and "Remove" buttons).
      */
     private void showUserCollection() {
         com.google.firebase.auth.FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
@@ -208,8 +206,7 @@ public class HomepageFragment extends Fragment {
     }
 
     /**
-     * Updates collection title and visibility of "Add" and "Remove" buttons for the
-     * collection screen based on the given mode.
+     * Updates collection title and visibility of collection screen buttons based on the given mode.
      *
      * @param mode determines UI of collection screen
      */
@@ -345,7 +342,7 @@ public class HomepageFragment extends Fragment {
     }
 
     private void updateSaveButton(boolean saved) {
-        //calling with true will fill in, false will leave it empty.
+        // Calling with true will fill in, false will leave it empty.
         savedArtifactsBtn.setImageResource(saved?R.drawable.save_icon_filled : R.drawable.save_icon);
     }
 
