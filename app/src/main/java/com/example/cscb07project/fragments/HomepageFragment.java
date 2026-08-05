@@ -224,18 +224,18 @@ public class HomepageFragment extends Fragment {
 
         switch (mode) {
             case MODE_VIEW_COLLECTION:
-                collectionTitle.setText("Saved Artifacts");
+                collectionTitle.setText("My Saved Artifacts");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.VISIBLE);
                 updateSaveButton(true);
                 break;
             case MODE_ADD_TO_COLLECTION:
-                collectionTitle.setText("Add to Saved Artifacts");
+                collectionTitle.setText("Add to My Collection");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.GONE);
                 break;
             case MODE_REMOVE_FROM_COLLECTION:
-                collectionTitle.setText("Unsave Artifacts");
+                collectionTitle.setText("Remove From My Collection");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.GONE);
                 break;
