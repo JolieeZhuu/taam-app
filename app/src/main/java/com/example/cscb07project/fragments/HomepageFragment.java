@@ -227,6 +227,7 @@ public class HomepageFragment extends Fragment {
                 collectionTitle.setText("Saved Artifacts");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.VISIBLE);
+                updateSaveButton(true);
                 break;
             case MODE_ADD_TO_COLLECTION:
                 collectionTitle.setText("Add to Saved Artifacts");
@@ -242,6 +243,7 @@ public class HomepageFragment extends Fragment {
             default:
                 collectionTitle.setVisibility(View.GONE);
                 collectionButtonsRow.setVisibility(View.GONE);
+                updateSaveButton(false);
                 break;
         }
     }
@@ -341,4 +343,10 @@ public class HomepageFragment extends Fragment {
                 });
 
     }
+
+    private void updateSaveButton(boolean saved) {
+        //calling with true will fill in, false will leave it empty.
+        savedArtifactsBtn.setImageResource(saved?R.drawable.save_icon_filled : R.drawable.save_icon);
+    }
+
 }
