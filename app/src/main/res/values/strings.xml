@@ -102,6 +102,8 @@
     <string name="action_log_out">"Log out :("</string>
     <string name="TAAM">"TAAM"</string>
     <string name="new_account">"New Account"</string>
+    <string name="reset_password">"Forgot Password?"</string>
+    <string name="reset_my_password">Reset My Password</string>
 
 
     <!-- Artifact property strings -->
@@ -132,6 +134,7 @@
     <string name="carousel_title">Daily Highlights</string>
     <string name="delete_comments">Delete Comments</string>
     <string name="search_hint">Search artifacts</string>
+
 
 
 </resources>
