@@ -134,7 +134,7 @@
     <string name="carousel_title">Daily Highlights</string>
     <string name="delete_comments">Delete Comments</string>
     <string name="search_hint">Search artifacts</string>
-
+    <string name="comments">Comments</string>
 
 
 </resources>

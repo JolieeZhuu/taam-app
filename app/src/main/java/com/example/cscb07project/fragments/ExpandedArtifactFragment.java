@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -25,7 +24,6 @@ import androidx.fragment.app.Fragment;
 import com.example.cscb07project.entities.Artifact;
 import com.example.cscb07project.entities.Comment;
 import com.example.cscb07project.entities.ExpandedView;
-import com.example.cscb07project.entities.User;
 import com.example.cscb07project.repositories.ArtifactRepository;
 import com.example.cscb07project.repositories.CollectionRepository;
 import com.example.cscb07project.repositories.ExpandedViewRepository;
@@ -36,8 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class ExpandedArtifactFragment extends Fragment {
-    private boolean isAdmin;
-    private FirebaseDatabase db;
+
+    //Creating global variables for the artifact data model
     private TextView artifactName;
     private TextView artifactCategory;
     private TextView artifactPeriod;
@@ -52,9 +50,16 @@ public class ExpandedArtifactFragment extends Fragment {
     private TextView artifactAccession;
     private TextView artifactNotes;
     private TextView artifactDescription;
+    private ImageView imageview;
 
+
+    //This boolean stores information about the admin information
+    private boolean isAdmin;
+
+    //A test field that takes in user comments input
     private EditText commentInput;
 
+    //Buttons for different features
     private MaterialButton likeButton;
     private MaterialButton saveButton;
     private MaterialButton editButton;
@@ -63,21 +68,27 @@ public class ExpandedArtifactFragment extends Fragment {
     private MaterialButton viewCommentsButton;
     private MaterialButton backButton;
 
+    //Repositories that contains all the useful methods to integrate the fragment with the database
     private ArtifactRepository artifactRepo;
     private ExpandedViewRepository expandedViewRepo;
     private CollectionRepository collectionRepo;
-    private UserRepository userRepo;
-    private ImageView imageview;
 
+    //Important variables that contain the lot number and user id
     private String current_lotNumber;
     private String currentUid;
 
+
+    //The artifact object we opened and its corresponding expanded view
     private Artifact artifact;
     private ExpandedView ev;
 
+
+    //the constructor method
     public ExpandedArtifactFragment() {
     }
 
+    //this method creates the ExpandedArtifactFragment and stores the lotnumber into a bundle that can be
+    // A bundle helps the expanded view remember the artifact it is displaying when we open it.
     public static ExpandedArtifactFragment newInstance(String lotNumber) {
         ExpandedArtifactFragment fragment = new ExpandedArtifactFragment();
 
@@ -90,7 +101,7 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
 
-
+    //This method create the view
     @SuppressLint("SetTextI18n")
     @Nullable
     @Override
@@ -100,12 +111,12 @@ public class ExpandedArtifactFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_expanded_artifact_view, container, false);
 
+        //Assigning all the fields to their corresponding placeholder in the xml file
         artifactName = view.findViewById(R.id.artifactName);
         artifactCategory = view.findViewById(R.id.artifact_category);
         artifactPeriod = view.findViewById(R.id.artifact_dynasty_period);
         artifactOrigin = view.findViewById(R.id.artifact_culture_origin);
         artifactLotNumber = view.findViewById(R.id.artifact_lot_number);
-
         artifactMaterial = view.findViewById(R.id.artifact_material);
         artifactDimensions = view.findViewById(R.id.Dimensions);
         artifactCondition = view.findViewById(R.id.condition_report);
@@ -115,9 +126,12 @@ public class ExpandedArtifactFragment extends Fragment {
         artifactAccession = view.findViewById(R.id.accession_number);
         artifactNotes = view.findViewById(R.id.Notes);
         artifactDescription = view.findViewById(R.id.artifact_description);
+        imageview=view.findViewById(R.id.artifactImage);
 
+        //assign input sections
         commentInput = view.findViewById(R.id.editTextComment);
 
+        //Assigning buttons
         likeButton = view.findViewById(R.id.like_button);
         saveButton = view.findViewById(R.id.save_button);
         editButton = view.findViewById(R.id.edit_button);
@@ -126,21 +140,20 @@ public class ExpandedArtifactFragment extends Fragment {
         viewCommentsButton  = view.findViewById(R.id.enter_comment_section);
         backButton = view.findViewById(R.id.back_button);
 
-        imageview=view.findViewById(R.id.artifactImage);
 
-
-            MainActivity mainActivity = (MainActivity) requireActivity();
-        db = mainActivity.getDb();
+        //load information from data base and construct repositories
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        FirebaseDatabase db = mainActivity.getDb();
         expandedViewRepo = new ExpandedViewRepository(db);
         artifactRepo = new ArtifactRepository(db,expandedViewRepo);
         collectionRepo = new CollectionRepository(db);
-        userRepo = new UserRepository(db, FirebaseAuth.getInstance());
+        UserRepository userRepo = new UserRepository(db, FirebaseAuth.getInstance());
 
+        //Using bundles to get lot number
         Bundle bun2 = getArguments();
         if(bun2==null){
             return view;
         }
-
         current_lotNumber = bun2.getString("lot_number");
 
         Toast.makeText(
@@ -150,7 +163,6 @@ public class ExpandedArtifactFragment extends Fragment {
         ).show();
 
         FirebaseUser currentUser = userRepo.getCurrentUser();
-//
         if (currentUser == null) {
             Toast.makeText(
                     requireContext(),
@@ -161,11 +173,6 @@ public class ExpandedArtifactFragment extends Fragment {
         else {
             currentUid = currentUser.getUid();
         }
-        ////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-
-
 
         artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
             if (loadedArtifact == null) {
@@ -190,53 +197,45 @@ public class ExpandedArtifactFragment extends Fragment {
         );
         likeButton.setEnabled(false);
 
-        expandedViewRepo
-                .getExpandedViewByLotNumber(current_lotNumber)
-                .addOnSuccessListener(loadedExpandedView -> {
-                    if (loadedExpandedView == null) {
-                        ExpandedView newEv = new ExpandedView(current_lotNumber);
-                        expandedViewRepo.addExpandedView(current_lotNumber, newEv)
-                                .addOnSuccessListener(snapshot -> {
-                                    ev = newEv;
-                                    likeButton.setEnabled(true);
-                                    likeButton.setText("0");
-//                                    Toast.makeText(
-//                                            requireContext(),
-//                                            "No expanded view found for lot: "
-//                                                    + current_lotNumber,
-//                                            Toast.LENGTH_LONG
-//                                    ).show();
-                                });
-                        return;
-                    }
-                    ev = loadedExpandedView;
+        expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).addOnSuccessListener(loadedExpandedView ->
+        {
+            if (loadedExpandedView == null) {
+                ExpandedView newEv = new ExpandedView(current_lotNumber);
+                expandedViewRepo.addExpandedView(current_lotNumber, newEv)
+                        .addOnSuccessListener(snapshot -> {
+                            ev = newEv;
+                            likeButton.setEnabled(true);
+                            likeButton.setText("0");
+                        });
+                return;
+            }
+            ev = loadedExpandedView;
 
-                    likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
-                    boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
-                    likeButton.setEnabled(true);
-                    updateLikeButton(liked);
+            likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
+            boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
+            likeButton.setEnabled(true);
+            updateLikeButton(liked);
 
 
-                }).addOnFailureListener(error -> {
-                    likeButton.setEnabled(true);
-
-                    Toast.makeText(
-                            requireContext(),
-                            "Could not load like information: "
-                                    + error.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
-                });
+        }
+        ).addOnFailureListener(error -> {
+            likeButton.setEnabled(true);
+            Toast.makeText(
+                    requireContext(),
+                    "Could not load like information: "
+                            + error.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
+        });
         checkSaveStatus(current_lotNumber);
-
         userRepo.isAdmin(currentUid).addOnSuccessListener(isOrNot ->{
             isAdmin = isOrNot;
         }).addOnCompleteListener(task->setOnClickListenersForButtons());
 
-
         return view;
     }
 
+    //This method display the artifact data model information from the database into their corresponding text views
     @SuppressLint("SetTextI18n")
     private void displayArtifactDataModelInformation(Artifact artifact) {
         artifactName.setText(artifact.getName());
@@ -259,11 +258,7 @@ public class ExpandedArtifactFragment extends Fragment {
         Glide.with(this).load(artifact_url).into(imageview);
     }
 
-
-
-
-    //
-    
+    //This method help check whether a specific artifact data model is empty or not
     private String checkEmptyOrNot(String input) {
         if (input == null || input.trim().isEmpty()) {
             return "N/A";
@@ -271,9 +266,8 @@ public class ExpandedArtifactFragment extends Fragment {
         return input;
     }
 
+    //This method enabled buttons features and link the click action to other methods in order to modify the database
     private void setOnClickListenersForButtons(){
-//        editButton.setOnClickListener(v->editTheArtifact());
-//        deleteButton.setOnClickListener(v->deleteTheArtifact());
         if(isAdmin){
             editButton.setOnClickListener(v->editTheArtifact());
             deleteButton.setOnClickListener(v->deleteTheArtifact());
@@ -309,21 +303,7 @@ public class ExpandedArtifactFragment extends Fragment {
         viewCommentsButton.setOnClickListener(v->openCommentsSection());
         backButton.setOnClickListener(v->returnToLastStack());
     }
-
-    
-
     private void likeTheArtifact(){
-
-//        FirebaseUser currentUser = userRepo.getCurrentUser();
-//        if (currentUser == null) {
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Please log in before like a artifact",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-//        } else {
-//            currentUid = currentUser.getUid();
-//        }
         if (ev == null) {
             Toast.makeText(
                     requireContext(),
@@ -381,80 +361,18 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
     private void checkSaveStatus(String current_lotNumber){
-        collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(result -> {
-            updateSaveButton(result);
-        });
-
-//        collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedCollection ->{
-//            if(savedCollection ==null){
-//                updateSaveButton(false);
-//                return;
-//            }
-//            boolean saved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedCollection);
-//            updateSaveButton(saved);
-//        });
+        collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(this::updateSaveButton);
     }
-//    private void saveTheArtifact(){
-//        saveButton.setEnabled(false);
-//        Bundle bun3 = getArguments();
-//        if(bun3==null){
-//            return;
-//        }
-//        current_lotNumber = bun3.getString("lot_number");
-//
-//        if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
-//            Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        collectionRepo.getCollectionByName(currentUid,"Saved Artifacts").addOnSuccessListener(savedArtifactCollection -> {
-//            if(savedArtifactCollection==null){
-//                Collection newCollection = new Collection(currentUid, "Saved Artifacts");
-//                collectionRepo.createNewCollection(newCollection)
-//                        .addOnSuccessListener(unused -> {
-//                            collectionRepo.addArtifactToCollection(current_lotNumber, newCollection);
-//                            Toast.makeText(requireContext(), "A new save collection is created", Toast.LENGTH_SHORT).show();
-//                            updateSaveButton(true);
-//                        })
-//                        .addOnFailureListener(error ->
-//                                Toast.makeText(requireContext(), "Could not create a collection", Toast.LENGTH_SHORT).show()
-//                        );
-//            }
-//            else{
-//                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
-//
-//                if (alreadySaved) {
-//                    updateSaveButton(false);
-//                    collectionRepo.removeArtifactFromCollection(current_lotNumber,savedArtifactCollection);
-//                }
-//                else {
-//                    updateSaveButton(true);
-//                    collectionRepo.addArtifactToCollection(current_lotNumber,savedArtifactCollection);
-//                }
-////                collectionRepo.addArtifactToCollection(current_lotNumber, collectionRepo.getCollectionByName(currentUserid,"Saved Artifacts").getResult());
-//            }
-//        })
-//        .addOnCompleteListener(task ->
-//                saveButton.setEnabled(true)
-//        );
-//    }
+
 
 private void saveTheArtifact() {
     Bundle bun3 = getArguments();
-
     if (bun3 == null) {
         return;
     }
-
     current_lotNumber = bun3.getString("lot_number");
-
-    if (current_lotNumber == null
-            || current_lotNumber.trim().isEmpty()) {
-        Toast.makeText(
-                requireContext(),
-                "No artifact selected",
-                Toast.LENGTH_SHORT
-        ).show();
+    if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
+        Toast.makeText(requireContext(), "No artifact selected", Toast.LENGTH_SHORT).show();
         return;
     }
 
@@ -509,107 +427,6 @@ private void saveTheArtifact() {
                         + error.getMessage(),
                 Toast.LENGTH_LONG
         ).show();});
-
-//    boolean alreadyLiked = expandedViewRepo.isArtifactLikedByUser(currentUid, ev);
-//
-//    likeButton.setEnabled(false);
-//
-//    if (alreadyLiked) {
-//        expandedViewRepo.unlike(currentUid,ev)
-//                .addOnSuccessListener(a->{updateLikeButton(false);Toast.makeText(requireContext(),"Artifact unliked", Toast.LENGTH_SHORT).show();})
-//                .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not unlike the artifact", Toast.LENGTH_SHORT).show())
-//                .addOnCompleteListener(task -> likeButton.setEnabled(true));;
-//    } else {
-//        expandedViewRepo.like(currentUid,ev)
-//                .addOnSuccessListener(a->{ updateLikeButton(true);Toast.makeText(requireContext(),"Artifact liked", Toast.LENGTH_SHORT).show();})
-//                .addOnFailureListener(error -> Toast.makeText(requireContext(),"Could not like the artifact", Toast.LENGTH_SHORT).show())
-//                .addOnCompleteListener(task -> likeButton.setEnabled(true));
-//    }
-
-//    collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
-//            updateSaveButton(true);
-//            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
-//        })
-//        .addOnFailureListener(error ->
-//                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
-//        )
-//        .addOnCompleteListener(task -> saveButton.setEnabled(true));
-
-//    collectionRepo.getCollectionByUserId(currentUid).addOnSuccessListener(savedArtifactCollection -> {
-//            if (savedArtifactCollection == null) {
-//                Collection newCollection = new Collection(currentUid, "My Default Collection");
-//                collectionRepo.createNewCollection(newCollection)
-//                    .addOnSuccessListener(unused ->
-//                        collectionRepo.addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused2 -> {
-//                            updateSaveButton(true);
-//                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
-//                        })
-//                        .addOnFailureListener(error ->
-//                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
-//                        )
-//                        .addOnCompleteListener(task -> saveButton.setEnabled(true))
-//                    )
-//                    .addOnFailureListener(error -> {
-//                        saveButton.setEnabled(true);
-//                        Toast.makeText(requireContext(), "Could not create collection: " + error.getMessage(), Toast.LENGTH_LONG).show();
-//                    });
-//
-//            }
-//            else {
-//                boolean alreadySaved = collectionRepo.isArtifactSavedByUser(current_lotNumber, savedArtifactCollection);
-//                if (alreadySaved) {
-//                    collectionRepo
-//                            .removeArtifactFromCollection(
-//                                    current_lotNumber,
-//                                    savedArtifactCollection
-//                            )
-//                            .addOnSuccessListener(unused -> {
-//                                updateSaveButton(false);
-//
-//                                Toast.makeText(
-//                                        requireContext(),
-//                                        "Artifact unsaved",
-//                                        Toast.LENGTH_SHORT
-//                                ).show();
-//                            })
-//                            .addOnFailureListener(error ->
-//                                    Toast.makeText(
-//                                            requireContext(),
-//                                            "Could not unsave: "
-//                                                    + error.getMessage(),
-//                                            Toast.LENGTH_LONG
-//                                    ).show()
-//                            )
-//                            .addOnCompleteListener(task ->
-//                                    saveButton.setEnabled(true)
-//                            );
-//                }
-//                else {
-//                    collectionRepo
-//                        .addArtifactToCollection(current_lotNumber, currentUid).addOnSuccessListener(unused -> {
-//                            updateSaveButton(true);
-//                            Toast.makeText(requireContext(), "Artifact saved", Toast.LENGTH_SHORT).show();
-//                        })
-//                        .addOnFailureListener(error ->
-//                                Toast.makeText(requireContext(), "Could not save: " + error.getMessage(), Toast.LENGTH_LONG).show()
-//                        )
-//                        .addOnCompleteListener(task ->
-//                                saveButton.setEnabled(true)
-//                        );
-//                }
-//            }
-//        })
-//        .addOnFailureListener(error -> {
-//            error.printStackTrace();
-//
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Could not load saved collection: "
-//                            + error.getClass().getSimpleName()
-//                            + " - "
-//                            + error.getMessage(),
-//                    Toast.LENGTH_LONG
-//            ).show();});
     }
     private void updateSaveButton(boolean saved) {
         int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);
@@ -626,9 +443,6 @@ private void saveTheArtifact() {
         EditArtifactFragment editArtifactFragment = EditArtifactFragment.editFrag(current_lotNumber);
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editArtifactFragment).commit();
         editButton.setEnabled(true);
-
-        // probably where elina's code has to go
-
     }
     private void deleteTheArtifact(){
         Toast.makeText(requireContext(), "Delete clicked. Lot: " + current_lotNumber, Toast.LENGTH_LONG).show();
