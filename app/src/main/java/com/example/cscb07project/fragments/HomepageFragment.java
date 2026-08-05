@@ -36,6 +36,8 @@ public class HomepageFragment extends Fragment {
     @SuppressWarnings("FieldCanBeLocal")
     private ImageView savedArtifactsBtn;
     private ImageView profileBtn;
+    private ImageView exitBtn;
+    private ImageView backBtn;
     @SuppressWarnings("FieldCanBeLocal")
     private Button filterBtn;
     private View carouselOverlayContainer;
@@ -92,6 +94,9 @@ public class HomepageFragment extends Fragment {
         addArtifactBtn = view.findViewById(R.id.addArtifactBtn);
         carouselOverlayContainer = view.findViewById(R.id.carouselOverlayContainer);
         dailyCarouselHighlightsBtn = view.findViewById(R.id.dailyCarouselHighlightsBtn);
+        exitBtn = view.findViewById(R.id.exitBtn);
+        backBtn = view.findViewById(R.id.backBtn);
+
 
         appTitle = view.findViewById(R.id.appTitle);
         collectionTitle = view.findViewById(R.id.collectionTitle);
@@ -119,8 +124,9 @@ public class HomepageFragment extends Fragment {
         // Opens user's collection (saved artifacts) in homepage catalogue container
         savedArtifactsBtn.setOnClickListener(v -> showUserCollection());
 
-        // Click app title to return to normal homepage catalogue for browsing artifacts
-        appTitle.setOnClickListener(v -> reloadHomepageCatalogue());
+        // Click exit button to return to normal homepage catalogue for browsing artifacts
+        exitBtn.setOnClickListener(v -> reloadHomepageCatalogue());
+        backBtn.setOnClickListener(v -> showUserCollection());
 
         addToCollectionBtn.setOnClickListener(v -> {
             // Replaces catalogue container with selection screen to add artifacts to collection
@@ -209,19 +215,26 @@ public class HomepageFragment extends Fragment {
      */
     private void setCollectionUiMode(int mode) {
         currentCollectionMode = mode;
+        if (mode != MODE_NORMAL) hideDailyCarouselOverlay();
+        dailyCarouselHighlightsBtn.setVisibility(mode == MODE_NORMAL? View.VISIBLE: View.GONE);
+        appTitle.setVisibility(mode == MODE_NORMAL? View.VISIBLE: View.GONE);
+        exitBtn.setVisibility(mode == MODE_VIEW_COLLECTION? View.VISIBLE: View.GONE);
+        backBtn.setVisibility(mode == MODE_ADD_TO_COLLECTION || mode == MODE_REMOVE_FROM_COLLECTION? View.VISIBLE:
+               View.GONE);
+
         switch (mode) {
             case MODE_VIEW_COLLECTION:
-                collectionTitle.setText("View Collection");
+                collectionTitle.setText("Saved Artifacts");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.VISIBLE);
                 break;
             case MODE_ADD_TO_COLLECTION:
-                collectionTitle.setText("Add to Collection");
+                collectionTitle.setText("Add to Saved Artifacts");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.GONE);
                 break;
             case MODE_REMOVE_FROM_COLLECTION:
-                collectionTitle.setText("Remove from Collection");
+                collectionTitle.setText("Unsave Artifacts");
                 collectionTitle.setVisibility(View.VISIBLE);
                 collectionButtonsRow.setVisibility(View.GONE);
                 break;

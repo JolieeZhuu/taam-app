@@ -32,6 +32,38 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/exitBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:src="@drawable/close_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnPrimary"
+                />
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:src="@drawable/back_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnPrimary"
+                />
 
             <ImageView
                 android:id="@+id/savedArtifactsBtn"
@@ -135,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Add"
+            android:text="Save artifacts"
             android:textAllCaps="false"
             app:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="8dp" />
@@ -145,7 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight = "1"
-            android:text="Remove"
+            android:text="Unsave artifacts"
             android:textAllCaps="false"
             app:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="8dp" />
