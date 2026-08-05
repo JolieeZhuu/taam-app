@@ -161,7 +161,7 @@ public class CommentsFragment extends Fragment{
         if (currentLotNumber == null || currentLotNumber.trim().isEmpty()) {return;}
         backButton.setEnabled(false);
         ExpandedArtifactFragment expandedArtifactFragment = ExpandedArtifactFragment.newInstance(currentLotNumber);
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expandedArtifactFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expandedArtifactFragment).commit();
         backButton.setEnabled(true);
     }
 }

@@ -258,7 +258,7 @@ public class EditArtifactFragment extends Fragment{
         }
         exit_button.setEnabled(false);
         ExpandedArtifactFragment expandedArtifactFragment = ExpandedArtifactFragment.newInstance(lot_number);
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expandedArtifactFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, expandedArtifactFragment).commit();
         exit_button.setEnabled(true);
     }
 

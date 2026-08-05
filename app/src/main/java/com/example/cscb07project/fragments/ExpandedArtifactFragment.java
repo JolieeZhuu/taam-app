@@ -60,6 +60,7 @@ public class ExpandedArtifactFragment extends Fragment {
     private MaterialButton deleteButton;
     private MaterialButton postCommentButton;
     private MaterialButton viewCommentsButton;
+    private MaterialButton backButton;
 
     private ArtifactRepository artifactRepo;
     private ExpandedViewRepository expandedViewRepo;
@@ -85,6 +86,9 @@ public class ExpandedArtifactFragment extends Fragment {
 
         return fragment;
     }
+
+
+
 
     @SuppressLint("SetTextI18n")
     @Nullable
@@ -119,6 +123,7 @@ public class ExpandedArtifactFragment extends Fragment {
         deleteButton = view.findViewById(R.id.delete_button);
         postCommentButton = view.findViewById(R.id.buttonPostComment);
         viewCommentsButton  = view.findViewById(R.id.enter_comment_section);
+        backButton = view.findViewById(R.id.back_button);
 
         imageview=view.findViewById(R.id.artifactImage);
 
@@ -155,7 +160,7 @@ public class ExpandedArtifactFragment extends Fragment {
 //            currentUid = currentUser.getUid();
 //        }
         ////////////////////////////////////////////////////
-        currentUid =  "huqBE8wffBXBIWHVhiBtPvTL56P2";
+        currentUid =  "FKOIIqC6RzP8wjScFi2y0rwej063";
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -255,6 +260,8 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
 
+
+    //
     
     private String checkEmptyOrNot(String input) {
         if (input == null || input.trim().isEmpty()) {
@@ -299,6 +306,7 @@ public class ExpandedArtifactFragment extends Fragment {
         likeButton.setOnClickListener(v->likeTheArtifact());
         saveButton.setOnClickListener(v->saveTheArtifact());
         viewCommentsButton.setOnClickListener(v->openCommentsSection());
+        backButton.setOnClickListener(v->returnToLastStack());
     }
 
     
@@ -615,7 +623,7 @@ private void saveTheArtifact() {
         }
         editButton.setEnabled(false);
         EditArtifactFragment editArtifactFragment = EditArtifactFragment.editFrag(current_lotNumber);
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editArtifactFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editArtifactFragment).commit();
         editButton.setEnabled(true);
 
         // probably where elina's code has to go
@@ -627,11 +635,10 @@ private void saveTheArtifact() {
             return;
         }
         deleteButton.setEnabled(false);
-        artifactRepo.deleteArtifactByLotNumber(current_lotNumber).continueWithTask(task -> {
-            return collectionRepo.removeArtifactFromAllCollections(current_lotNumber);
-            })
+        artifactRepo.deleteArtifactByLotNumber(current_lotNumber).continueWithTask(task -> collectionRepo.removeArtifactFromAllCollections(current_lotNumber))
             .addOnSuccessListener(unused -> {
                 Toast.makeText(requireContext(), "Artifact deleted", Toast.LENGTH_SHORT).show();
+                HomepageFragment homepageFragment = HomepageFragment.newInstance(isAdmin);
                 requireActivity().getSupportFragmentManager().popBackStack();
             })
             .addOnFailureListener(error ->
@@ -663,9 +670,17 @@ private void saveTheArtifact() {
         }
         viewCommentsButton.setEnabled(false);
         CommentsFragment commentFragment = CommentsFragment.newInstance(current_lotNumber,currentUid);
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, commentFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, commentFragment).commit();
         viewCommentsButton.setEnabled(true);
     }
+
+    private void returnToLastStack(){
+        backButton.setEnabled(false);
+        requireActivity().getSupportFragmentManager().popBackStack();
+        backButton.setEnabled(true);
+    }
+
+
 }
 
 
