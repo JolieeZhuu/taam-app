@@ -364,8 +364,7 @@ public class ExpandedArtifactFragment extends Fragment {
         collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(this::updateSaveButton);
     }
 
-
-private void saveTheArtifact() {
+    private void saveTheArtifact() {
     Bundle bun3 = getArguments();
     if (bun3 == null) {
         return;
