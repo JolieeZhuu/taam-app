@@ -45,6 +45,7 @@ public class CarouselFragment extends Fragment {
     private ImageView btnPlayPause;
     private LinearLayout indicatorContainer;
     private final List<View> indicatorLines = new ArrayList<>();
+    private LinearSnapHelper snapHelper;
 
     public interface OnCarouselItemClickListener {
         void onItemClicked(Artifact artifact);
@@ -80,8 +81,32 @@ public class CarouselFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
 
-        LinearSnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+
+        // Tracks current carousel item in focus to update indicator lines accordingly
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView rv, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    View snapped = snapHelper.findSnapView(layoutManager);
+                    if (snapped != null) {
+                        int position = layoutManager.getPosition(snapped);
+                        if (position != RecyclerView.NO_POSITION && position != currentActiveIndex) {
+                            currentActiveIndex = position;
+                            updateIndicatorSelection(currentActiveIndex);
+                        }
+                    }
+                }
+                // Resets time interval when user manually scrolls through carousel
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    autoScrollHandler.removeCallbacks(autoScrollRunnable);
+                    if (isPlaying) {
+                        autoScrollHandler.postDelayed(autoScrollRunnable, timeInterval);
+                    }
+                }
+            }
+        });
 
         setupIndicators();
         updateIndicatorSelection(0);
@@ -117,13 +142,14 @@ public class CarouselFragment extends Fragment {
             }
         });
 
-        // retrieves same shared instance as MainActivity's rootRef via Singleton connection
+        // Retrieves same shared instance as MainActivity's rootRef via Singleton connection
         FirebaseDatabase rootRef = FirebaseDatabase.getInstance();
         CarouselManager manager = new CarouselManager(requireContext(), rootRef);
 
         manager.loadDailyCarousel(new CarouselManager.OnArtifactsLoadedListener() {
             @Override
             public void onArtifactsLoaded(List<Artifact> artifacts) {
+                // Doesn't update artifact list and indicators if Fragment gets detached
                 if (!isAdded()) return;
 
                 artifactList.clear();
@@ -152,7 +178,9 @@ public class CarouselFragment extends Fragment {
         return view;
     }
 
-    // small indicator lines under carousel images
+    /**
+     * Creates small indicator lines under carousel images.
+     */
     private void setupIndicators() {
         indicatorContainer.removeAllViews();
         indicatorLines.clear();
@@ -170,6 +198,11 @@ public class CarouselFragment extends Fragment {
         }
     }
 
+    /**
+     * Highlights indicator line corresponding to the current carousel item in focus.
+     *
+     * @param selectedIndex index of carousel item in focus
+     */
     private void updateIndicatorSelection(int selectedIndex) {
         for (int i = 0; i < indicatorLines.size(); i++) {
             if (i == selectedIndex) {
