@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -145,12 +144,8 @@ public class CommentsFragment extends Fragment{
 
         expandedViewRepo.deleteCommentById(currentLotNumber, comment.getCommentId())
                 .addOnSuccessListener(unused->{
-                    Toast.makeText(requireContext(), "Comment deleted", Toast.LENGTH_SHORT).show();
                     displayALLComments();
-                })
-                .addOnFailureListener(error ->
-                        Toast.makeText(requireContext(), "Could not delete comment", Toast.LENGTH_SHORT).show()
-                );
+                });
     }
 
     private void returnToExpandedView() {
