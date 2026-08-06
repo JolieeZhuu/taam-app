@@ -163,7 +163,7 @@ public class ExpandedArtifactFragment extends Fragment {
 
         artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
             if (loadedArtifact == null) {
-                Toast.makeText(requireContext(), "The artifact lot number do not exist" + current_lotNumber, Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "The artifact lot number does not exist" + current_lotNumber, Toast.LENGTH_LONG).show();
                 return;
             }
             artifact = loadedArtifact;
@@ -241,11 +241,11 @@ public class ExpandedArtifactFragment extends Fragment {
             deleteButton.setOnClickListener(v->deleteTheArtifact());
             editButton.setEnabled(true);
             deleteButton.setEnabled(true);
-            Toast.makeText(
-                    requireContext(),
-                    "Admin User",
-                    Toast.LENGTH_SHORT
-            ).show();
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Admin User",
+//                    Toast.LENGTH_SHORT
+//            ).show();
 
         }
         else{
@@ -260,12 +260,12 @@ public class ExpandedArtifactFragment extends Fragment {
 //            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 //            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
 //            deleteButton.setTextColor(Color.WHITE);
-            deleteButton.setVisibility(View.GONE);
-            Toast.makeText(
-                    requireContext(),
-                    "Regular User",
-                    Toast.LENGTH_SHORT
-            ).show();
+//            deleteButton.setVisibility(View.GONE);
+//            Toast.makeText(
+//                    requireContext(),
+//                    "Regular User",
+//                    Toast.LENGTH_SHORT
+//            ).show();
         }
         postCommentButton.setOnClickListener(v->postComment());
         likeButton.setOnClickListener(v->likeTheArtifact());
