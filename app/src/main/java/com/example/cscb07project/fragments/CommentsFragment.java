@@ -55,30 +55,38 @@ public class CommentsFragment extends Fragment{
 
         return fragment;
     }
+
+    //this function generate the comment section view
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comment_section, container, false);
+
+        //set up repo
         MainActivity mainActivity = (MainActivity) requireActivity();
         db = mainActivity.getDb();
         expandedViewRepo = new ExpandedViewRepository(db);
         userRepo = new UserRepository(db, FirebaseAuth.getInstance());
 
+        //get the lotnumber and uid
         Bundle bun2 = getArguments();
         if (bun2 != null) {
             currentLotNumber = bun2.getString("lot_number");
             currentUid = bun2.getString("user_id");
         }
 
+        //connect global variables to their placeholder in the xml file
         commentList = new ArrayList<>();
         commentRecyclerView = view.findViewById(R.id.commentsRecyclerView);
         deleteCommentsButton = view.findViewById(R.id.buttonDeleteSelectedComments);
         backButton = view.findViewById(R.id.back_button);
 
 
+        //display comments section based on whether the user  is admin or not
         userRepo.isAdmin(currentUid).addOnSuccessListener(isOrNot ->{
             isAdmin = isOrNot;
         }).addOnCompleteListener(task->displayALLComments());
+
 
 
         updateDeleteButton();
@@ -86,10 +94,11 @@ public class CommentsFragment extends Fragment{
         return view;
     }
 
+    //this function creates a comment adapter and display the comments in the recycler view
     @SuppressLint("NotifyDataSetChanged")
     public void displayALLComments(){
 
-        commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment),deleteModeEnabled,userRepo);
+        commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment),deleteModeEnabled,userRepo,isAdmin);
 
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         commentRecyclerView.setAdapter(commentAdapter);
@@ -116,12 +125,13 @@ public class CommentsFragment extends Fragment{
 
 
     }
+    //this function enable and disable comment deletion mode
     private void changeDeleteMode() {
         deleteModeEnabled = !deleteModeEnabled;
         updateDeleteButton();
         commentAdapter.setDeleteModeEnabled(deleteModeEnabled);
     }
-
+    //this method change the color of the commment deletion button when the admin clicked on it to indicate a deletion mode change.
     private void updateDeleteButton() {
         int red = Color.rgb(183, 40, 45);
         if (deleteModeEnabled) {
@@ -135,6 +145,7 @@ public class CommentsFragment extends Fragment{
             deleteCommentsButton.setIconTint(ColorStateList.valueOf(red));
         }
     }
+    //This method is for admin to delete a comment
     @SuppressLint("NotifyDataSetChanged")
     private void deleteComment(Comment comment) {
         if (!deleteModeEnabled) {
@@ -148,8 +159,8 @@ public class CommentsFragment extends Fragment{
                 });
     }
 
+    //Thi smethod relates to the back button and return to the expanded view of the selected artifact.
     private void returnToExpandedView() {
-
         if (currentLotNumber == null || currentLotNumber.trim().isEmpty()) {return;}
         backButton.setEnabled(false);
         ExpandedArtifactFragment expandedArtifactFragment = ExpandedArtifactFragment.newInstance(currentLotNumber);
