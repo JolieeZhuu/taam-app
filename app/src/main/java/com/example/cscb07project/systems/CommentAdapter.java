@@ -65,6 +65,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         int grey = Color.rgb(170, 170, 170);
 
         if (deleteModeEnabled) {
+            holder.deleteCommentButton.setVisibility(View.VISIBLE);
             holder.deleteCommentButton.setEnabled(true);
             holder.deleteCommentButton.setClickable(true);
             holder.deleteCommentButton.setAlpha(1.0f);

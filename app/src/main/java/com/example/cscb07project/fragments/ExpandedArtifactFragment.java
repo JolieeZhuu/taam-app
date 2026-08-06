@@ -260,7 +260,7 @@ public class ExpandedArtifactFragment extends Fragment {
 //            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 //            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
 //            deleteButton.setTextColor(Color.WHITE);
-//            deleteButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
 //            Toast.makeText(
 //                    requireContext(),
 //                    "Regular User",
