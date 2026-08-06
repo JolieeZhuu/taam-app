@@ -17,12 +17,9 @@ import com.example.cscb07project.repositories.UserRepository;
 
 import java.util.List;
 
-
-
-import java.util.List;
-
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
+    //global variables
     private final List<Comment> commentList;
     private final OnDeleteClickListener deleteClickListener;
     private boolean deleteModeEnabled;
@@ -32,6 +29,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         void onDeleteClick(Comment comment);
     }
 
+    //constructor method for the comment adaptor
     public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled, UserRepository userRepo)
     {
         this.commentList = commentList;
@@ -40,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.userRepo = userRepo;
     }
 
+    //this method generate the comment view based on the xml
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,6 +46,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return new CommentViewHolder(view);
     }
 
+    //this method assignment behaviour to each independent comment
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position
     ) {
@@ -55,12 +55,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         //get user name through user id
         String userId = comment.getUserId();
         holder.commentText.setText(comment.getComment());
-
         userRepo.getUserById(userId).addOnSuccessListener(user->{
             String userName=user.getUsername();
             holder.commentUser.setText(userName);
 
         });
+
+        //set the appearence for a single comment
         int red = Color.rgb(183, 40, 45);
         int grey = Color.rgb(170, 170, 170);
 
@@ -94,7 +95,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
 
     }
-
+    //enable the delete mode
     public void setDeleteModeEnabled(boolean enabled) {
         deleteModeEnabled = enabled;
         notifyDataSetChanged();
@@ -110,10 +111,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     //this class extends the recyclerview holder and construct a comment view holder for the
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
 
+        //variable for a single comment object
         private final TextView commentUser;
         private final TextView commentText;
         private final ImageButton deleteCommentButton;
 
+        //assignment these fields to locations in the comment xml file
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             commentUser = itemView.findViewById(R.id.commentUsername);

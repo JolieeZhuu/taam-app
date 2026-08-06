@@ -101,7 +101,7 @@ public class ExpandedArtifactFragment extends Fragment {
 
 
 
-    //This method create the view
+    //This method create the expanded artifact view
     @SuppressLint("SetTextI18n")
     @Nullable
     @Override
@@ -156,21 +156,20 @@ public class ExpandedArtifactFragment extends Fragment {
         }
         current_lotNumber = bun2.getString("lot_number");
 
+        //access the the user repositories to get the  user's id
         FirebaseUser currentUser = userRepo.getCurrentUser();
         if (currentUser != null) {
             currentUid = currentUser.getUid();
         }
 
+
+
+        //get the artifact data and coresponding expanded view data, and assign them to the global variables created
         artifactRepo.getArtifactByLotNumber(current_lotNumber).addOnSuccessListener(loadedArtifact -> {
-            if (loadedArtifact == null) {
-                Toast.makeText(requireContext(), "The artifact lot number does not exist" + current_lotNumber, Toast.LENGTH_LONG).show();
-                return;
-            }
             artifact = loadedArtifact;
             displayArtifactDataModelInformation(artifact);
         });
         likeButton.setEnabled(false);
-
         expandedViewRepo.getExpandedViewByLotNumber(current_lotNumber).addOnSuccessListener(loadedExpandedView ->
         {
             if (loadedExpandedView == null) {
@@ -185,6 +184,7 @@ public class ExpandedArtifactFragment extends Fragment {
             }
             ev = loadedExpandedView;
 
+            //update like button according to the infomationn recorede in the database
             likeButton.setText(String.valueOf(ev.getLikeNumber() == null ? 0 : ev.getLikeNumber()));
             boolean liked = expandedViewRepo.isArtifactLikedByUser(currentUid,ev);
             likeButton.setEnabled(true);
@@ -195,7 +195,10 @@ public class ExpandedArtifactFragment extends Fragment {
         ).addOnFailureListener(error -> {
             likeButton.setEnabled(true);
         });
+        //update saved status about the artifact
         checkSaveStatus(current_lotNumber);
+
+        //check whether the user is an admin or not and turn on/off buttons functions for them accordingly
         userRepo.isAdmin(currentUid).addOnSuccessListener(isOrNot ->{
             isAdmin = isOrNot;
         }).addOnCompleteListener(task->setOnClickListenersForButtons());
@@ -236,43 +239,30 @@ public class ExpandedArtifactFragment extends Fragment {
 
     //This method enabled buttons features and link the click action to other methods in order to modify the database
     private void setOnClickListenersForButtons(){
+
+        //check whether it's an admin or not and remove edit button and delete button based on the result
         if(isAdmin){
             editButton.setOnClickListener(v->editTheArtifact());
             deleteButton.setOnClickListener(v->deleteTheArtifact());
             editButton.setEnabled(true);
             deleteButton.setEnabled(true);
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Admin User",
-//                    Toast.LENGTH_SHORT
-//            ).show();
-
         }
         else{
             editButton.setEnabled(false);
             deleteButton.setEnabled(false);
-//            editButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-//            editButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
-//            editButton.setTextColor(Color.WHITE);
-//            editButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
             editButton.setVisibility(View.GONE);
-//            deleteButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
-//            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-//            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
-//            deleteButton.setTextColor(Color.WHITE);
             deleteButton.setVisibility(View.GONE);
-//            Toast.makeText(
-//                    requireContext(),
-//                    "Regular User",
-//                    Toast.LENGTH_SHORT
-//            ).show();
         }
+
+        //set up other buttons that should appear for all users
         postCommentButton.setOnClickListener(v->postComment());
         likeButton.setOnClickListener(v->likeTheArtifact());
         saveButton.setOnClickListener(v->saveTheArtifact());
         viewCommentsButton.setOnClickListener(v->openCommentsSection());
         backButton.setOnClickListener(v->returnToLastStack());
     }
+
+    //This method access the database and add the artiact to user's like list and then update teh data about like numbers
     private void likeTheArtifact(){
         if (ev == null) {
             return;
@@ -295,22 +285,16 @@ public class ExpandedArtifactFragment extends Fragment {
                     .addOnSuccessListener(a->{ updateLikeButton(true);})
                     .addOnCompleteListener(task -> likeButton.setEnabled(true));
         }
-
-
-
     }
 
+    //this method update the like button's appearence, including colors and number of likes on it
     @SuppressLint("SetTextI18n")
     public void updateLikeButton(boolean Liked){
-
-
-
-         //not exactly sure why, but it doesnt work otherwise...
+        //update liek number
         int numberOfLikes = (ev.getLikeNumber() == null) ? 0 : ev.getLikeNumber();
-
-
         likeButton.setText(String.valueOf(numberOfLikes));
 
+        //update button appearance
         int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);
         likeButton.setIconResource(Liked ? R.drawable.heart_icon_filled :R.drawable.heart_icon );
         likeButton.setBackgroundTintList(ColorStateList.valueOf(Liked ?  red:Color.WHITE ));
@@ -318,11 +302,12 @@ public class ExpandedArtifactFragment extends Fragment {
         likeButton.setTextColor(Liked ?  Color.WHITE: red);
 }
 
-
+    //this method check whether the artifact is saved by this user
     private void checkSaveStatus(String current_lotNumber){
         collectionRepo.isArtifactInCollection(current_lotNumber, currentUid).addOnSuccessListener(this::updateSaveButton);
     }
 
+    //This method access the database and add the artifact to the user's saced collection and change button's function from the state of "save" to "unsave" or the other way
     private void saveTheArtifact() {
         Bundle bun3 = getArguments();
         if (bun3 == null) {
@@ -357,6 +342,8 @@ public class ExpandedArtifactFragment extends Fragment {
             }
         });
     }
+
+    //this method change teh appearence of the save button
     private void updateSaveButton(boolean saved) {
         int red = ContextCompat.getColor(requireContext(), R.color.crimson_red);
         saveButton.setIconResource(saved ? R.drawable.save_icon_filled :R.drawable.save_icon );
@@ -364,6 +351,8 @@ public class ExpandedArtifactFragment extends Fragment {
         saveButton.setIconTint(ColorStateList.valueOf(saved ? Color.WHITE : red));
         saveButton.setTextColor(saved ?  Color.WHITE: red);
     }
+
+    //this function turn on the admin edit artifact fragment
     private void editTheArtifact(){
         if(current_lotNumber== null || current_lotNumber.trim().isEmpty()){
             return;
@@ -373,6 +362,8 @@ public class ExpandedArtifactFragment extends Fragment {
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, editArtifactFragment).commit();
         editButton.setEnabled(true);
     }
+
+    //this function remove the artifact from the database and return to the last stack where the expanded artifact view is called(where teh user press the artifact picture in collection scree/ homepage/ carousel screen)
     private void deleteTheArtifact(){
         if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
             return;
@@ -388,12 +379,17 @@ public class ExpandedArtifactFragment extends Fragment {
             });
     }
 
+    //this method help the user to post a comment and store in the data base
     private void postComment(){
         String text = commentInput.getText().toString().trim();
+
+        //check empty or not
         if(text.isEmpty()){
             commentInput.setError("An empty comment cannot be posted, please enter a comment");
             return;
         }
+
+        //add comment to database
         Comment comment = new Comment(current_lotNumber,currentUid,text);
         expandedViewRepo.addComment(current_lotNumber, comment).addOnSuccessListener(unused -> {
             commentInput.setText("");
@@ -401,6 +397,8 @@ public class ExpandedArtifactFragment extends Fragment {
         }).addOnFailureListener( unused -> commentInput.setText(""));
 
     }
+
+    //this method transact to the comment section fragment
     private void openCommentsSection() {
         if (current_lotNumber == null || current_lotNumber.trim().isEmpty()) {
             return;
@@ -411,6 +409,7 @@ public class ExpandedArtifactFragment extends Fragment {
         viewCommentsButton.setEnabled(true);
     }
 
+    //this method return to the last stack in the back stack , which is where the expanded artifact view is called(where teh user press the artifact picture in collection scree/ homepage/ carousel screen)
     private void returnToLastStack(){
         backButton.setEnabled(false);
         requireActivity().getSupportFragmentManager().popBackStack();

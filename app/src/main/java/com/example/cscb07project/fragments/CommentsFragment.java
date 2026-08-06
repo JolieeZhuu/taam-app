@@ -28,26 +28,36 @@ import java.util.List;
 
 
 public class CommentsFragment extends Fragment{
+    //global variables
     private boolean isAdmin;
     private String currentUid;
     private String currentLotNumber ;
+
+    //database and repositories
     private FirebaseDatabase db;
     ExpandedViewRepository expandedViewRepo;
     UserRepository userRepo;
+
+    // to store the comment and display
     private List<Comment> commentList;
+
+
 
     private RecyclerView commentRecyclerView;
     private CommentAdapter commentAdapter;
+
+    //buttons
     private MaterialButton backButton;
     private MaterialButton deleteCommentsButton;
     private boolean deleteModeEnabled = false;
 
     public CommentsFragment() {
     }
-
+    //constructor method
     public static CommentsFragment newInstance(String lotNumber, String currentUid) {
         CommentsFragment fragment = new CommentsFragment();
 
+        //store the lotnumber and user id into id for data preservation purpose
         Bundle bun = new Bundle();
         bun.putString("lot_number", lotNumber);
         bun.putString("user_id",currentUid);
@@ -88,7 +98,6 @@ public class CommentsFragment extends Fragment{
         }).addOnCompleteListener(task->displayALLComments());
 
 
-
         updateDeleteButton();
 
         return view;
@@ -98,12 +107,15 @@ public class CommentsFragment extends Fragment{
     @SuppressLint("NotifyDataSetChanged")
     public void displayALLComments(){
 
+        //set up the recyclerview and the adapter
         commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment),deleteModeEnabled,userRepo);
-
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         commentRecyclerView.setAdapter(commentAdapter);
+
+
         backButton.setOnClickListener(v -> returnToExpandedView());
 
+        //display delete comments button according to whether user is an admin
         if(isAdmin){
             deleteCommentsButton.setOnClickListener(v -> changeDeleteMode());
         }
@@ -114,7 +126,6 @@ public class CommentsFragment extends Fragment{
 
 
         if(currentLotNumber==null){return;}
-
         expandedViewRepo.getCommentsByLotNumber(currentLotNumber).addOnSuccessListener( comments ->{
             commentList.clear();
             if(comments!=null){
