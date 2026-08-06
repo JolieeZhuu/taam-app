@@ -27,19 +27,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private final OnDeleteClickListener deleteClickListener;
     private boolean deleteModeEnabled;
     private UserRepository userRepo;
-    private boolean  isAdmin;
 
     public interface OnDeleteClickListener {
         void onDeleteClick(Comment comment);
     }
 
-    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled, UserRepository userRepo,boolean isAdmin)
+    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled, UserRepository userRepo)
     {
         this.commentList = commentList;
         this.deleteClickListener = deleteClickListener;
         this.deleteModeEnabled = deleteModeEnabled;
         this.userRepo = userRepo;
-        this.isAdmin = isAdmin;
     }
 
     @NonNull
@@ -52,50 +50,45 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position
     ) {
-
-
         Comment comment = commentList.get(position);
 
         //get user name through user id
         String userId = comment.getUserId();
         holder.commentText.setText(comment.getComment());
+
         userRepo.getUserById(userId).addOnSuccessListener(user->{
             String userName=user.getUsername();
             holder.commentUser.setText(userName);
+
         });
-
-
-
         int red = Color.rgb(183, 40, 45);
         int grey = Color.rgb(170, 170, 170);
-        if(isAdmin){
-            if (deleteModeEnabled) {
-                holder.deleteCommentButton.setEnabled(true);
-                holder.deleteCommentButton.setClickable(true);
-                holder.deleteCommentButton.setAlpha(1.0f);
 
-                holder.deleteCommentButton.setImageTintList(
-                        ColorStateList.valueOf(red)
-                );
+        if (deleteModeEnabled) {
+            holder.deleteCommentButton.setVisibility(View.VISIBLE);
+            holder.deleteCommentButton.setEnabled(true);
+            holder.deleteCommentButton.setClickable(true);
+            holder.deleteCommentButton.setAlpha(1.0f);
 
-                holder.deleteCommentButton.setOnClickListener(v ->
-                        deleteClickListener.onDeleteClick(comment)
-                );
-            }
-            else {
-                holder.deleteCommentButton.setEnabled(false);
-                holder.deleteCommentButton.setClickable(false);
-                holder.deleteCommentButton.setAlpha(0.5f);
+            holder.deleteCommentButton.setImageTintList(
+                    ColorStateList.valueOf(red)
+            );
 
-                holder.deleteCommentButton.setImageTintList(
-                        ColorStateList.valueOf(grey)
-                );
-
-                holder.deleteCommentButton.setOnClickListener(null);
-            }
+            holder.deleteCommentButton.setOnClickListener(v ->
+                    deleteClickListener.onDeleteClick(comment)
+            );
         }
-        else{
+        else {
+            holder.deleteCommentButton.setEnabled(false);
+            holder.deleteCommentButton.setClickable(false);
             holder.deleteCommentButton.setVisibility(View.GONE);
+            holder.deleteCommentButton.setAlpha(0.5f);
+
+            holder.deleteCommentButton.setImageTintList(
+                    ColorStateList.valueOf(grey)
+            );
+
+            holder.deleteCommentButton.setOnClickListener(null);
         }
 
 
