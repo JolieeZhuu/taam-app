@@ -101,10 +101,7 @@ public class CommentsFragment extends Fragment{
         }
         else{
             deleteCommentsButton.setEnabled(false);
-            deleteCommentsButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-            deleteCommentsButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
-            deleteCommentsButton.setTextColor(Color.WHITE);
-            deleteCommentsButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+            deleteCommentsButton.setVisibility(View.GONE);
         }
 
 

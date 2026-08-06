@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Comment;
+import com.example.cscb07project.fragments.CommentsFragment;
 
 import java.util.List;
 
@@ -62,9 +63,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             holder.deleteCommentButton.setOnClickListener(v ->
                     deleteClickListener.onDeleteClick(comment)
             );
-        } else {
+        }
+        else {
             holder.deleteCommentButton.setEnabled(false);
             holder.deleteCommentButton.setClickable(false);
+            holder.deleteCommentButton.setVisibility(View.GONE);
             holder.deleteCommentButton.setAlpha(0.5f);
 
             holder.deleteCommentButton.setImageTintList(
@@ -73,6 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
             holder.deleteCommentButton.setOnClickListener(null);
         }
+
     }
 
     public void setDeleteModeEnabled(boolean enabled) {

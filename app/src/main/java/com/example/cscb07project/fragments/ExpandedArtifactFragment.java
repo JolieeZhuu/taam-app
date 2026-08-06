@@ -283,14 +283,16 @@ public class ExpandedArtifactFragment extends Fragment {
         else{
             editButton.setEnabled(false);
             deleteButton.setEnabled(false);
-            editButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-            editButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
-            editButton.setTextColor(Color.WHITE);
-            editButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
-            deleteButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
-            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
-            deleteButton.setTextColor(Color.WHITE);
+//            editButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+//            editButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
+//            editButton.setTextColor(Color.WHITE);
+//            editButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+            editButton.setVisibility(View.GONE);
+//            deleteButton.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+//            deleteButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+//            deleteButton.setIconTint(ColorStateList.valueOf(Color.WHITE));
+//            deleteButton.setTextColor(Color.WHITE);
+            deleteButton.setVisibility(View.GONE);
             Toast.makeText(
                     requireContext(),
                     "is not an admin",
