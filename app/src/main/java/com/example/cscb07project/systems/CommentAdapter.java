@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cscb07project.R;
 import com.example.cscb07project.entities.Comment;
-import com.example.cscb07project.fragments.CommentsFragment;
+
+import com.example.cscb07project.repositories.UserRepository;
+
+import java.util.List;
+
+
 
 import java.util.List;
 
@@ -22,16 +26,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private final List<Comment> commentList;
     private final OnDeleteClickListener deleteClickListener;
     private boolean deleteModeEnabled;
+    private UserRepository userRepo;
 
     public interface OnDeleteClickListener {
         void onDeleteClick(Comment comment);
     }
 
-    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled)
+    public CommentAdapter(List<Comment> commentList, OnDeleteClickListener deleteClickListener,  boolean deleteModeEnabled, UserRepository userRepo)
     {
         this.commentList = commentList;
         this.deleteClickListener = deleteClickListener;
         this.deleteModeEnabled = deleteModeEnabled;
+        this.userRepo = userRepo;
     }
 
     @NonNull
@@ -45,9 +51,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position
     ) {
         Comment comment = commentList.get(position);
-        holder.commentUser.setText(comment.getUserId());
+        String userId = comment.getUserId();
         holder.commentText.setText(comment.getComment());
 
+        userRepo.getUserById(userId).addOnSuccessListener(user->{
+            String userName=user.getUsername();
+            holder.commentUser.setText(userName);
+
+
+
+        });
         int red = Color.rgb(183, 40, 45);
         int grey = Color.rgb(170, 170, 170);
 
@@ -76,6 +89,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
             holder.deleteCommentButton.setOnClickListener(null);
         }
+
+
 
     }
 

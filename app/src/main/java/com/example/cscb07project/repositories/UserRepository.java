@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.util.Objects;
 
 public class UserRepository {
@@ -69,7 +70,7 @@ public class UserRepository {
         });
     } // tested
 
-    private Task<User> getUserById(String userId) {
+    public Task<User> getUserById(String userId) {
         return dbRefUs.child(userId).get().continueWith(snapshot -> {
             if (snapshot.getResult() != null) {
                 return snapshot.getResult().getValue(User.class);

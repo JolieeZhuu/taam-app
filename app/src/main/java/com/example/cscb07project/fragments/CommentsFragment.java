@@ -90,7 +90,7 @@ public class CommentsFragment extends Fragment{
     @SuppressLint("NotifyDataSetChanged")
     public void displayALLComments(){
 
-        commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment),deleteModeEnabled);
+        commentAdapter = new CommentAdapter(commentList, comment -> deleteComment(comment),deleteModeEnabled,userRepo);
 
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         commentRecyclerView.setAdapter(commentAdapter);
