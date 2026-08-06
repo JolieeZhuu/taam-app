@@ -35,7 +35,7 @@ public class CarouselRepository {
         if (artifacts == null) {
             artifacts = new HashMap<>();
         }
-        if (artifacts.get(lotNumber) == null) { // new artifact!
+        if (artifacts.get(lotNumber) == null) {
             artifacts.put(lotNumber, true);
             carousel.setArtifacts(artifacts);
             return dbRef.child(carousel.getCarouselId()).updateChildren(carousel.toMap());
