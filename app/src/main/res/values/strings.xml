@@ -27,7 +27,7 @@
 <!--    <string name="notes_expview">Notes: </string>-->
 <!--    <string name="description_expview">Description: </string>-->
     <string name="like">Like</string>
-    <string name="save">Save</string>
+    <string name="save">Select</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="comment_section">Comment Section</string>
