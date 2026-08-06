@@ -41,8 +41,15 @@ public class SelectionArtifactAdapter extends ArtifactAdapter{
     public void onItemSelectionChanged(ArtifactViewHolder holder){
         if (holder.itemView.isSelected()) {
             holder.textViewName.setTypeface(null, Typeface.BOLD);
+            holder.itemView.setBackgroundColor(
+                    holder.itemView.getContext().getColor(R.color.light_crimson_red)
+            );
         } else {
             holder.textViewName.setTypeface(null, Typeface.NORMAL);
+            holder.itemView.setBackgroundColor(
+                    holder.itemView.getContext().getColor(R.color.white)
+            );
+
         }
     }
 }

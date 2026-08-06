@@ -192,7 +192,12 @@
             app:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="8dp" />
     </LinearLayout>
-
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="addArtifactBtn,dailyCarouselHighlightsBtn,collectionButtonsRow" />
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/homepage_catalogue_container"
         android:layout_width="0dp"
@@ -200,11 +205,12 @@
         android:layout_marginStart="@dimen/fragment_horizontal_margin"
         android:layout_marginTop="@dimen/fragment_section_padding"
         android:layout_marginEnd="@dimen/fragment_horizontal_margin"
-        android:layout_marginBottom="@dimen/fragment_vertical_bot_margin"
-        app:layout_constraintBottom_toTopOf="@id/collectionButtonsRow"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/collectionTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/collectionTitle"
+        app:layout_goneMarginBottom="@dimen/fragment_vertical_bot_margin"/>
 
     <ImageButton
         android:id="@+id/addArtifactBtn"

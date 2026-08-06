@@ -7,7 +7,17 @@ TAAM Artifact Management System is an android application that we developed in o
 - Databases: Firebase Realtime Database, Firebase Authentication, Firebase Storage
 
 ## 🚀 Running the Application
-Nothing so far :)
+1. Download the project as a zip folder, or clone the repository:
+```
+https://github.com/JolieeZhuu/cscb07-project.git
+```
+2. Open the folder in Android Studio IDE.
+3. Install an emulator by going to Device Manager on the right side bar, clicking "Add a new device", "Create Virtual Device", and then selecting a device. "Medium Phone" can be chosen for best performance.
+4. Ensure that the file you are running is the MainActivity class, or alternatively in the top menu bar, you see this:
+<img width="398" height="94" alt="image" src="https://github.com/user-attachments/assets/3082abd2-c42d-42ef-9ce9-6e728799a486" />
+
+5. Click run, and you may start using the application!
+
 
 ## ✨ Features
 - **User login/signup:** Users must log in to the app to access TAAM's artifact repository. New users must sign up, providing their email, name, and a strong password (requirements for a strong password are checked). Upon logging in, the user is redirected to the home page.

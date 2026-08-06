@@ -46,8 +46,9 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
         Artifact carouselArtifact = carouselArtifacts.get(position);
         holder.textView.setText(carouselArtifact.getName());
 
-        // clear previous image first to prevent RecyclerView from briefly showing wrong picture
+        // Clears previous image first to prevent RecyclerView from briefly showing wrong picture
         holder.image.setImageBitmap(null);
+        // Recycles Bitmaps to free memory
         if (holder.currentBitmap != null && !holder.currentBitmap.isRecycled()) {
             holder.currentBitmap.recycle();
             holder.currentBitmap = null;
@@ -61,6 +62,7 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
                 try {
                     InputStream in = new URL(imageUrl).openStream();
 
+                    // Reduces pixel count to 1/4 the original size (memory)
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
                     bitmap = BitmapFactory.decodeStream(in, null, options);
@@ -82,7 +84,7 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
             });
         }
 
-        // set click listener on every bind so it points at the current item
+        // Sets click listener on every bind so it points at the current item
         holder.itemView.setOnClickListener(v -> {
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(carouselArtifact);
@@ -98,9 +100,11 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
     public void clearBitmaps() {
         notifyDataSetChanged();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView textView;
+        // Keep current Bitmap on display so it can be recycled later
         Bitmap currentBitmap;
 
         public ViewHolder(@NonNull View itemView) {

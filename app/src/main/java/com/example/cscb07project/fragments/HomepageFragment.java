@@ -172,7 +172,7 @@ public class HomepageFragment extends Fragment {
         carouselOverlayContainer.setOnClickListener(v -> hideDailyCarouselOverlay());
 
         // Initial UI mode for collection is set to normal (view collection)
-        setCollectionUiMode(MODE_NORMAL);
+        setCollectionUiMode(currentCollectionMode);
 
         return view;
     }

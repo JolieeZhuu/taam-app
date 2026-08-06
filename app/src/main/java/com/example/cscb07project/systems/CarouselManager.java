@@ -34,7 +34,7 @@ public class CarouselManager {
         void onError(Exception e);
     }
 
-    private final Context context; // to read R.integer.carousel_count
+    private final Context context; // To read R.integer.carousel_count
     private final ArtifactRepository artifactRepository;
     private final CarouselRepository carouselRepository;
     private final FirebaseDatabase rootRef;
@@ -46,6 +46,12 @@ public class CarouselManager {
         this.carouselRepository = new CarouselRepository(rootRef);
     }
 
+    /**
+     * Loads today's daily carousel. Uses pre-existing carousel if one has already been
+     * randomized for the day, otherwise generates a new one.
+     *
+     * @param listener callback for loaded artifacts
+     */
     public void loadDailyCarousel(OnArtifactsLoadedListener listener) {
         String todayDateStr = new SimpleDateFormat("yyyyMMdd", Locale.CANADA).format(new Date());
         String dailyCarouselId = "daily_" + todayDateStr;
@@ -53,7 +59,7 @@ public class CarouselManager {
         cleanupOldCarousels(dailyCarouselId);
 
         carouselRepository.getCarouselById(dailyCarouselId).addOnSuccessListener(existingCarousel -> {
-            // try to re-use today's already-generated carousel first
+            // Try to re-use today's already-generated carousel first
             if (existingCarousel != null && existingCarousel.getArtifacts() != null && !existingCarousel.getArtifacts().isEmpty()) {
                 Set<String> lotNumbers = existingCarousel.getArtifacts().keySet();
                 fetchArtifactDetails(new ArrayList<>(lotNumbers), listener);
@@ -65,7 +71,9 @@ public class CarouselManager {
         });
     }
 
-    // only keep current day's carousel data to save database storage
+    /**
+     * Deletes previous days' carousels. Only keep today's carousel data to save database storage.
+     */
     private void cleanupOldCarousels(String todayCarouselId) {
         DatabaseReference carouselsRef = rootRef.getReference("carousels");
 
@@ -92,7 +100,13 @@ public class CarouselManager {
         });
     }
 
-    // choose random artifacts based on the current date
+    /**
+     * Chooses random artifacts for the carousel based on the current date.
+     *
+     * @param carouselId unique carousel identifier
+     * @param dateSeedStr date string to use as seed
+     * @param listener callback for loaded artifacts
+     */
     private void generateAndSaveNewDailyCarousel(String carouselId, String dateSeedStr, OnArtifactsLoadedListener listener) {
         int carouselCount = context.getResources().getInteger(R.integer.carousel_count);
         DatabaseReference artifactsRef = rootRef.getReference("artifacts");
@@ -134,6 +148,12 @@ public class CarouselManager {
         });
     }
 
+    /**
+     * Fetches Artifact objects corresponding to the given lot numbers.
+     *
+     * @param lotNumbers artifact lot numbers
+     * @param listener callback for loaded artifacts
+     */
     private void fetchArtifactDetails(List<String> lotNumbers, OnArtifactsLoadedListener listener) {
         List<Task<Artifact>> tasks = new ArrayList<>();
         for (String lotNumber : lotNumbers) {
@@ -156,6 +176,13 @@ public class CarouselManager {
         });
     }
 
+    /**
+     * Saves new Carousel with artifacts to Firebase.
+     *
+     * @param carouselId unique carousel identifier
+     * @param lotNumbers lot numbers of artifacts in carousel
+     * @param title title of carousel
+     */
     private void saveDailyCarouselToFirebase(String carouselId, List<String> lotNumbers, String title) {
         Carousel dailyCarousel = new Carousel(title);
         dailyCarousel.setCarouselId(carouselId);

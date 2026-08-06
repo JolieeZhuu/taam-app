@@ -190,6 +190,8 @@ public class CatalogueFragment extends Fragment {
                 } else {
                     PAGINATION_COUNT = Integer.parseInt(paginationValue);
                 }
+                curPageNo = 0;
+                setCurrentPage();
                 setPaginationSharedPref(PAGINATION_COUNT);
             }
             @Override
