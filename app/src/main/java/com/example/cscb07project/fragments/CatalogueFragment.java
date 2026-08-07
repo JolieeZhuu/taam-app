@@ -238,12 +238,6 @@ public class CatalogueFragment extends Fragment {
             if (curPageNo > 0) {
                 curPageNo--;
                 setCurrentPage();
-            } else {
-                Toast.makeText(
-                        requireContext(),
-                        "Reached start of artifacts",
-                        Toast.LENGTH_SHORT
-                ).show();
             }
         });
 
