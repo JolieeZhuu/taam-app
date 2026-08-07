@@ -32,6 +32,8 @@ public class LoginPresenterTest {
         verify(view).showError("fields cannot be empty");
         verify(view, never()).navigateToAdmin();
         verify(view, never()).navigateToHome();
+        verify(view, never()).setLoading(anyBoolean());
+        verify(model, never()).authenticateUser(anyString(), anyString(), anyString(), any());
     }
 
     @Test
@@ -40,6 +42,8 @@ public class LoginPresenterTest {
         verify(view).showError("fields cannot be empty");
         verify(view, never()).navigateToAdmin();
         verify(view, never()).navigateToHome();
+        verify(view, never()).setLoading(anyBoolean());
+        verify(model, never()).authenticateUser(anyString(), anyString(), anyString(), any());
     }
 
     @Test
@@ -52,7 +56,7 @@ public class LoginPresenterTest {
         }).when(model).authenticateUser(anyString(), anyString(), anyString(), any());
 
         loginPresenter.handleMainButtonClick("test@test.com", "pass123", "");
-
+        verify(view).setLoading(true);
         verify(view, never()).navigateToAdmin();
         verify(view).navigateToHome();
         verify(view, never()).showError(anyString());
@@ -68,7 +72,9 @@ public class LoginPresenterTest {
 
         loginPresenter.handleMainButtonClick("test@test.com", "pass123", "");
 
+        verify(view).setLoading(true);
         verify(view).showError("Incorrect username or password");
+        verify(view).setLoading(false);
         verify(view, never()).navigateToHome();
         verify(view, never()).navigateToAdmin();
     }
@@ -93,6 +99,7 @@ public class LoginPresenterTest {
 
         adminPresenter.handleMainButtonClick("admin@test.com", "pass123", "");
 
+        verify(view).setLoading(true);
         verify(view).navigateToAdmin();
         verify(view, never()).navigateToHome();
     }
@@ -117,6 +124,7 @@ public class LoginPresenterTest {
 
         adminPresenter.handleMainButtonClick("test@test.com", "pass123", "");
 
+        verify(view).setLoading(true);
         verify(view).navigateToHome();
         verify(view, never()).navigateToAdmin();
     }
