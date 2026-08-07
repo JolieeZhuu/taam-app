@@ -1,5 +1,5 @@
-
-This doc covers design decisions made when writing the login/signup related classes, and why they were taken. Written by Yile :)
+Written by: Yile :)
+This doc covers design decisions made when writing the login/signup related classes, and why they were taken.
 
 
 Login and sign up are implemented using single shared MVP (model view presenter) interface, shared between two screens rather than built as two independent features. Login and signup are pretty much structurally identical (email + password field, a main action button, a secondary "switch fragments" button, a loading state, error display), so both fragments are children of the same view class to avoid duplicating fragment wiring code. This architecture does come with some tradeoffs which will be mentioned later. 
